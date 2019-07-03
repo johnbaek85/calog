@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10sp">
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="50sp"
+        android:layout_height="70sp"
+        android:src="@drawable/ic_directions_run_black_24dp"
+        android:layout_marginRight="10sp"/>
+    <TextView
+        android:id="@+id/FitnessName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image"
+        android:layout_marginTop="10sp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:text="커피"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/consumeCal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image"
+        android:layout_below="@id/FitnessName"
+        android:text="소모칼로리"
+        android:textColor="#7C7C7C"/>
+
+
+    <ImageView
+        android:id="@+id/btnView"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_check_circle_black_24dp"
+        android:background="#00000000"
+        android:textColor="#FFFFFF"/>
+</RelativeLayout>

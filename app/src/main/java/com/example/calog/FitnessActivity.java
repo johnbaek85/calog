@@ -24,8 +24,8 @@ public class FitnessActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fitness);
-
-        btnBack=findViewById(R.id.btnBack);     //메인페이지로 이동
+//메인페이지로 이동
+        btnBack=findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +42,8 @@ public class FitnessActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(FitnessActivity.this, "운동을 추가합니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(FitnessActivity.this, SearchFitnessActivity.class);
+                startActivity(intent);
             }
         });
 
