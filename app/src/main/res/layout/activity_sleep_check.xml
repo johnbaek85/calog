@@ -13,13 +13,22 @@
         android:layout_height="35sp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/castelmezzano">
 
         <Button
-            android:text="종료"
-            android:id="@+id/btnSleepfinish"
+            android:id="@+id/btnSleepFinish"
+            android:text="중지"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </androidx.appcompat.widget.Toolbar>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

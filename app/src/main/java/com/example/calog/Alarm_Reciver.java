@@ -3,7 +3,6 @@ package com.example.calog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 
 public class Alarm_Reciver extends BroadcastReceiver {
     Context context;
@@ -16,7 +15,6 @@ public class Alarm_Reciver extends BroadcastReceiver {
 
         //RingtonePlayService 서비스 intent 생성
         Intent service_intent = new Intent(context, RingtonePlayingService.class);
-
         //RingtonePlayinService로 extra string값 보내기
         service_intent.putExtra("state",get_yout_string);
         //start the ringtone service

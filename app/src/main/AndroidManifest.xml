@@ -9,16 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SleepCheckResultActivity"></activity>
 
+        <receiver android:name=".Alarm_Reciver" />
 
-        <receiver android:name=".Alarm_Reciver"/>
-        <activity android:name=".SleepCheckActivity"/>
+        <activity android:name=".SleepCheckActivity" />
         <activity android:name=".MainHealthActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".SleepingActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

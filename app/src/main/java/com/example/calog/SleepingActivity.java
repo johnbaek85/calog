@@ -9,25 +9,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.zip.Inflater;
 
 public class SleepingActivity extends AppCompatActivity {
     AlarmManager alarmManager;
     TimePicker alarmPicker;
     Context context;
     PendingIntent pendingIntent;
+    Button btnSleepfinish,btnSleepstart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleeping);
 
-        this.context = context;
+        this.context = getApplicationContext();
         //알람매니저 설정
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         //타임피커 설정
@@ -50,7 +53,7 @@ public class SleepingActivity extends AppCompatActivity {
                 // 시간 가져옴
                 int hour = alarmPicker.getHour();
                 int minute = alarmPicker.getMinute();
-                Toast.makeText(SleepingActivity.this,"Alarm 예정 " + hour + "시 " + minute + "분",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SleepingActivity.this,"기상시간 " + hour + "시 " + minute + "분",Toast.LENGTH_SHORT).show();
 
                 // reveiver에 string 값 넘겨주기
                 intent.putExtra("state","alarm on");
@@ -61,10 +64,17 @@ public class SleepingActivity extends AppCompatActivity {
                 // 알람셋팅
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         pendingIntent);
+                //오류 가능
+                Intent gointent = new Intent(SleepingActivity.this,SleepCheckActivity.class);
+                startActivity(gointent);
             }
         });
         // 알람 정지 버튼
-        Button alarm_off = findViewById(R.id.btnSleepfinish);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view=inflater.inflate(R.layout.activity_sleep_check,null);
+
+        Button alarm_off = view.findViewById(R.id.btnSleepFinish);
         alarm_off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
