@@ -9,14 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CalendarActivity"></activity>
+        <receiver android:name=".Alarm_Reciver" />
+
+        <activity android:name=".SleepingActivity" />
+        <activity android:name=".CalendarActivity" />
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".RingtonePlayingService"
+            android:enabled="true" />
     </application>
 
 </manifest>
