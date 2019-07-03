@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FitnessActivity"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="일"/>
+        <Button
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="주"/>
+        <Button
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="월"/>
+        <Button
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="년"/>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/Pedometer"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"></FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/btnCardioActivity"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/CardioName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="유산소 운동"
+                android:textSize="50sp"
+                android:textAlignment="center"/>
+                <TextView
+                    android:id="@+id/CardioCal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="소모칼로리"
+                    android:textSize="20sp"
+                    android:layout_below="@id/CardioName"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:id="@+id/CardioTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="운동시간"
+                    android:textSize="20sp"
+                    android:layout_below="@id/CardioName"
+                    android:layout_centerHorizontal="true"/>
+                <TextView
+                    android:id="@+id/CardioDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이동거리"
+                    android:textSize="20sp"
+                    android:layout_below="@id/CardioName"
+                    android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btnWeightTrainingActivity"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/WeightName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="무산소 운동"
+                android:textSize="50sp"
+                android:textAlignment="center"/>
+            <TextView
+                android:id="@+id/WeigtCal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소모칼로리"
+                android:textSize="20sp"
+                android:layout_below="@id/WeightName"
+                android:layout_alignParentLeft="true"/>
+            <TextView
+                android:id="@+id/WeightTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="운동시간"
+                android:textSize="20sp"
+                android:layout_below="@id/WeightName"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/btnStretchingActivity"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/StretchingName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="스트레칭"
+                android:textSize="50sp"
+                android:textAlignment="center"/>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
