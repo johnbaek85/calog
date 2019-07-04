@@ -38,6 +38,8 @@ public class FitnessActivity extends AppCompatActivity {
 
 
 
+
+
 //유산소운동 목록 출력
         btnCardioActivity=findViewById(R.id.btnCardioActivity);
         btnCardioActivity.setOnClickListener(new View.OnClickListener() {
