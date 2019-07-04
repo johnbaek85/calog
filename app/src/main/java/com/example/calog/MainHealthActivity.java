@@ -1,8 +1,14 @@
 package com.example.calog;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -11,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,7 +66,7 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /*Toast.makeText(MainActivity.this, "달력 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
+                intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
                 intent.putExtra("date", monthName.getText().toString());
                 startActivity(intent);
             }
@@ -79,8 +87,10 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDiet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "식사 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "식사 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
+                intent = new Intent(MainHealthActivity.this, DietActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -90,6 +100,8 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -106,8 +118,15 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "음주 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+
+                intent = new Intent(MainHealthActivity.this,DrinkingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+//                  intent = new Intent(MainHealthActivity.this, TestActivity.class);
+//                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                  startActivity(intent);
+
             }
         });
 
@@ -124,8 +143,12 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDrinkCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "알콜측정 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+
+                //DrinkingActivity 이동
+                intent = new Intent(MainHealthActivity.this,DrinkingCheckActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
             }
         });
 
@@ -133,8 +156,43 @@ public class MainHealthActivity extends AppCompatActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
+
+                View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+                rootView.setDrawingCacheEnabled(true);
+                Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+
+                String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
+                File dir = new File(dirPath);
+                if(!dir.exists())
+                    dir.mkdirs();
+                File file = new File(dirPath, "screenshot");
+                try {
+                    FileOutputStream fOut = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+                    fOut.flush();
+                    fOut.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Uri uri = FileProvider.getUriForFile(rootView.getContext(),
+                        "com.bignerdranch.android.test.fileprovider", file);
+
+                intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("image/*");
+
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+                intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                try {
+                    startActivity(Intent.createChooser(intent, "Share Screenshot"));
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(MainHealthActivity.this, "No App Available",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
