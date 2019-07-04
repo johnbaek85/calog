@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WordCloudActivity"></activity>
+        <activity android:name=".WordCloudWebViewActivity"></activity>
+        <activity android:name=".WordCloudActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".MainHealthActivity">
             <intent-filter>
