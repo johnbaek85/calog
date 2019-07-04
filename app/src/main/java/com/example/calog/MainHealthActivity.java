@@ -2,6 +2,7 @@ package com.example.calog;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -123,6 +124,8 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainHealthActivity.this, "인기검색어 Activity로 이동",
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainHealthActivity.this, WordCloudActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -148,7 +151,7 @@ public class MainHealthActivity extends AppCompatActivity {
 
                 String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
                 File dir = new File(dirPath);
-                if(!dir.exists())
+                if (!dir.exists())
                     dir.mkdirs();
                 File file = new File(dirPath, "screenshot");
                 try {
