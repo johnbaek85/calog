@@ -70,6 +70,8 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainHealthActivity.this, "로그인 Activity로 이동",
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainHealthActivity.this, MainJoinActivity.class);
+                startActivity(intent);
             }
         });
 

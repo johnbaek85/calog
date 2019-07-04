@@ -62,7 +62,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="69" />
+                                                <entry key="scalingPercent" value="55" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -72,10 +72,12 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="ffffff" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="C:\Users\kosmo7-5\Downloads\golbange.png" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_foreground" />
-                                      <entry key="outputName" value="golbange" />
+                                      <entry key="foregroundImage" value="C:\Users\kosmo7-5\Desktop\프로젝트\어플 기본 구상\prev.png" />
+                                      <entry key="foregroundLayerName" value="back" />
+                                      <entry key="outputName" value="prevback" />
                                     </map>
                                   </option>
                                 </PersistentState>

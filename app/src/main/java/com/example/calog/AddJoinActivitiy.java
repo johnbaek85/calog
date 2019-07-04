@@ -6,54 +6,55 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class MainJoinActivity extends AppCompatActivity {
-    //추가
-    Button btnLogin, btnJoin;
+public class AddJoinActivitiy extends AppCompatActivity {
+
+    Button addJoin, addReset;
     ImageView prevback;
+
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_join);
+        setContentView(R.layout.activity_add_join_activitiy);
 
-        //prevback 클릭했을때
+        //상단 좌측 뒤로가기 클릭했을때
         prevback = findViewById(R.id.prevback);
 
         prevback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
+                intent = new Intent(AddJoinActivitiy.this, MainJoinActivity.class);
                 startActivity(intent);
             }
         });
 
-        //btnLogin 클릭했을때
-        btnLogin = findViewById(R.id.btnLogin);
+        //addJoin 클릭했을때
+        addJoin = findViewById(R.id.addJoin);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        addJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainJoinActivity.this, AddJoinActivitiy.class);
+                intent = new Intent(AddJoinActivitiy.this, MainHealthActivity.class);
+                Toast.makeText(AddJoinActivitiy.this, "추가개인정보가 입력되었습니다.", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
 
-        //btnJoin 클릭했을때
-        btnJoin = findViewById(R.id.btnJoin);
+        //addReset 클릭했을때
+        addReset = findViewById(R.id.addReset);
 
-        btnJoin.setOnClickListener(new View.OnClickListener() {
+        addReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainJoinActivity.this, JoinActivity.class);
+                intent = new Intent(AddJoinActivitiy.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });
-
 
     }
-
 }
+
