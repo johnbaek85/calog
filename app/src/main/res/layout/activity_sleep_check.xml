@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainHealthActivity">
+    tools:context=".SleepCheckActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -27,8 +27,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:onClick="mClick"/>
 
     </RelativeLayout>
+    <fragment
+        android:id="@+id/SleepResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.example.calog.SleepCheckResult"/>
+
 
 </LinearLayout>

@@ -70,7 +70,6 @@ public class SleepingActivity extends AppCompatActivity {
             }
         });
         // 알람 정지 버튼
-
         LayoutInflater inflater = getLayoutInflater();
         View view=inflater.inflate(R.layout.activity_sleep_check,null);
 
