@@ -29,7 +29,7 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class MainHealthActivity extends AppCompatActivity {
 
     RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
-    Button btnWordCloud, btnDrinkCheck, btnShare;
+    Button btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
     ImageView btnBack;
     TextView monthName;
     ImageButton btnUser;
@@ -111,6 +111,8 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
                         Toast.LENGTH_SHORT).show();
+                intent = new Intent(MainHealthActivity.this, SleepingActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -149,6 +151,15 @@ public class MainHealthActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
+            }
+        });
+
+        btnSleepStart = findViewById(R.id.btnSleepStart);
+        btnSleepStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
+                startActivity(intent);
             }
         });
 
