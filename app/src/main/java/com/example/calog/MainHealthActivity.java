@@ -2,6 +2,7 @@ package com.example.calog;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -98,8 +99,8 @@ public class MainHealthActivity extends AppCompatActivity {
         btnFitness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
                 startActivity(intent);
             }
@@ -109,8 +110,8 @@ public class MainHealthActivity extends AppCompatActivity {
         btnSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, SleepingActivity.class);
                 startActivity(intent);
             }
@@ -136,8 +137,10 @@ public class MainHealthActivity extends AppCompatActivity {
         btnWordCloud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "인기검색어 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "인기검색어 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
+                Intent intent = new Intent(MainHealthActivity.this, WordCloudActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -176,7 +179,7 @@ public class MainHealthActivity extends AppCompatActivity {
 
                 String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
                 File dir = new File(dirPath);
-                if(!dir.exists())
+                if (!dir.exists())
                     dir.mkdirs();
                 File file = new File(dirPath, "screenshot");
                 try {
