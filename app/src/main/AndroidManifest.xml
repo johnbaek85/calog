@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+<<<<<<< HEAD
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
@@ -22,6 +23,13 @@
         <activity android:name=".FoodSearchActivity"></activity>
         <activity android:name=".DietActivity" />
 
+=======
+        android:theme="@style/AppTheme">
+        <activity android:name=".Drinking.TestActivity"></activity>
+        <activity android:name=".DrinkingActivity" />
+        <activity android:name=".DrinkingCheckActivity" />
+        <activity android:name=".CalendarActivity" />
+>>>>>>> remotes/origin/leeseongheon
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

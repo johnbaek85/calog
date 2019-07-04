@@ -116,8 +116,15 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "음주 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+
+                intent = new Intent(MainHealthActivity.this,DrinkingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+//                  intent = new Intent(MainHealthActivity.this, TestActivity.class);
+//                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                  startActivity(intent);
+
             }
         });
 
@@ -134,8 +141,12 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDrinkCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "알콜측정 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+
+                //DrinkingActivity 이동
+                intent = new Intent(MainHealthActivity.this,DrinkingCheckActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
             }
         });
 
