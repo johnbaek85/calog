@@ -19,8 +19,9 @@ import android.widget.Toast;
 
 public class FitnessActivity extends AppCompatActivity {
     RelativeLayout btnCardioActivity, btnWeightTrainingActivity, btnStretchingActivity;
-    ImageView btnBack;
+    ImageView btnBack, btnMAinShortcut;
     Button graphDay, graphWeek, graphMonth, graphYear;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +31,17 @@ public class FitnessActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FitnessActivity.this, MainHealthActivity.class);
-                startActivity(intent);
+               finish();
+            }
+        });
+
+
+        btnMAinShortcut = findViewById(R.id.btnMAinShortcut);
+        btnMAinShortcut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+         //       Toast.makeText(FitnessActivity.this, "메인 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
@@ -45,8 +55,8 @@ public class FitnessActivity extends AppCompatActivity {
         btnCardioActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FitnessActivity.this, "유산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
-               goToSearchActivity();
+        //        Toast.makeText(FitnessActivity.this, "유산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
+               goToSearchActivity(1);
             }
         });
 
@@ -56,8 +66,8 @@ public class FitnessActivity extends AppCompatActivity {
         btnWeightTrainingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FitnessActivity.this, "무산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
-                goToSearchActivity();
+     //           Toast.makeText(FitnessActivity.this, "무산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
+                goToSearchActivity(2);
             }
         });
 
@@ -66,14 +76,16 @@ public class FitnessActivity extends AppCompatActivity {
         btnStretchingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FitnessActivity.this, "스트레칭을 검색합니다.", Toast.LENGTH_SHORT).show();
-                goToSearchActivity();
+     //           Toast.makeText(FitnessActivity.this, "스트레칭을 검색합니다.", Toast.LENGTH_SHORT).show();
+                goToSearchActivity(3);
             }
         });
     }
 
-    public void goToSearchActivity(){
-        Intent intent = new Intent(FitnessActivity.this, SearchFitnessActivity.class);
+    public void goToSearchActivity(int fitnessType){
+        intent = new Intent(FitnessActivity.this, SearchFitnessActivity.class);
+        intent.putExtra("운동타입", fitnessType);
+        System.out.println("FitnessActivity = "+fitnessType);
         startActivity(intent);
     }
 

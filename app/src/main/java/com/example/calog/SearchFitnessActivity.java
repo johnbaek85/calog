@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +18,36 @@ import java.util.List;
 
 public class SearchFitnessActivity extends AppCompatActivity {
     Button temporaryBtn;
-    ImageView btnBack;
+    ImageView btnBack, btnMAinShortcut;
     RecyclerView list;
     List<FitnessVO> array;
     SearchFitnessAdapter adapter;
+    int fitnessType;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_fitness);
 
+        intent = getIntent();
+        fitnessType = intent.getIntExtra("운동타입", 0);
+
+
         btnBack=findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SearchFitnessActivity.this, FitnessActivity.class);
+                finish();
+            }
+        });
+
+        btnMAinShortcut = findViewById(R.id.btnMAinShortcut);
+        btnMAinShortcut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SearchFitnessActivity.this, "메인 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+                intent = new Intent(SearchFitnessActivity.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });
@@ -49,7 +65,9 @@ public class SearchFitnessActivity extends AppCompatActivity {
         temporaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SearchFitnessActivity.this, ExerciseActivity.class);
+                intent = new Intent(SearchFitnessActivity.this, ExerciseActivity.class);
+                intent.putExtra("운동타입", fitnessType);
+                System.out.println("SearchFitness Activity = "+fitnessType);
                 startActivity(intent);
             }
         });
