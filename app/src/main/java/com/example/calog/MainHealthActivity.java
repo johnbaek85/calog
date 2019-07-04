@@ -48,15 +48,6 @@ public class MainHealthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
 
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "이전 페이지 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
         monthName = findViewById(R.id.monthName);
 
         intent = getIntent();

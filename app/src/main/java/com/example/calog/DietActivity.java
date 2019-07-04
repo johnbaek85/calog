@@ -44,7 +44,14 @@ public class DietActivity extends AppCompatActivity {
                 Toast.makeText(DietActivity.this, "간식", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
                 break;
-
+            case R.id.btnBack:
+                intent = getIntent();
+                finish();
+                break;
+            case R.id.btnHome:
+                intent = new Intent(DietActivity.this, MainHealthActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }
