@@ -24,14 +24,6 @@
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/ic_menu_revert" />
 
-
-            <ImageButton
-                android:id="@+id/btnAddFitness"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_add_circle_white_24dp" />
-
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -39,21 +31,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:id="@+id/graphDay"
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="일"/>
         <Button
+            android:id="@+id/graphWeek"
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="주"/>
         <Button
+            android:id="@+id/graphMonth"
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="월"/>
         <Button
+            android:id="@+id/graphYear"
             android:layout_width="0px"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -63,7 +59,8 @@
         android:id="@+id/Pedometer"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1"></FrameLayout>
+        android:layout_weight="1"
+        ></FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0px"

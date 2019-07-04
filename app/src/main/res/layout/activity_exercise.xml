@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ExerciseActivity"
     android:orientation="vertical">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -26,22 +29,25 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1.5">
+
+    </FrameLayout>
+
     <TextView
+        android:id="@+id/timer"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
-        android:text="선택된 운동종류"
-        android:textSize="50dp"
-        android:textColor="#000000"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/exerciseList"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="9"></androidx.recyclerview.widget.RecyclerView>
+        android:text="타이머자리, 위 프레임엔 유산소운동일경우=gps 무산소운동=운동gif"
+        android:textSize="40sp" />
     <Button
-        android:id="@+id/temporaryBtn"
+        android:id="@+id/stopBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="(임의)운동선택"/>
+        android:text="중지"
+        android:layout_margin="20dp"/>
+
 </LinearLayout>

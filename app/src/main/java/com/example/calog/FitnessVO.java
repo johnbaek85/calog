@@ -13,15 +13,7 @@ public class FitnessVO {
     private int FitnessTypeId;
     private int distance;
     private int numberSteps;
-    private String image;
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -67,7 +59,7 @@ public class FitnessVO {
         return userId;
     }
 
-    public String getFitnessMenuNmae() {
+    public String getFitnessMenuName() {
         return fitnessMenuName;
     }
 
