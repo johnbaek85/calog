@@ -64,9 +64,10 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:background="#056808"
+            android:background="@drawable/rounded"
             android:layout_marginBottom="10sp"
-            android:padding="5sp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/txtDiet"
@@ -107,9 +108,10 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:background="#056808"
+            android:background="@drawable/rounded"
             android:layout_marginBottom="10sp"
-            android:padding="5sp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/txtFitness"
@@ -150,9 +152,10 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:background="#056808"
+            android:background="@drawable/rounded"
             android:layout_marginBottom="10sp"
-            android:padding="5sp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/txtSleep"
@@ -193,8 +196,9 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:background="#056808"
-            android:padding="5sp">
+            android:background="@drawable/rounded"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/txtDrink"
@@ -241,6 +245,8 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#056808"
+            android:textColor="#FFFFFF"
             android:text="인기검색어" />
 
         <Button
@@ -248,6 +254,8 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#056808"
+            android:textColor="#FFFFFF"
             android:text="알콜측정" />
 
         <Button
@@ -255,6 +263,8 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#056808"
+            android:textColor="#FFFFFF"
             android:text="수면시작" />
 
         <Button
@@ -262,9 +272,9 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#056808"
+            android:textColor="#FFFFFF"
             android:text="공유" />
-
-
 
     </LinearLayout>
 
