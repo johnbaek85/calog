@@ -28,6 +28,8 @@
         <activity android:name=".DrinkingCheckActivity" />
         <activity android:name=".SleepingActivity" />
         <activity android:name=".SleepCheckActivity" />
+        <activity android:name=".WordCloudActivity"/>
+        <activity android:name=".WordCloudWebViewActivity"/>
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
