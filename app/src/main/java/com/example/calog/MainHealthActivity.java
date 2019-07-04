@@ -2,6 +2,7 @@ package com.example.calog;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -29,7 +30,7 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class MainHealthActivity extends AppCompatActivity {
 
     RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
-    Button btnWordCloud, btnDrinkCheck, btnShare;
+    Button btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
     ImageView btnBack;
     TextView monthName;
     ImageButton btnUser;
@@ -47,15 +48,6 @@ public class MainHealthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
 
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "이전 페이지 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
         monthName = findViewById(R.id.monthName);
 
         intent = getIntent();
@@ -66,7 +58,7 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /*Toast.makeText(MainActivity.this, "달력 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
+                intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
                 intent.putExtra("date", monthName.getText().toString());
                 startActivity(intent);
             }
@@ -78,6 +70,8 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainHealthActivity.this, "로그인 Activity로 이동",
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainHealthActivity.this, MainJoinActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -85,8 +79,10 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDiet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "식사 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "식사 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
+                intent = new Intent(MainHealthActivity.this, DietActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -94,8 +90,10 @@ public class MainHealthActivity extends AppCompatActivity {
         btnFitness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
+                Intent intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -103,8 +101,10 @@ public class MainHealthActivity extends AppCompatActivity {
         btnSleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
+                intent = new Intent(MainHealthActivity.this, SleepingActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -112,8 +112,15 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "음주 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+
+                intent = new Intent(MainHealthActivity.this,DrinkingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+//                  intent = new Intent(MainHealthActivity.this, TestActivity.class);
+//                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                  startActivity(intent);
+
             }
         });
 
@@ -121,8 +128,10 @@ public class MainHealthActivity extends AppCompatActivity {
         btnWordCloud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "인기검색어 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "인기검색어 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
+                Intent intent = new Intent(MainHealthActivity.this, WordCloudActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -130,8 +139,21 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDrinkCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "알콜측정 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+
+                //DrinkingActivity 이동
+                intent = new Intent(MainHealthActivity.this,DrinkingCheckActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+            }
+        });
+
+        btnSleepStart = findViewById(R.id.btnSleepStart);
+        btnSleepStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -148,7 +170,7 @@ public class MainHealthActivity extends AppCompatActivity {
 
                 String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
                 File dir = new File(dirPath);
-                if(!dir.exists())
+                if (!dir.exists())
                     dir.mkdirs();
                 File file = new File(dirPath, "screenshot");
                 try {
@@ -163,7 +185,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 Uri uri = FileProvider.getUriForFile(rootView.getContext(),
                         "com.bignerdranch.android.test.fileprovider", file);
 
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.setType("image/*");
 
