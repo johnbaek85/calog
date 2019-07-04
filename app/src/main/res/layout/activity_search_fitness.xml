@@ -28,17 +28,77 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:text="선택된 운동종류"
-        android:textSize="50dp"
+        android:textSize="50sp"
         android:textColor="#000000"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exerciseList"
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="9"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"
+       >
+
+    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:id="@+id/walking"
+        android:text="걷기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/txtCalorie0"
+        android:text="100kcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_marginBottom="10sp" />
+    <TextView
+        android:id="@+id/run"
+        android:text="달리기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/txtCalorie1"
+        android:text="600kcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_marginBottom="10sp" />
+
+    <TextView
+        android:id="@+id/jogging"
+        android:text="조깅"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/txtCalorie2"
+        android:text="300kcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_marginBottom="10sp" />
+
+    <TextView
+        android:id="@+id/bycicle"
+        android:text="자전거"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/txtCalorie3"
+        android:text="400kcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_marginBottom="10sp" />
+
     <Button
         android:id="@+id/temporaryBtn"
         android:layout_width="match_parent"
