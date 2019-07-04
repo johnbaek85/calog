@@ -24,6 +24,11 @@
         <activity android:name=".AddJoinActivitiy"></activity>
         <activity android:name=".MainJoinActivity" />
         <activity android:name=".JoinActivity" />
+        <activity android:name=".CalendarActivity" />
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".FoodSearchActivity"></activity>
+        <activity android:name=".DietActivity" />
         <activity android:name=".Drinking.TestActivity"></activity>
         <activity android:name=".DrinkingActivity" />
         <activity android:name=".DrinkingCheckActivity" />
