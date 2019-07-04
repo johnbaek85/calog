@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name = "email_email">
+        <item>naver.com</item>
+        <item>daum.net</item>
+        <item>google.com</item>
+        <item>nate.com</item>
+        <item>zum.com</item>
+    </string-array>
+
+</resources>
