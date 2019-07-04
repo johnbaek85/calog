@@ -13,9 +13,9 @@
 
         <receiver android:name=".Alarm_Reciver" />
         <activity android:name=".SleepCheckActivity" />
-        <activity android:name=".MainHealthActivity" />
+        <activity android:name=".SleepingActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".SleepingActivity">
+        <activity android:name=".MainHealthActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

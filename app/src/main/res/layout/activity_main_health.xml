@@ -20,10 +20,10 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_revert" />
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_revert" />
 
             <TextView
                 android:id="@+id/monthName"
@@ -258,11 +258,20 @@
             android:text="알콜측정" />
 
         <Button
+            android:id="@+id/btnSleepStart"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="수면시작" />
+
+        <Button
             android:id="@+id/btnShare"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="공유" />
+
+
 
     </LinearLayout>
 

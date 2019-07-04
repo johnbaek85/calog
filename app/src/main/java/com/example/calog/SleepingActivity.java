@@ -3,6 +3,7 @@ package com.example.calog;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -23,13 +25,9 @@ public class SleepingActivity extends AppCompatActivity {
     TimePicker alarmPicker;
     Context context;
     PendingIntent pendingIntent;
-    Button btnSleepfinish,btnSleepstart;
+    ImageView btnBackSleep;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sleeping);
-
+    public void mClick(View v){
         this.context = getApplicationContext();
         //알람매니저 설정
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -65,8 +63,6 @@ public class SleepingActivity extends AppCompatActivity {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         pendingIntent);
                 //오류 가능
-                Intent gointent = new Intent(SleepingActivity.this,SleepCheckActivity.class);
-                startActivity(gointent);
             }
         });
         // 알람 정지 버튼
@@ -85,6 +81,21 @@ public class SleepingActivity extends AppCompatActivity {
 
                 // 알람취소
                 sendBroadcast(intent);
+            }
+        });
+        Intent gointent = new Intent(SleepingActivity.this,SleepCheckActivity.class);
+        startActivity(gointent);
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sleeping);
+        btnBackSleep = findViewById(R.id.btnBackSleep);
+        btnBackSleep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SleepingActivity.this,MainHealthActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.example.calog;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +21,8 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
 public class MainHealthActivity extends AppCompatActivity {
 
-    RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
-    Button btnWordCloud, btnDrinkCheck, btnShare;
+    RelativeLayout btnDiet, btnFitness, btnSleep,btnDrink;
+    Button btnWordCloud, btnDrinkCheck, btnShare,btnSleepStart;
     ImageView btnBack;
     TextView monthName;
     ImageButton btnUser;
@@ -34,6 +35,7 @@ public class MainHealthActivity extends AppCompatActivity {
 
     Intent intent;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,8 +99,21 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainHealthActivity.this,SleepingActivity.class);
+                startActivity(intent);
             }
         });
+        btnSleepStart = findViewById(R.id.btnSleepStart);
+        btnSleepStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainHealthActivity.this,"수면 측정 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainHealthActivity.this,SleepCheckActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         btnDrink = findViewById(R.id.btnDrink);
         btnDrink.setOnClickListener(new View.OnClickListener() {
@@ -162,5 +177,8 @@ public class MainHealthActivity extends AppCompatActivity {
                 monthName.setText(DateFormat.getDateInstance().format(date));
             }
         });
+    }
+
+    public void mClick(View view) {
     }
 }

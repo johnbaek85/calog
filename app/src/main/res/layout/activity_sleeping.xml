@@ -20,9 +20,22 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/monthName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="수면 관리"/>
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="35sp"
+            android:text="수면관리"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/btnBackSleep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_revert" />
+
     </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
     <LinearLayout
@@ -87,7 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/timepicker"
             android:layout_marginTop="30sp"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:onClick="mClick"/>
 
 
     </RelativeLayout>
