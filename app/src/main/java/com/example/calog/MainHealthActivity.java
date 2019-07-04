@@ -66,7 +66,7 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /*Toast.makeText(MainActivity.this, "달력 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
+                intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
                 intent.putExtra("date", monthName.getText().toString());
                 startActivity(intent);
             }
@@ -85,8 +85,10 @@ public class MainHealthActivity extends AppCompatActivity {
         btnDiet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "식사 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "식사 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
+                intent = new Intent(MainHealthActivity.this, DietActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -163,7 +165,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 Uri uri = FileProvider.getUriForFile(rootView.getContext(),
                         "com.bignerdranch.android.test.fileprovider", file);
 
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.setType("image/*");
 
