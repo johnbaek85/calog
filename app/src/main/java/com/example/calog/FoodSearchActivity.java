@@ -70,7 +70,6 @@ public class FoodSearchActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = getIntent();
                 finish();
             }
         });

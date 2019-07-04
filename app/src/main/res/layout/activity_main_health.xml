@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/btn_star_big_on"
+                android:src="@drawable/ic_bad"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtFitness"
-                android:text="소모칼로리 : 400kcal"
+                android:text="소모칼로리 : 700kcal"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/btn_star_big_on"
+                android:src="@drawable/ic_good"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -186,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/btn_star_big_on"
+                android:src="@drawable/ic_bad"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -229,7 +229,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/btn_star_big_on"
+                android:src="@drawable/ic_neutral"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -240,41 +240,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
+        <ImageView
             android:id="@+id/btnWordCloud"
             android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="#056808"
-            android:textColor="#FFFFFF"
-            android:text="인기검색어" />
+            android:src="@drawable/top10" />
 
-        <Button
+        <ImageView
             android:id="@+id/btnDrinkCheck"
             android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="#056808"
-            android:textColor="#FFFFFF"
-            android:text="알콜측정" />
+            android:src="@drawable/alcohol"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btnSleepStart"
             android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="#056808"
-            android:textColor="#FFFFFF"
-            android:text="수면시작" />
+            android:src="@drawable/sleep" />
 
-        <Button
+        <ImageView
             android:id="@+id/btnShare"
             android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:background="#056808"
-            android:textColor="#FFFFFF"
-            android:text="공유" />
+            android:src="@drawable/share" />
 
     </LinearLayout>
 

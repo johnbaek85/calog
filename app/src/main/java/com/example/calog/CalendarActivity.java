@@ -24,8 +24,7 @@ public class CalendarActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(CalendarActivity.this, MainHealthActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -33,8 +32,7 @@ public class CalendarActivity extends AppCompatActivity {
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(CalendarActivity.this, MainHealthActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 

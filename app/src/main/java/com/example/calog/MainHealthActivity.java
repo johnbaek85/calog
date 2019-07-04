@@ -30,12 +30,12 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class MainHealthActivity extends AppCompatActivity {
 
     RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
-    Button btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
+    ImageView btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
     ImageView btnBack;
     TextView monthName;
     ImageButton btnUser;
     TextView txtDiet, txtFitness, txtSleep, txtDrink;
-    ImageView imgDied, imgFitness, imgSleep, imgDrink;
+    ImageView imgDiet, imgFitness, imgSleep, imgDrink;
     TextView txtEatCalorie, txtSuggestedEatCalorie;
     TextView txtUsedCalorie, txtSuggestedUsedCalorie;
     TextView txtSleepHours, txtSuggestedSleepHours;
