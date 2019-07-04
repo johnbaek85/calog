@@ -1,8 +1,22 @@
 package com.example.calog;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -10,6 +24,8 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -22,47 +38,104 @@ public class DrinkingActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drinking);
 
-        BarChart barChart=findViewById(R.id.barChart);
+        //뒤로가기 이벤트
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
 
-        barChart.setMaxVisibleValueCount(60);
-        barChart.animateXY(2000, 2000);
-        barChart.invalidate();
+        //알콜check Activity 이동
+        TextView alcoholCheck=findViewById(R.id.alcoholCheck);
+        alcoholCheck.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent=new Intent(DrinkingActivity.this,DrinkingCheckActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
 
-        ArrayList NoOfEmp = new ArrayList();
-
-        NoOfEmp.add(new BarEntry(945f, 0));
-        NoOfEmp.add(new BarEntry(1040f, 1));
-        NoOfEmp.add(new BarEntry(1133f, 2));
-        NoOfEmp.add(new BarEntry(1240f, 3));
-        NoOfEmp.add(new BarEntry(1369f, 4));
-        NoOfEmp.add(new BarEntry(1487f, 5));
-        NoOfEmp.add(new BarEntry(1501f, 6));
-        NoOfEmp.add(new BarEntry(1645f, 7));
-        NoOfEmp.add(new BarEntry(1578f, 8));
-        NoOfEmp.add(new BarEntry(1695f, 9));
-
-        ArrayList year = new ArrayList();
-
-        year.add("2008");
-        year.add("2009");
-        year.add("2010");
-        year.add("2011");
-        year.add("2012");
-        year.add("2013");
-        year.add("2014");
-        year.add("2015");
-        year.add("2016");
-        year.add("2017");
-
-        BarDataSet bardataset = new BarDataSet(NoOfEmp, "No Of Employee");
-        bardataset.setBarBorderWidth(10f);
+        //주량 설정 버튼
+        final ImageView liquorSetiing=findViewById(R.id.liquorSetiing);
+        liquorSetiing.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(final View v)
+            {
+                View view = getLayoutInflater().inflate(R.layout.custom_dialog,null);
 
 
-        barChart.animateY(5000);
-        BarData data = new BarData(bardataset);
+                //spinner 설정
+                final ArrayList<String> arrayList = new ArrayList<>();
+                arrayList.add("1병");
+                arrayList.add("2병");
+                arrayList.add("3병");
+                arrayList.add("기타");
 
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-        barChart.setData(data);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        arrayList);
+
+                final Spinner spinner = view.findViewById(R.id.spinner);
+                spinner.setAdapter(arrayAdapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        Toast.makeText(getApplicationContext(),arrayList.get(i)+"이(가) 선택되었습니다.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
+
+
+                //주량설정 다이얼로그창
+                AlertDialog.Builder box=new AlertDialog.Builder(DrinkingActivity.this);
+
+                box.setTitle("주량설정");
+                box.setView(view);
+                box.setPositiveButton("저장", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        String txt=spinner.getSelectedItem().toString();
+                        TextView liquorTxt=findViewById(R.id.liquorTxt);
+                        liquorTxt.setText("현재 주량 설정:" +txt);
+
+                        Toast.makeText(DrinkingActivity.this, "저장되었습니다", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                box.setNegativeButton("취소",null);
+                box.show();
+            }
+        });
+
+
+
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction tr=fm.beginTransaction();
+
+        GraphFragment graphFragment= new GraphFragment();
+
+        //추후에 fragment 값 전달.
+//        Bundle bundle = new Bundle();
+//        bundle.putString("param1", param1); // Key, Value
+//        bundle.putString("param2", param2); // Key, Value
+        //graphFragment.setArgument();
+
+        tr.replace(R.id.barChartFrag,graphFragment);
+
 
 
 

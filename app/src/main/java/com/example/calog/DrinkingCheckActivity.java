@@ -16,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -40,6 +41,17 @@ public class DrinkingCheckActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drinkingcheck);
+
+        //TODO 뒤로가기 이벤트
+        ImageView btnBack= findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
 
         circleProgress=findViewById(R.id.circleProgress);
         checkText=findViewById(R.id.checkText);
@@ -138,9 +150,6 @@ public class DrinkingCheckActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "DB에 데이터 저장", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
-
         }
 
     }
