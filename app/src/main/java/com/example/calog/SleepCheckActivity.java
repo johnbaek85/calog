@@ -1,48 +1,37 @@
 package com.example.calog;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 
 public class SleepCheckActivity extends AppCompatActivity {
-    ImageView btnBackStop,btnBackResult;
+    ImageView imgBackCheckStop,imgBackResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_check);
+        imgBackCheckStop = findViewById(R.id.imgBackCheckStop);
+        imgBackCheckStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-        btnBackStop = findViewById(R.id.btnBackStop);
-        btnBackStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SleepCheckActivity.this,SleepingActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnBackResult = findViewById(R.id.btnBackResult);
-        btnBackResult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SleepCheckActivity.this,MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
     }
-    public void mClick(View v){
-        Fragment fr;
-        fr = new SleepCheckResult();
+
+    public void mClick(View v){//수면측정중지버튼
+
         setContentView(R.layout.activity_sleep_check_result);
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.commit();
+        imgBackResult = findViewById(R.id.imgBackResult);
+        imgBackResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
     }
 }

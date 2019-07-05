@@ -16,7 +16,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
@@ -26,15 +26,16 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="35sp"
-                android:text="수면관리"
+                android:text="수면체크결과"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp" />
 
             <ImageView
-                android:id="@+id/btnBackResult"
+                android:id="@+id/imgBackResult"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:src="@android:drawable/ic_menu_revert" />
+
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -45,7 +46,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="110sp" />
+            android:padding="130sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="일간" />
+
     </LinearLayout>
 
     <LinearLayout

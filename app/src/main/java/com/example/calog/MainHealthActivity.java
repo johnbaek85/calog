@@ -113,6 +113,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, SleepingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//엑티비티 생성안함
                 startActivity(intent);
             }
         });

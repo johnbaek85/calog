@@ -13,23 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".ExerciseActivity"/>
+        <activity android:name=".RealtimeGraph"></activity>
+        <activity android:name=".ExerciseActivity" />
         <activity android:name=".SearchFitnessActivity" />
         <activity android:name=".FitnessActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".FoodSearchActivity"/>
+        <activity android:name=".FoodSearchActivity" />
         <activity android:name=".DietActivity" />
-        <activity android:name=".AddJoinActivitiy"/>
+        <activity android:name=".AddJoinActivitiy" />
         <activity android:name=".MainJoinActivity" />
         <activity android:name=".JoinActivity" />
-        <activity android:name=".Drinking.TestActivity"/>
+        <activity android:name=".Drinking.TestActivity" />
         <activity android:name=".DrinkingActivity" />
         <activity android:name=".DrinkingCheckActivity" />
         <activity android:name=".SleepingActivity" />
         <activity android:name=".SleepCheckActivity" />
-        <activity android:name=".WordCloudActivity"/>
-        <activity android:name=".WordCloudWebViewActivity"/>
+        <activity android:name=".WordCloudActivity" />
+        <activity android:name=".WordCloudWebViewActivity" />
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
