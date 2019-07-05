@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
 import java.util.Calendar;
@@ -25,7 +26,29 @@ public class SleepingActivity extends AppCompatActivity {
     TimePicker alarmPicker;
     Context context;
     PendingIntent pendingIntent;
-    ImageView imgBackMain;
+    ImageView btnBack, btnHome;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sleeping);
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SleepingActivity.this, MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     public void mClick(View v){
         this.context = getApplicationContext();
@@ -85,18 +108,6 @@ public class SleepingActivity extends AppCompatActivity {
         });
         Intent gointent = new Intent(SleepingActivity.this,SleepCheckActivity.class);
         startActivity(gointent);
-    }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sleeping);
-        imgBackMain = findViewById(R.id.imgBackMain);
-        imgBackMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 }
 
