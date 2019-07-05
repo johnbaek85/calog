@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class FoodSearchActivity extends AppCompatActivity {
 
     RecyclerView dietList;
     Button btnSave;
+    ImageView btnBack, btnHome;
 
     Intent intent;
     List<DietMenuVO> dietMenuArray;
@@ -63,6 +65,24 @@ public class FoodSearchActivity extends AppCompatActivity {
                 alert.show();
             }
         });
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(FoodSearchActivity.this, MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.example.calog;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.slice.Slice;
 import android.content.Intent;
@@ -20,6 +22,13 @@ public class DietActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet);
+
+        //TODO 그래프 BarChart Fragment 장착
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction tr=fm.beginTransaction();
+        GraphPagerFragment graphFragment = new GraphPagerFragment();
+        tr.replace(R.id.barChartFrag,graphFragment);
+        ////////////////////////
 
         SlidingDrawer dietDrawer = findViewById(R.id.dietDrawer);
         dietDrawer.animateClose();
@@ -44,7 +53,13 @@ public class DietActivity extends AppCompatActivity {
                 Toast.makeText(DietActivity.this, "간식", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
                 break;
-
+            case R.id.btnBack:
+                finish();
+                break;
+            case R.id.btnHome:
+                intent = new Intent(DietActivity.this, MainHealthActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

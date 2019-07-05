@@ -49,6 +49,15 @@ public class DrinkingActivity extends AppCompatActivity
             }
         });
 
+        ImageView btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(DrinkingActivity.this,MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //알콜check Activity 이동
         TextView alcoholCheck=findViewById(R.id.alcoholCheck);
         alcoholCheck.setOnClickListener(new View.OnClickListener()
@@ -121,23 +130,12 @@ public class DrinkingActivity extends AppCompatActivity
             }
         });
 
-
-
+        //그래프 BarChart Fragment
         FragmentManager fm=getSupportFragmentManager();
         FragmentTransaction tr=fm.beginTransaction();
 
-        GraphFragment graphFragment= new GraphFragment();
-
-        //추후에 fragment 값 전달.
-//        Bundle bundle = new Bundle();
-//        bundle.putString("param1", param1); // Key, Value
-//        bundle.putString("param2", param2); // Key, Value
-        //graphFragment.setArgument();
-
+        GraphPagerFragment graphFragment = new GraphPagerFragment();
         tr.replace(R.id.barChartFrag,graphFragment);
-
-
-
 
     }
 }

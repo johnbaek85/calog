@@ -24,44 +24,24 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_back" />
             <ImageView
-                android:id="@+id/btnMAinShortcut"
+                android:id="@+id/btnHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/calog" />
+                android:src="@drawable/ic_home" />
 
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
-    <LinearLayout
+
+    <!-- TODO 그래프 프래그먼트 -->
+    <fragment
+        android:id="@+id/barChartFrag"
+        android:name="com.example.calog.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/graphDay"
-            android:layout_width="0px"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="일"/>
-        <Button
-            android:id="@+id/graphWeek"
-            android:layout_width="0px"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="주"/>
-        <Button
-            android:id="@+id/graphMonth"
-            android:layout_width="0px"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="월"/>
-        <Button
-            android:id="@+id/graphYear"
-            android:layout_width="0px"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="년"/>
-    </LinearLayout>
+        android:layout_height="200sp" />
+
     <FrameLayout
         android:id="@+id/Pedometer"
         android:layout_width="match_parent"

@@ -2,6 +2,8 @@ package com.example.calog;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -25,7 +27,7 @@ public class SleepingActivity extends AppCompatActivity {
     TimePicker alarmPicker;
     Context context;
     PendingIntent pendingIntent;
-    ImageView btnBackSleep;
+    ImageView btnBack, btnHome;
 
     public void mClick(View v){
         this.context = getApplicationContext();
@@ -90,8 +92,25 @@ public class SleepingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleeping);
-        btnBackSleep = findViewById(R.id.btnBackSleep);
-        btnBackSleep.setOnClickListener(new View.OnClickListener() {
+
+        //TODO 그래프 BarChart Fragment 장착
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction tr=fm.beginTransaction();
+        GraphPagerFragment graphFragment = new GraphPagerFragment();
+        tr.replace(R.id.barChartFrag,graphFragment);
+        //////////////////////////////
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SleepingActivity.this,MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SleepingActivity.this,MainHealthActivity.class);

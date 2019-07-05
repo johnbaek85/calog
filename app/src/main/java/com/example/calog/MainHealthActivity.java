@@ -30,12 +30,12 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class MainHealthActivity extends AppCompatActivity {
 
     RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
-    Button btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
+    ImageView btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
     ImageView btnBack;
     TextView monthName;
     ImageButton btnUser;
     TextView txtDiet, txtFitness, txtSleep, txtDrink;
-    ImageView imgDied, imgFitness, imgSleep, imgDrink;
+    ImageView imgDiet, imgFitness, imgSleep, imgDrink;
     TextView txtEatCalorie, txtSuggestedEatCalorie;
     TextView txtUsedCalorie, txtSuggestedUsedCalorie;
     TextView txtSleepHours, txtSuggestedSleepHours;
@@ -47,15 +47,6 @@ public class MainHealthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
-
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "이전 페이지 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
         monthName = findViewById(R.id.monthName);
 

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainHealthActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -19,19 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_revert" />
-
             <TextView
                 android:id="@+id/monthName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:paddingLeft="35sp"
                 android:text="7"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp" />
@@ -41,16 +33,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/ic_menu_myplaces" />
+                android:src="@drawable/ic_person" />
 
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      >
+        android:layout_below="@id/toolbar"
+        android:layout_marginBottom="30dp">
 
         <devs.mulham.horizontalcalendar.HorizontalCalendarView
             android:id="@+id/calendarView"
@@ -65,16 +59,18 @@
         android:layout_width="match_parent"
         android:layout_height="360sp"
         android:orientation="vertical"
-        android:padding="10sp">
+        android:padding="10sp"
+        android:layout_below="@id/appBar">
 
         <RelativeLayout
             android:id="@+id/btnDiet"
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:background="#3ABE27"
+            android:background="@drawable/rounded"
             android:layout_marginBottom="10sp"
-            android:padding="5sp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/txtDiet"
@@ -105,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/btn_star_big_on"
+                android:src="@drawable/ic_bad"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -115,9 +111,10 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:background="#3ABE27"
+            android:background="@drawable/rounded"
             android:layout_marginBottom="10sp"
-            android:padding="5sp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/txtFitness"
@@ -132,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtFitness"
-                android:text="소모칼로리 : 400kcal"
+                android:text="소모칼로리 : 700kcal"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -148,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/btn_star_big_on"
+                android:src="@drawable/ic_good"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -158,9 +155,10 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:background="#3ABE27"
+            android:background="@drawable/rounded"
             android:layout_marginBottom="10sp"
-            android:padding="5sp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/txtSleep"
@@ -191,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/btn_star_big_on"
+                android:src="@drawable/ic_bad"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -201,8 +199,9 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:background="#3ABE27"
-            android:padding="5sp">
+            android:background="@drawable/rounded"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:id="@+id/txtDrink"
@@ -233,7 +232,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@android:drawable/btn_star_big_on"
+                android:src="@drawable/ic_neutral"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -242,38 +241,39 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
 
-        <Button
+        <ImageView
             android:id="@+id/btnWordCloud"
             android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="인기검색어" />
+            android:src="@drawable/top10" />
 
-        <Button
+        <ImageView
             android:id="@+id/btnDrinkCheck"
             android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="알콜측정" />
+            android:src="@drawable/alcohol"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btnSleepStart"
             android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="수면시작" />
+            android:src="@drawable/sleep" />
 
-        <Button
+        <ImageView
             android:id="@+id/btnShare"
             android:layout_width="0px"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="공유" />
-
-
+            android:src="@drawable/share" />
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
