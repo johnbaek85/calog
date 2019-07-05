@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".WordCloudWebViewActivity">
+    tools:context=".WordCloud.WordCloudWebViewActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/prev" />
+                android:src="@drawable/icon_back" />
 
             <TextView
                 android:id="@+id/txtKeyWord"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/calog" />
+                android:src="@drawable/ic_home" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 

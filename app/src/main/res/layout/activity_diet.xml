@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DietActivity"
+    tools:context=".Diet.DietActivity"
     android:orientation="vertical"
     android:padding="5sp">
 
@@ -24,16 +24,27 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_revert" />
+                android:src="@drawable/icon_back"
+                android:onClick="mClick"/>
+
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_home"
+                android:onClick="mClick"/>
 
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
+    <!-- TODO 그래프 프래그먼트 -->
+    <fragment
+        android:id="@+id/barChartFrag"
+        android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:src="@drawable/dietchart"/>
+        android:layout_height="200sp" />
 
 
     <SlidingDrawer

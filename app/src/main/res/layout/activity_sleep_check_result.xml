@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SleepCheckActivity">
+    tools:context=".Sleeping.SleepCheckActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -31,10 +31,18 @@
                 android:textSize="15sp" />
 
             <ImageView
-                android:id="@+id/imgBackResult"
+                android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@android:drawable/ic_menu_revert" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_back"
+                android:layout_alignParentLeft="true"/>
+
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_home"
+                android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
