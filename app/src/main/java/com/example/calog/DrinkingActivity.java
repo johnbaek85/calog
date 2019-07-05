@@ -49,6 +49,19 @@ public class DrinkingActivity extends AppCompatActivity
             }
         });
 
+<<<<<<< Updated upstream
+=======
+        //
+        ImageView btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(DrinkingActivity.this,MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
+
+>>>>>>> Stashed changes
         //알콜check Activity 이동
         TextView alcoholCheck=findViewById(R.id.alcoholCheck);
         alcoholCheck.setOnClickListener(new View.OnClickListener()
@@ -70,7 +83,6 @@ public class DrinkingActivity extends AppCompatActivity
             public void onClick(final View v)
             {
                 View view = getLayoutInflater().inflate(R.layout.custom_dialog,null);
-
 
                 //spinner 설정
                 final ArrayList<String> arrayList = new ArrayList<>();
