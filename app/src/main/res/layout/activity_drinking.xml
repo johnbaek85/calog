@@ -45,11 +45,10 @@
     <!-- TODO 그래프 프래그먼트 -->
     <fragment
         android:id="@+id/barChartFrag"
-        android:name="com.example.calog.GraphFragment"
+        android:name="com.example.calog.GraphPagerFragment"
         android:layout_width="match_parent"
         android:layout_height="0sp"
-        android:layout_weight="1"
-        android:layout_marginBottom="10sp"/>
+        android:layout_weight="1" />
 
     <RelativeLayout
         android:layout_width="match_parent"

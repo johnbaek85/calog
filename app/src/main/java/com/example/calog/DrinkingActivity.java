@@ -121,23 +121,12 @@ public class DrinkingActivity extends AppCompatActivity
             }
         });
 
-
-
+        //그래프 BarChart Fragment
         FragmentManager fm=getSupportFragmentManager();
         FragmentTransaction tr=fm.beginTransaction();
 
-        GraphFragment graphFragment= new GraphFragment();
-
-        //추후에 fragment 값 전달.
-//        Bundle bundle = new Bundle();
-//        bundle.putString("param1", param1); // Key, Value
-//        bundle.putString("param2", param2); // Key, Value
-        //graphFragment.setArgument();
-
+        GraphPagerFragment graphFragment = new GraphPagerFragment();
         tr.replace(R.id.barChartFrag,graphFragment);
-
-
-
 
     }
 }

@@ -38,14 +38,15 @@
 
     </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
-    <LinearLayout
+
+
+    <!-- TODO 그래프 프래그먼트 -->
+    <fragment
+        android:id="@+id/barChartFrag"
+        android:name="com.example.calog.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="30sp"/>
-    </LinearLayout>
+        android:layout_height="200sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

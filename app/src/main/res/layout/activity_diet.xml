@@ -30,10 +30,12 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
+    <!-- TODO 그래프 프래그먼트 -->
+    <fragment
+        android:id="@+id/barChartFrag"
+        android:name="com.example.calog.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:src="@drawable/dietchart"/>
+        android:layout_height="200sp" />
 
 
     <SlidingDrawer

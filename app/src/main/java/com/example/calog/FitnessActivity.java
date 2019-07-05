@@ -2,6 +2,8 @@ package com.example.calog;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +27,16 @@ public class FitnessActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fitness);
+
+
+        //TODO 그래프 BarChart Fragment 장착
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction tr=fm.beginTransaction();
+        GraphPagerFragment graphFragment = new GraphPagerFragment();
+        tr.replace(R.id.barChartFrag,graphFragment);
+        //////////////////////////////
+
+
 //메인페이지로 이동
         btnBack=findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -34,8 +46,6 @@ public class FitnessActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
 
 //유산소운동 목록 출력

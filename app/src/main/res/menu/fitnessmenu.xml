@@ -6,6 +6,4 @@
         android:title="운동선택"
         android:icon="@drawable/ic_add_circle_white_24dp"
         app:showAsAction="always" />
-
-
 </menu>
