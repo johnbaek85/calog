@@ -25,7 +25,8 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_back" />
+                android:src="@drawable/icon_back"
+                android:layout_alignParentLeft="true"/>
 
             <TextView
                 android:id="@+id/monthName"
@@ -37,6 +38,13 @@
                 android:text="음주"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_home"
+                android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
 

@@ -27,7 +27,7 @@ public class SleepingActivity extends AppCompatActivity {
     TimePicker alarmPicker;
     Context context;
     PendingIntent pendingIntent;
-    ImageView btnBackSleep;
+    ImageView btnBack, btnHome;
 
     public void mClick(View v){
         this.context = getApplicationContext();
@@ -100,10 +100,17 @@ public class SleepingActivity extends AppCompatActivity {
         tr.replace(R.id.barChartFrag,graphFragment);
         //////////////////////////////
 
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SleepingActivity.this,MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
 
-
-        btnBackSleep = findViewById(R.id.btnBackSleep);
-        btnBackSleep.setOnClickListener(new View.OnClickListener() {
+        btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SleepingActivity.this,MainHealthActivity.class);

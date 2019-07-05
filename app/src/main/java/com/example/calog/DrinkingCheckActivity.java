@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.AsyncTask;
@@ -50,6 +51,15 @@ public class DrinkingCheckActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 finish();
+            }
+        });
+
+        ImageView btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(DrinkingCheckActivity.this,MainHealthActivity.class);
+                startActivity(intent);
             }
         });
 

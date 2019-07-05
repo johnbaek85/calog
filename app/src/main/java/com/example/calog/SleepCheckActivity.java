@@ -14,25 +14,27 @@ import android.widget.ImageView;
 import android.widget.Toolbar;
 
 public class SleepCheckActivity extends AppCompatActivity {
-    ImageView btnBackStop,btnBackResult;
+    ImageView btnBack,btnHome;
+
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_check);
 
-        btnBackStop = findViewById(R.id.btnBackStop);
-        btnBackStop.setOnClickListener(new View.OnClickListener() {
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SleepCheckActivity.this,SleepingActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
-        btnBackResult = findViewById(R.id.btnBackResult);
-        btnBackResult.setOnClickListener(new View.OnClickListener() {
+        btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SleepCheckActivity.this,MainHealthActivity.class);
+                intent = new Intent(SleepCheckActivity.this,MainHealthActivity.class);
                 startActivity(intent);
             }
         });
