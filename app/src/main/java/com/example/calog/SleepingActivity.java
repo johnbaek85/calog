@@ -2,6 +2,8 @@ package com.example.calog;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -90,6 +92,16 @@ public class SleepingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleeping);
+
+        //TODO 그래프 BarChart Fragment 장착
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction tr=fm.beginTransaction();
+        GraphPagerFragment graphFragment = new GraphPagerFragment();
+        tr.replace(R.id.barChartFrag,graphFragment);
+        //////////////////////////////
+
+
+
         btnBackSleep = findViewById(R.id.btnBackSleep);
         btnBackSleep.setOnClickListener(new View.OnClickListener() {
             @Override

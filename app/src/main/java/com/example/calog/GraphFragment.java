@@ -4,24 +4,33 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
-public class GraphFragment extends Fragment {
-
+public class GraphFragment extends Fragment
+{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,15 +45,19 @@ public class GraphFragment extends Fragment {
 
         //바차트 x축,y축 데이터 할당 각 x축 간의 차이로 데이터바의 굵기가 할당됨
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(2014, 0));
-        entries.add(new BarEntry(2015, 1));
-        entries.add(new BarEntry(2016, 2));
-        entries.add(new BarEntry(2017, 3));
-        entries.add(new BarEntry(2018, 4));
-        entries.add(new BarEntry(2019, 5));
+        entries.add(new BarEntry(14, 0));
+        entries.add(new BarEntry(15, 1));
+        entries.add(new BarEntry(16, 2));
+        entries.add(new BarEntry(17, 3));
+        entries.add(new BarEntry(18, 4));
+        entries.add(new BarEntry(19, 5));
+
+        //bar데이터 폭설정
+       //BarData data = new BarData(set1, set2);
+        //data.setBarWidth(barWidth); // set the width of each bar
 
         //할당된 리스트 데이터셋에 넣기(자동으로 바차트에 넣을수 있는 데이터로 변경해주는 코드인듯
-        BarDataSet bardataset = new BarDataSet(entries, "No Of Employee");
+        BarDataSet bardataset = new BarDataSet(entries, "Values");
 
         //데이터 셋을 바차트 데이터 장착.
         BarData data = new BarData(bardataset);
@@ -61,7 +74,9 @@ public class GraphFragment extends Fragment {
         //바차트 컬러 주기 안주면 기본 하늘색
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
 
+
         return view;
     }
+
 
 }
