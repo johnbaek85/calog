@@ -3,6 +3,7 @@ package com.example.calog;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.drm.DrmStore;
@@ -77,7 +78,15 @@ public class FitnessActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
      //           Toast.makeText(FitnessActivity.this, "스트레칭을 검색합니다.", Toast.LENGTH_SHORT).show();
-                goToSearchActivity(3);
+                String searchWord = "스트레칭";
+                intent = new Intent(Intent.ACTION_SEARCH);
+                intent.setPackage("com.google.android.youtube");
+                intent.putExtra("query", searchWord);
+                try{
+                    startActivity(intent);
+                }catch(ActivityNotFoundException e){
+                    System.out.println("유튜브 오류" + e.toString());
+                }
             }
         });
     }

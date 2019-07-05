@@ -54,11 +54,18 @@
         android:layout_gravity="center_horizontal"
         android:textSize="40sp"
         android:textStyle="bold"/>
-    <Button
+
+
+    <FrameLayout
+        android:id="@+id/btnFrame"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.5"></FrameLayout>
+  <!--  <Button
         android:id="@+id/stopBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="중지"
         android:layout_margin="20dp"/>
-
+-->
 </LinearLayout>
