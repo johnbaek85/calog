@@ -7,5 +7,8 @@
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="시작"/>
+        android:text="시작"
+        android:onClick="mClick"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
 </LinearLayout>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.drm.DrmStore;
@@ -22,8 +23,6 @@ import android.widget.Toast;
 public class FitnessActivity extends AppCompatActivity {
     RelativeLayout btnCardioActivity, btnWeightTrainingActivity, btnStretchingActivity;
     ImageView btnBack, btnHome;
-    Button graphDay, graphWeek, graphMonth, graphYear;
-
     Intent intent;
 
     @Override
@@ -64,8 +63,8 @@ public class FitnessActivity extends AppCompatActivity {
         btnCardioActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FitnessActivity.this, "유산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
-               goToSearchActivity();
+//                Toast.makeText(FitnessActivity.this, "유산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
+               goToSearchActivity(1);
             }
         });
 
@@ -75,8 +74,8 @@ public class FitnessActivity extends AppCompatActivity {
         btnWeightTrainingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FitnessActivity.this, "무산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
-                goToSearchActivity();
+//                Toast.makeText(FitnessActivity.this, "무산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
+                goToSearchActivity(2);
             }
         });
 
@@ -85,14 +84,22 @@ public class FitnessActivity extends AppCompatActivity {
         btnStretchingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FitnessActivity.this, "스트레칭을 검색합니다.", Toast.LENGTH_SHORT).show();
-                goToSearchActivity();
+//                Toast.makeText(FitnessActivity.this, "스트레칭을 검색합니다.", Toast.LENGTH_SHORT).show();
+                String searchWord = "스트레칭";
+                intent = new Intent(Intent.ACTION_SEARCH);
+                intent.setPackage("com.google.android.youtube");
+                intent.putExtra("query", searchWord);
+                try {
+                    startActivity(intent);
+                }catch(ActivityNotFoundException e){
+                }
             }
         });
     }
 
-    public void goToSearchActivity(){
+    public void goToSearchActivity(int fitnessTypeid){
         intent = new Intent(FitnessActivity.this, SearchFitnessActivity.class);
+        intent.putExtra("운동타입", fitnessTypeid);
         startActivity(intent);
     }
 
