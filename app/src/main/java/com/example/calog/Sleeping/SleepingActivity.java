@@ -2,6 +2,8 @@ package com.example.calog.Sleeping;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.calog.Common.GraphPagerFragment;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
@@ -48,6 +51,13 @@ public class SleepingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //TODO 그래프 BarChart Fragment 장착
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction tr=fm.beginTransaction();
+        GraphPagerFragment graphFragment = new GraphPagerFragment();
+        tr.replace(R.id.barChartFrag,graphFragment);
+        //////////////////////////////
     }
 
     public void mClick(View v){
