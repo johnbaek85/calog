@@ -42,29 +42,15 @@ public class DrinkingActivity extends AppCompatActivity
             }
         });
 
-<<<<<<< HEAD:app/src/main/java/com/example/calog/DrinkingActivity.java
-<<<<<<< Updated upstream
-=======
-        //
-=======
->>>>>>> master:app/src/main/java/com/example/calog/Drinking/DrinkingActivity.java
         ImageView btnHome = findViewById(R.id.btnHome);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD:app/src/main/java/com/example/calog/DrinkingActivity.java
-                Intent intent=new Intent(DrinkingActivity.this,MainHealthActivity.class);
-=======
                 Intent intent=new Intent(DrinkingActivity.this, MainHealthActivity.class);
->>>>>>> master:app/src/main/java/com/example/calog/Drinking/DrinkingActivity.java
                 startActivity(intent);
             }
         });
 
-<<<<<<< HEAD:app/src/main/java/com/example/calog/DrinkingActivity.java
->>>>>>> Stashed changes
-=======
->>>>>>> master:app/src/main/java/com/example/calog/Drinking/DrinkingActivity.java
         //알콜check Activity 이동
         TextView alcoholCheck=findViewById(R.id.alcoholCheck);
         alcoholCheck.setOnClickListener(new View.OnClickListener()
