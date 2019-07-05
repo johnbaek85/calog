@@ -24,12 +24,12 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_back" />
             <ImageView
-                android:id="@+id/btnMAinShortcut"
+                android:id="@+id/btnHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/calog" />
+                android:src="@drawable/ic_home" />
 
         </RelativeLayout>
 

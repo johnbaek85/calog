@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/calog" />
+                android:src="@drawable/ic_home" />
 
         </RelativeLayout>
 

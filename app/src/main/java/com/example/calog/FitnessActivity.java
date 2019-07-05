@@ -21,8 +21,11 @@ import android.widget.Toast;
 
 public class FitnessActivity extends AppCompatActivity {
     RelativeLayout btnCardioActivity, btnWeightTrainingActivity, btnStretchingActivity;
-    ImageView btnBack;
+    ImageView btnBack, btnHome;
     Button graphDay, graphWeek, graphMonth, graphYear;
+
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +45,15 @@ public class FitnessActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FitnessActivity.this, MainHealthActivity.class);
+                finish();
+            }
+        });
+
+        btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(FitnessActivity.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });
@@ -81,7 +92,7 @@ public class FitnessActivity extends AppCompatActivity {
     }
 
     public void goToSearchActivity(){
-        Intent intent = new Intent(FitnessActivity.this, SearchFitnessActivity.class);
+        intent = new Intent(FitnessActivity.this, SearchFitnessActivity.class);
         startActivity(intent);
     }
 
