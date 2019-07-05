@@ -16,17 +16,20 @@ public class JoinActivity extends AppCompatActivity {
     //Button btnSave, btnReset 추가
     Button btnSave, btnReset;
 
-    //ImageView prevback 추가
-    ImageView prevback;
+    //ImageView back, home 추가
+    ImageView back, home;
+
+    //Spinner 추가
+    Spinner spin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-       prevback = findViewById(R.id.prevback);
+       back = findViewById(R.id.back);
 
-       prevback.setOnClickListener(new View.OnClickListener() {
+       back.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                Intent intent = new Intent(JoinActivity.this, MainJoinActivity.class);
@@ -34,14 +37,49 @@ public class JoinActivity extends AppCompatActivity {
            }
        });
 
-       //Spinner 시작
-       Spinner spin = findViewById(R.id.spinner);
-       spin.setPrompt("이메일을 고르세요");
+       // E-mail Spinner 시작
+       spin = findViewById(R.id.email);
 
-       final ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.email, android.R.layout.simple_spinner_item);
+       ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.email, android.R.layout.simple_spinner_item);
        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
        spin.setAdapter(adapter);
-       //Spinner 끝
+       // E-mail Spinner 끝
+
+       // Year Spinner 시작
+       spin = findViewById(R.id.Year);
+
+       ArrayAdapter adapter4 = ArrayAdapter.createFromResource(this, R.array.Year, android.R.layout.simple_spinner_item);
+       adapter4.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+       spin.setAdapter(adapter4);
+       // Year Spinner 끝
+
+       // Month Spinner 시작
+       spin = findViewById(R.id.Month);
+
+       ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this, R.array.Month, android.R.layout.simple_spinner_item);
+       adapter1.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+       spin.setAdapter(adapter1);
+       // Month Spinner 끝
+
+       // Day Spinner 시작
+       spin = findViewById(R.id.Day);
+       spin.setPrompt("월을 골라주세요");
+
+       ArrayAdapter adapter2 = ArrayAdapter.createFromResource(this, R.array.Day, android.R.layout.simple_spinner_item);
+       adapter2.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+       spin.setAdapter(adapter2);
+       // Day Spinner 끝
+
+        //home 클릭했을때
+        home = findViewById(R.id.home);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JoinActivity.this, MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
 
        //btnSave 클릭했을때
        btnSave = findViewById(R.id.btnSave);
