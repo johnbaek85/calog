@@ -23,9 +23,13 @@ import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 public class ExerciseActivity extends AppCompatActivity {
     ImageView btnBack, btnMAinShortcut;
-    Button stopBtn;
+    Button btnStart, btnStop, btnContinue, btnFinish;
     int fitnessTypeId;
     Intent intent;
+    int flag = 1;
+
+    FragmentManager fm=getSupportFragmentManager();
+    FragmentTransaction tr =fm.beginTransaction();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -35,7 +39,10 @@ public class ExerciseActivity extends AppCompatActivity {
                 fitnessTypeId = intent.getIntExtra("운동타입", 0);
                 System.out.println("Exercise Activity = "+fitnessTypeId);
 
-                openFrame();
+                openImageFrame();
+                openButtonFrame(flag);
+
+
 
         btnBack=findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +62,59 @@ public class ExerciseActivity extends AppCompatActivity {
             }
         });
 
-        stopBtn=findViewById(R.id.stopBtn);
-        stopBtn.setOnClickListener(new View.OnClickListener() {
+
+        final Chronometer timeElapse = (Chronometer)findViewById(R.id.chronometer);
+        timeElapse.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                int h = (int)(time/36000000);
+                int m = (int)(time - h*3600000)/60000;
+                int s= (int)(time - h*3600000- m*60000)/1000 ;
+                String hh = h < 10 ? "0"+h: h+"";
+                String mm = m < 10 ? "0"+m: m+"";
+                String ss = s < 10 ? "0"+s: s+"";
+                chronometer.setText(hh+":"+mm+":"+ss);
+            }
+        });
+        timeElapse.setBase(SystemClock.elapsedRealtime());
+
+//운동 중 시작, 중지 버튼 선택시
+
+        btnStart=findViewById(R.id.btnStart);
+        btnStop=findViewById(R.id.btnStop);
+        btnContinue=findViewById(R.id.btnContinue);
+        btnFinish=findViewById(R.id.btnFinish);
+
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeElapse.start();
+                openButtonFrame(2);
+            }
+        });
+
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeElapse.stop();
+                openButtonFrame(3);
+            }
+        });
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeElapse.start();
+                openButtonFrame(2);
+            }
+        });
+
+
+
+
+
+        btnFinish.setOnClickListener(new View.OnClickListener() {
             final LinearLayout resultLayout = (LinearLayout)View.inflate(ExerciseActivity.this, R.layout.result_exercise, null);
             @Override
             public void onClick(View v) {
@@ -76,30 +134,14 @@ public class ExerciseActivity extends AppCompatActivity {
                 });
                 resultBox.show();
 
+
             }
         });
 
-        Chronometer timeElapse = (Chronometer)findViewById(R.id.chronometer);
-        timeElapse.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                long time = SystemClock.elapsedRealtime() - chronometer.getBase();
-                int h = (int)(time/36000000);
-                int m = (int)(time - h*3600000)/60000;
-                int s= (int)(time - h*3600000- m*60000)/1000 ;
-                String hh = h < 10 ? "0"+h: h+"";
-                String mm = m < 10 ? "0"+m: m+"";
-                String ss = s < 10 ? "0"+s: s+"";
-                chronometer.setText(hh+":"+mm+":"+ss);
-            }
-        });
-        timeElapse.setBase(SystemClock.elapsedRealtime());
-        timeElapse.start();
+
     }
 
-    public void openFrame(){
-        FragmentManager fm=getSupportFragmentManager();
-        FragmentTransaction tr =fm.beginTransaction();
+    public void openImageFrame(){
         switch (fitnessTypeId){
             case 1:
                 Fitness_Fragment_GPS fragment_gps = new Fitness_Fragment_GPS();
@@ -111,9 +153,12 @@ public class ExerciseActivity extends AppCompatActivity {
                 tr.add(R.id.exerciseFrame, fragment_gif, "gif");
                 tr.commit();
                 break;
-
-
         }
+    }
+    public void openButtonFrame(int flag){
+                Fitness_Fragment_StopWatchStart btnStart = new Fitness_Fragment_StopWatchStart(flag);
+                tr.replace(R.id.btnFrame, btnStart, "시작");
+                tr.commit();
     }
 
 
