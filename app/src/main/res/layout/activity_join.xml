@@ -54,37 +54,18 @@
         
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/idfrm"
-            >
+            android:layout_height="wrap_content">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="아이디 : ">
-        </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디 : "
+                />
 
             <EditText
-                android:id="@+id/user_id"
+                android:id="@+id/Id"
                 android:layout_width="123dp"
-                android:layout_height="wrap_content">
-
-            </EditText>
-
-           <ImageView
-               android:layout_width="35sp"
-               android:layout_height="40sp"
-               android:src="@mipmap/golbang"
-               />
-
-
-            <Spinner
-                android:id="@+id/email"
-                android:layout_width="144dp"
-                android:layout_height="match_parent"
-                >
-            </Spinner>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -121,6 +102,42 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이메일 : ">
+                </TextView>
+
+                <EditText
+                    android:id="@+id/emailId"
+                    android:layout_width="123dp"
+                    android:layout_height="wrap_content"
+                    >
+
+                </EditText>
+
+                <ImageView
+                    android:layout_width="35sp"
+                    android:layout_height="40sp"
+                    android:src="@mipmap/golbang"
+                    />
+
+
+                <Spinner
+                    android:id="@+id/email"
+                    android:layout_width="144dp"
+                    android:layout_height="match_parent"
+                    >
+                </Spinner>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -212,7 +229,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" 년 "
+                        android:text="년"
                         />
 
                     <Spinner
@@ -225,7 +242,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" 월 "
+                        android:text="월"
                         />
 
                     <Spinner
@@ -238,7 +255,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" 일"
+                        android:text="일"
                         />
 
                 </LinearLayout>

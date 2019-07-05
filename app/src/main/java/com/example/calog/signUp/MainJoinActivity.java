@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
-public class MainJoinActivity extends AppCompatActivity {
+public class MainJoinActivity extends AppCompatActivity  {
     //추가
     Button btnLogin, btnJoin;
     ImageView back, home;

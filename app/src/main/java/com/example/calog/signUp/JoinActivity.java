@@ -2,6 +2,7 @@ package com.example.calog.signUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
+
 public class JoinActivity extends AppCompatActivity {
 
     //Button btnSave, btnReset 추가
@@ -24,6 +26,9 @@ public class JoinActivity extends AppCompatActivity {
 
     //Spinner 추가
     Spinner spin;
+
+    //item 값의 nameID 추가
+    ClipData.Item nameID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,10 @@ public class JoinActivity extends AppCompatActivity {
                startActivity(intent);
            }
        });
+
+       // Item의 직접입력 값 누를때의 Action시작
+
+
 
        // E-mail Spinner 시작
        spin = findViewById(R.id.email);
