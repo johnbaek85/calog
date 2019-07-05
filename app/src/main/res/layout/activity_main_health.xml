@@ -243,33 +243,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/btnWordCloud"
             android:layout_width="0px"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:src="@drawable/top10" />
 
         <ImageView
             android:id="@+id/btnDrinkCheck"
             android:layout_width="0px"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:src="@drawable/alcohol"/>
 
         <ImageView
             android:id="@+id/btnSleepStart"
             android:layout_width="0px"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:src="@drawable/sleep" />
 
         <ImageView
             android:id="@+id/btnShare"
             android:layout_width="0px"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:src="@drawable/share" />
 
