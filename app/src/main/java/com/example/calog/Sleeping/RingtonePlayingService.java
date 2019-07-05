@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Sleeping;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -13,6 +13,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
+import com.example.calog.R;
 
 public class RingtonePlayingService extends Service {
 

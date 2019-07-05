@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SleepingActivity">
+    tools:context=".Sleeping.SleepingActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -31,30 +31,21 @@
             android:textSize="15sp" />
 
         <ImageView
-            android:id="@+id/btnBack"
+            android:id="@+id/imgBackMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_back"
-            android:layout_alignParentLeft="true"/>
-
-        <ImageView
-            android:id="@+id/btnHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_home"
-            android:layout_alignParentRight="true"/>
+            android:src="@android:drawable/ic_menu_revert" />
 
     </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
-
-
-    <!-- TODO 그래프 프래그먼트 -->
-    <fragment
-        android:id="@+id/barChartFrag"
-        android:name="com.example.calog.GraphPagerFragment"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200sp" />
-
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30sp"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

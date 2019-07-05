@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DietActivity"
+    tools:context=".Diet.DietActivity"
     android:orientation="vertical"
     android:padding="5sp">
 
@@ -42,7 +42,7 @@
     <!-- TODO 그래프 프래그먼트 -->
     <fragment
         android:id="@+id/barChartFrag"
-        android:name="com.example.calog.GraphPagerFragment"
+        android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
         android:layout_height="200sp" />
 

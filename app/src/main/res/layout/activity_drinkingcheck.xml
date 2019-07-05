@@ -7,7 +7,7 @@
     android:gravity="center"
     android:background="@drawable/drinkingback"
     android:id="@+id/DrinkBack"
-    tools:context=".DrinkingCheckActivity">
+    tools:context=".Drinking.DrinkingCheckActivity">
 
     <!--TODO title 툴바 -->
     <androidx.appcompat.widget.Toolbar

@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Drinking;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -11,21 +11,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
-import org.w3c.dom.Text;
+import com.example.calog.Common.GraphPagerFragment;
+import com.example.calog.MainHealthActivity;
+import com.example.calog.R;
 
 import java.util.ArrayList;
 
@@ -53,7 +46,7 @@ public class DrinkingActivity extends AppCompatActivity
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(DrinkingActivity.this,MainHealthActivity.class);
+                Intent intent=new Intent(DrinkingActivity.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });

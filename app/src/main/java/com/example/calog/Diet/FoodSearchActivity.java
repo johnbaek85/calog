@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Diet;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.calog.MainHealthActivity;
+import com.example.calog.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Fitness;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.calog.R;
 
 public class Fitness_Fragment_GPS extends Fragment {
     @Nullable

@@ -1,30 +1,22 @@
-package com.example.calog;
+package com.example.calog.Drinking;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.zip.Inflater;
+import com.example.calog.MainHealthActivity;
+import com.example.calog.R;
 
 public class DrinkingCheckActivity extends AppCompatActivity
 {
@@ -58,7 +50,7 @@ public class DrinkingCheckActivity extends AppCompatActivity
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(DrinkingCheckActivity.this,MainHealthActivity.class);
+                Intent intent=new Intent(DrinkingCheckActivity.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });

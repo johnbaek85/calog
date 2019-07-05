@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Sleeping;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

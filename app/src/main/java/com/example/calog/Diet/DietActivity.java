@@ -1,18 +1,18 @@
-package com.example.calog;
+package com.example.calog.Diet;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.slice.Slice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.Toast;
+
+import com.example.calog.Common.GraphPagerFragment;
+import com.example.calog.MainHealthActivity;
+import com.example.calog.R;
 
 public class DietActivity extends AppCompatActivity {
 

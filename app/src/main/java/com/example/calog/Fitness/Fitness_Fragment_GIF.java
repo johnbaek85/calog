@@ -1,31 +1,27 @@
-package com.example.calog;
+package com.example.calog.Fitness;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class SleepCheckResult extends Fragment {
-    ImageView btnBackResult;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.example.calog.R;
 
-
+public class Fitness_Fragment_GIF extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.activity_sleep_check_result,null);
-
+        View view = inflater.inflate(R.layout.fragment_gif, container, false);
 
 
         return view;
     }
-
 }

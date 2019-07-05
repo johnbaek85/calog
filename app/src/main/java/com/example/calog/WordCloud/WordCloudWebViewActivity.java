@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.WordCloud;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.calog.MainHealthActivity;
+import com.example.calog.R;
 
 public class WordCloudWebViewActivity extends AppCompatActivity {
     ImageView btnBack, btnMainShortcut;

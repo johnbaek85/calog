@@ -1,11 +1,8 @@
-package com.example.calog;
+package com.example.calog.Sleeping;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,15 +16,16 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.calog.R;
+
 import java.util.Calendar;
-import java.util.zip.Inflater;
 
 public class SleepingActivity extends AppCompatActivity {
     AlarmManager alarmManager;
     TimePicker alarmPicker;
     Context context;
     PendingIntent pendingIntent;
-    ImageView btnBack, btnHome;
+    ImageView imgBackMain;
 
     public void mClick(View v){
         this.context = getApplicationContext();
@@ -92,29 +90,11 @@ public class SleepingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleeping);
-
-        //TODO 그래프 BarChart Fragment 장착
-        FragmentManager fm=getSupportFragmentManager();
-        FragmentTransaction tr=fm.beginTransaction();
-        GraphPagerFragment graphFragment = new GraphPagerFragment();
-        tr.replace(R.id.barChartFrag,graphFragment);
-        //////////////////////////////
-
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SleepingActivity.this,MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
+        imgBackMain = findViewById(R.id.imgBackMain);
+        imgBackMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SleepingActivity.this,MainHealthActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

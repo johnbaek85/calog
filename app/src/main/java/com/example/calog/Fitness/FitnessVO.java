@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Fitness;
 
 import java.sql.Date;
 

@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Diet;
 
 public class DietMenuVO {
 

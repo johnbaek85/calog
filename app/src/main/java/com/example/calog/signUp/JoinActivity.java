@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.signUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.calog.MainHealthActivity;
+import com.example.calog.R;
 
 public class JoinActivity extends AppCompatActivity {
 
