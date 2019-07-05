@@ -13,17 +13,28 @@ import android.widget.Toast;
 public class MainJoinActivity extends AppCompatActivity {
     //추가
     Button btnLogin, btnJoin;
-    ImageView prevback;
+    ImageView back, home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_join);
 
-        //prevback 클릭했을때
-        prevback = findViewById(R.id.prevback);
+        //back 클릭했을때
+        back = findViewById(R.id.back);
 
-        prevback.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //home 클릭했을때
+        home = findViewById(R.id.home);
+
+        home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
@@ -37,7 +48,7 @@ public class MainJoinActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainJoinActivity.this, AddJoinActivitiy.class);
+                Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });
