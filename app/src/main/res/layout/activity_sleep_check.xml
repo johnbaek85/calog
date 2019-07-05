@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SleepCheckActivity">
+    tools:context=".Sleeping.SleepCheckActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,15 +24,23 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="35sp"
-                android:text="수면관리"
+                android:text="수면체크"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp" />
 
             <ImageView
-                android:id="@+id/btnBackStop"
+                android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_revert"/>
+                android:src="@drawable/icon_back"
+                android:layout_alignParentLeft="true"/>
+
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_home"
+                android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -53,11 +61,6 @@
             android:onClick="mClick"/>
 
     </RelativeLayout>
-    <fragment
-        android:id="@+id/SleepResult"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.example.calog.SleepCheckResult"/>
 
 
 </LinearLayout>

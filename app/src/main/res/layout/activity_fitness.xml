@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FitnessActivity"
+    tools:context=".Fitness.FitnessActivity"
     android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -22,7 +22,14 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_revert" />
+                android:src="@drawable/icon_back" />
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_home" />
 
         </RelativeLayout>
 
@@ -31,7 +38,7 @@
     <!-- TODO 그래프 프래그먼트 -->
     <fragment
         android:id="@+id/barChartFrag"
-        android:name="com.example.calog.GraphPagerFragment"
+        android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
         android:layout_height="200sp" />
 

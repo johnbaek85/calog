@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FoodSearchActivity"
+    tools:context=".Diet.FoodSearchActivity"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -23,7 +23,14 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_revert" />
+                android:src="@drawable/icon_back"/>
+
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_home" />
 
         </RelativeLayout>
 

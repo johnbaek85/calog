@@ -11,12 +11,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.calog.Diet.DietActivity;
+import com.example.calog.Drinking.DrinkingActivity;
+import com.example.calog.Drinking.DrinkingCheckActivity;
+import com.example.calog.Fitness.FitnessActivity;
+import com.example.calog.Sleeping.SleepCheckActivity;
+import com.example.calog.Sleeping.SleepingActivity;
+import com.example.calog.WordCloud.WordCloudActivity;
+import com.example.calog.signUp.MainJoinActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,12 +38,12 @@ import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 public class MainHealthActivity extends AppCompatActivity {
 
     RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
-    Button btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
+    ImageView btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
     ImageView btnBack;
     TextView monthName;
     ImageButton btnUser;
     TextView txtDiet, txtFitness, txtSleep, txtDrink;
-    ImageView imgDied, imgFitness, imgSleep, imgDrink;
+    ImageView imgDiet, imgFitness, imgSleep, imgDrink;
     TextView txtEatCalorie, txtSuggestedEatCalorie;
     TextView txtUsedCalorie, txtSuggestedUsedCalorie;
     TextView txtSleepHours, txtSuggestedSleepHours;
@@ -47,15 +55,6 @@ public class MainHealthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
-
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "이전 페이지 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
         monthName = findViewById(R.id.monthName);
 
@@ -113,6 +112,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, SleepingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//엑티비티 생성안함
                 startActivity(intent);
             }
         });
@@ -122,7 +122,7 @@ public class MainHealthActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                intent = new Intent(MainHealthActivity.this,DrinkingActivity.class);
+                intent = new Intent(MainHealthActivity.this, DrinkingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
@@ -150,7 +150,7 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //DrinkingActivity 이동
-                intent = new Intent(MainHealthActivity.this,DrinkingCheckActivity.class);
+                intent = new Intent(MainHealthActivity.this, DrinkingCheckActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 

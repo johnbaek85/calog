@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SleepingActivity">
+    tools:context=".Sleeping.SleepingActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -31,55 +31,29 @@
             android:textSize="15sp" />
 
         <ImageView
-            android:id="@+id/btnBackSleep"
+            android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_revert" />
+            android:src="@drawable/icon_back"
+            android:layout_alignParentLeft="true"/>
+
+        <ImageView
+            android:id="@+id/btnHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_home"
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
-
     <!-- TODO 그래프 프래그먼트 -->
     <fragment
         android:id="@+id/barChartFrag"
-        android:name="com.example.calog.GraphPagerFragment"
+        android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
         android:layout_height="200sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/Year"
-            android:text="년간"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/Month"
-            android:text="월간"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/Week"
-            android:text="주간"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/Oneday"
-            android:text="일간"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
