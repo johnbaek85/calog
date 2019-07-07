@@ -1,7 +1,5 @@
 package com.example.calog.signUp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
@@ -20,6 +20,9 @@ public class JoinActivity extends AppCompatActivity {
 
     //Button btnSave, btnReset 추가
     Button btnSave, btnReset;
+
+    //EditText address 추가
+    Button address;
 
     //ImageView back, home 추가
     ImageView back, home;
@@ -81,6 +84,17 @@ public class JoinActivity extends AppCompatActivity {
        adapter2.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
        spin.setAdapter(adapter2);
        // Day Spinner 끝
+
+        //address 클릭했을때
+        address = findViewById(R.id.address);
+
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JoinActivity.this, AddressActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //home 클릭했을때
         home = findViewById(R.id.home);

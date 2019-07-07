@@ -97,7 +97,7 @@
                 android:text="비밀번호 확인 : "/>
 
             <EditText
-                android:id="@+id/repassword"
+                android:id="@+id/checkpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -204,11 +204,13 @@
                         android:layout_height="wrap_content"
                         android:text="주소     : " />
 
-                    <EditText
+                    <Button
                         android:id="@+id/address"
-                        android:layout_width="355dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="주소 API추가하기" />
+                        android:text="주소명검색"
+                        />
+
                 </LinearLayout>
 
                 <LinearLayout
