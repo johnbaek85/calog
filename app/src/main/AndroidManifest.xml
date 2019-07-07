@@ -9,11 +9,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- android test 돌릴 때 화면 lock 풀어야 로그인 touch 가능 -->
+
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!-- 위에 까지가 네이버 아이디로 로그인하기 -->
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".signUp.NaverLoginActivity"></activity>
         <activity android:name=".Fitness.ExerciseActivity" />
         <activity android:name=".Fitness.SearchFitnessActivity" />
         <activity android:name=".Fitness.FitnessActivity" />
