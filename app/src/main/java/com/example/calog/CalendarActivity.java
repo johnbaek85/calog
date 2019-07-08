@@ -23,7 +23,6 @@ public class CalendarActivity extends AppCompatActivity
     Calendar calendar;
     Intent intent;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
