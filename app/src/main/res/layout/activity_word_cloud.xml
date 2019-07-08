@@ -64,14 +64,21 @@
                 android:id="@+id/WordCloudArticleList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foregroundGravity="center">
-            </ListView>
+                android:foregroundGravity="center"></ListView>
 
-            <EditText
-                android:id="@+id/query"
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="커피" />
+                android:text="" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="HTML 가져오기" />
 
             <TextView
                 android:id="@+id/cloudWords"
