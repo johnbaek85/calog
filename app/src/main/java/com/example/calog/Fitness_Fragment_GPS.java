@@ -10,6 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class Fitness_Fragment_GPS extends Fragment {
+    int FitnessMenuId;
+    public Fitness_Fragment_GPS(int fitnessMenuId) {
+        this.FitnessMenuId = fitnessMenuId;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

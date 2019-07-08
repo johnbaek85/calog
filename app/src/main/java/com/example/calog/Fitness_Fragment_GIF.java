@@ -15,10 +15,26 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 public class Fitness_Fragment_GIF extends Fragment {
+    int FitnessMenuId;
+    public Fitness_Fragment_GIF(int fitnessMenuId) {
+        this.FitnessMenuId = fitnessMenuId;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gif, container, false);
+
+        ImageView gifworkout = (ImageView)view.findViewById(R.id.imageGif);
+        GlideDrawableImageViewTarget getImage = new GlideDrawableImageViewTarget(gifworkout);
+        switch (FitnessMenuId){
+            case 1:         //팔굽혀펴기일 경우
+                Glide.with(getContext()).load(R.drawable.pushup).into(getImage);
+                break;
+            case 2:
+                break;
+        }
+
 
 
         return view;

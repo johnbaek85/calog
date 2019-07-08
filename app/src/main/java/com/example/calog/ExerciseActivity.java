@@ -27,7 +27,7 @@ public class ExerciseActivity extends AppCompatActivity {
     Intent intent;
     Chronometer timeElapse;
     TextView usedCalorie;
-    int fitnessMenuId=1;
+    int fitnessMenuId;
     long time;
     long stopTime=0;
     @Override
@@ -37,6 +37,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
                 intent = getIntent();
                 fitnessTypeId = intent.getIntExtra("운동타입", 0);
+                fitnessMenuId = intent.getIntExtra("운동명", 0);
                 System.out.println("Exercise Activity = "+fitnessTypeId);
 
                 openImageFrame();
@@ -67,6 +68,7 @@ public class ExerciseActivity extends AppCompatActivity {
         timeElapse = (Chronometer)findViewById(R.id.chronometer);
 
         timeElapse.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+
             @Override
             public void onChronometerTick(Chronometer chronometer) {
                 time = SystemClock.elapsedRealtime() - chronometer.getBase();
@@ -91,9 +93,8 @@ public class ExerciseActivity extends AppCompatActivity {
 
         switch(view.getId()){
             case R.id.btnStart:
-
+                timeElapse.setBase(SystemClock.elapsedRealtime());
                 btnStartandStop();
-                timeElapse.setBase(SystemClock.elapsedRealtime()-stopTime);
                 timeElapse.start();
                 calorieCalculator(fitnessMenuId);
                 break;
@@ -110,6 +111,8 @@ public class ExerciseActivity extends AppCompatActivity {
 
             case R.id.btnContinue:
                 btnStartandStop();
+                timeElapse.setBase(SystemClock.elapsedRealtime()-stopTime);
+ //               System.out.println("stopTime = "+ stopTime);
                 timeElapse.start();
                 break;
 
@@ -150,12 +153,12 @@ public class ExerciseActivity extends AppCompatActivity {
         FragmentTransaction tr =fm.beginTransaction();
         switch (fitnessTypeId){
             case 1: //유산소 운동이면 gps프레그먼트
-                Fitness_Fragment_GPS fragment_gps = new Fitness_Fragment_GPS();
+                Fitness_Fragment_GPS fragment_gps = new Fitness_Fragment_GPS(fitnessMenuId);
                 tr.add(R.id.exerciseFrame, fragment_gps, "gps");
                 tr.commit();
                 break;
             case 2: //무산소 운동이면 gif프레그먼트
-                Fitness_Fragment_GIF fragment_gif = new Fitness_Fragment_GIF();
+                Fitness_Fragment_GIF fragment_gif = new Fitness_Fragment_GIF(fitnessMenuId);
                 tr.add(R.id.exerciseFrame, fragment_gif, "gif");
                 tr.commit();
                 break;
@@ -175,7 +178,7 @@ public class ExerciseActivity extends AppCompatActivity {
         String strCalorie;
         usedCalorie=findViewById(R.id.usedCalorie);
         switch (fitnessMenuId){
-            case 1:
+            case 1:         //팔굽혀펴기 일 경우 소모칼로리
                 baseCalorie=0.04;
                 conCalorie=time* baseCalorie;
                 strCalorie = String.valueOf(conCalorie);
