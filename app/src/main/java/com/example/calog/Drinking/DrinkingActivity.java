@@ -98,7 +98,6 @@ public class DrinkingActivity extends AppCompatActivity
                     }
                 });
 
-
                 //주량설정 다이얼로그창
                 AlertDialog.Builder box=new AlertDialog.Builder(DrinkingActivity.this);
 

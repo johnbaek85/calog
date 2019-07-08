@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.calog.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DietMenuAdapter extends RecyclerView.Adapter<DietMenuAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<DietMenuVO> dietMenus = new ArrayList<>();
+    List<DietMenuVO> dietMenus;
 
-    public DietMenuAdapter(Context context, ArrayList<DietMenuVO> dietMenus) {
+    public DietMenuAdapter(Context context, List<DietMenuVO> dietMenus) {
         this.context = context;
         this.dietMenus = dietMenus;
     }
@@ -32,15 +33,16 @@ public class DietMenuAdapter extends RecyclerView.Adapter<DietMenuAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
         holder.txtMenuName.setText(dietMenus.get(position).getDietMenuName());
-        holder.txtCalorie.setText(dietMenus.get(position).getCalorie());
-
+        holder.txtCalorie.setText(String.valueOf(dietMenus.get(position).getCalorie())+" kal");
     }
 
     @Override
-    public int getItemCount() {
-        return 5;
+    public int getItemCount()
+    {
+        return dietMenus.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -6,6 +6,13 @@ public class DietMenuVO {
     private String dietMenuName;
     private int calorie;
 
+    public DietMenuVO() {}
+
+    public DietMenuVO(String dietMenuName, int calorie) {
+        this.dietMenuName = dietMenuName;
+        this.calorie = calorie;
+    }
+
     public int getDietMenuId() {
         return dietMenuId;
     }
