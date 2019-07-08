@@ -87,17 +87,9 @@ public class WordCloudActivity extends AppCompatActivity {
 
 
         // 데이터 준비 ( -> 크롤링 결과를 VO 에 담아서 넘길 예정)
-        ArrayList<CrawlingVO> list = new ArrayList<>();
-
-       // list.add();
-
-        ArrayAdapter<CrawlingVO> wordCloudAdapter = new ArrayAdapter<CrawlingVO>(
-                this, android.R.layout.simple_list_item_1, list);
+        ArrayList<CrawlingVO> hotKeywordSample = new ArrayList<>();
 
 
-
-        ListView wordList = findViewById(R.id.WordCloudArticleList);
-        wordList.setAdapter(wordCloudAdapter);
         //    ArrayList<String> hotKeywordSample = new ArrayList<>();
 
 //        CrawlingVO cvo = new CrawlingVO();
@@ -114,7 +106,7 @@ public class WordCloudActivity extends AppCompatActivity {
 */
 
         //어댑터 만들기
-
+        //ArrayAdapter<String> wordCloudAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, hotKeywordSample);
         //  ArrayAdapter<String> wordCloudAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, hotKeywordSample);
 
         //    ListView wordlist = (ListView) findViewById(R.id.WordCloudArticleList);
@@ -155,7 +147,7 @@ public class WordCloudActivity extends AppCompatActivity {
 
 
 
-              /*
+
                     // 콘솔에 엘리멘트들의 값을 모두 찍기 (elements)
                     // Log.d("", e.text());
                     // 안드로이드 화면에 엘리멘트들의 값을  찍기 (element)
@@ -163,7 +155,7 @@ public class WordCloudActivity extends AppCompatActivity {
                     System.out.println("title : " + vo.getTitle());
                     System.out.println("link : " + vo.getLink());
 
-                    */
+
 //                    htmlContentInStringFormat += (e.attr("a[href]")
 //                            + i + ". " + e.text().trim() + "\n");
                     if (i == 10) {
