@@ -2,6 +2,7 @@ package com.example.calog.Drinking;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -90,6 +91,7 @@ public class DrinkingCheckActivity extends AppCompatActivity
             checkText.startAnimation(startAnimation);
         }
 
+        @SuppressLint("WrongThread")
         @Override
         protected Integer doInBackground(Integer... integers)
         {
