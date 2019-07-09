@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.VO.DietMenuVO;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class FoodSearchActivity extends AppCompatActivity {
         });
 
         TabLayout tabLayout=findViewById(R.id.tabLayout);
-        ViewPager viewPager=findViewById(R.id.foodLitsPager);
+        ViewPager viewPager=findViewById(R.id.foodListPager);
 
         //어댑터 설정
         PagerAdapter pagerAdapter=new PagerAdapter(getSupportFragmentManager());
