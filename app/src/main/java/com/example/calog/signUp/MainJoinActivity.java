@@ -33,7 +33,6 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
     TextView tv_mail;
     static Context context;
 
-
     //추가
     Button btnLogin, btnJoin, btnNaverLogin;
     ImageView back, home;

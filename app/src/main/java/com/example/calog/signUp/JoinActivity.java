@@ -39,11 +39,8 @@ public class JoinActivity extends AppCompatActivity {
              emailId, name,
              phone1, phone2, phone3,
              height, weight,
-
              post, address, detailAddress;
-
     Spinner  email, year, month, day;
-
     CheckBox man, girl;
 
     @Override
