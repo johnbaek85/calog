@@ -1,6 +1,8 @@
 package com.example.calog.WordCloud;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,9 +11,11 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +38,8 @@ public class WordCloudActivity extends AppCompatActivity {
 
     // 크롤링/어답터에 사용
     ArrayList<CrawlingVO> array;
-    MyAdapter adapter;
-    ListView WordCloudList;
-
+    RecyclerView WordCloudList;
+    WordCloudAdapter adapter;
     // 크롤링 변수
     private String keyWordPageUrl = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
    /* 텍스트로 화면에 출력할 떄 사용
@@ -44,14 +47,23 @@ public class WordCloudActivity extends AppCompatActivity {
     private String htmlContentInStringFormat;*/
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_cloud);
-        //  pageTrans();
 
+
+        WordCloudList = findViewById(R.id.WordCloudList);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        WordCloudList.setLayoutManager(manager);
         new JsoupAsyncTask().execute();
 
-
+        array = new ArrayList<CrawlingVO>();
 
 /*
         텍스트로 화면에 출력하기 위해 준비
@@ -86,7 +98,6 @@ public class WordCloudActivity extends AppCompatActivity {
 
     //                                                < parameter , progress, returnType>
     private class JsoupAsyncTask extends AsyncTask<Void, Void, ArrayList<CrawlingVO>> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -94,7 +105,7 @@ public class WordCloudActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<CrawlingVO> doInBackground(Void... params) {
-
+            array = new ArrayList<>();
 
             try {
                 Document doc = Jsoup.connect(keyWordPageUrl).get();
@@ -109,7 +120,6 @@ public class WordCloudActivity extends AppCompatActivity {
                     title = title.substring(0, idx + 1);
                     vo.setTitle(title);
                     vo.setLink(e.select("a[href]").attr("href"));
-
                     array.add(vo);
 
                     // 콘솔에 엘리멘트들의 값을 모두 찍기 (elements)
@@ -120,88 +130,23 @@ public class WordCloudActivity extends AppCompatActivity {
                         break;
                     }
                     i++;
+
+                    System.out.println("vo:................" + vo.toString() );
                 }
+
+                System.out.println("size of Vo Array fffffffffffffffffffffffffffffffff: " + array.size());
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.d("error", e.toString());
             }
-            System.out.println("size of Vo Array fffffffffffffffffffffffffffffffff: " + array.size());
             return array;
         }
 
         @Override
         protected void onPostExecute(ArrayList<CrawlingVO> crawlingVOS) {
-            array = new ArrayList<>();
-            adapter = new MyAdapter();
-            WordCloudList.setAdapter(adapter);
             super.onPostExecute(crawlingVOS);
+            adapter = new WordCloudAdapter(WordCloudActivity.this,array);
+            WordCloudList.setAdapter(adapter);
         }
     }
-
-    // Myadapter/////////////////////////////////////////////////
-    class MyAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return array.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.item_wordcloud_keyword, parent, false);
-            }
-
-            TextView title = convertView.findViewById(R.id.WordCloudTitle);
-            TextView link = convertView.findViewById(R.id.WordClouLink);
-
-            CrawlingVO vo = array.get(position);
-            title.setText(vo.getTitle());
-            link.setText(vo.getLink());
-
-            return convertView;
-        }
-    }
-
-    //페이지 이동 버튼////////////////////////////////////////////////////////////////////////////////////
-
-    /*
-    public void pageTrans() {
-
-        cloudWords = findViewById(R.id.cloudWords);
-        // 뒤로 가기 버튼
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(WordCloudActivity.this, "이전 페이지 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(WordCloudActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-
-        // 크롤링한 결과를 클릭하면 웹뷰로 이동하여 해당 기사를 보여줄 것.(예정)
-        cloudWords.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(WordCloudActivity.this, "관련 기사로 이동합니다.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(WordCloudActivity.this, WordCloudWebViewActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-*/
 }

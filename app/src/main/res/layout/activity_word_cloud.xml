@@ -19,7 +19,7 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/prev" />
+            android:src="@drawable/icon_back" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,13 +45,11 @@
         android:content="@+id/content"
         android:handle="@+id/handle"
         android:topOffset="0dip">
-
         <ImageView
             android:id="@+id/handle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/arrow_up_float" />
-
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
@@ -59,25 +57,11 @@
             android:background="#CCCCCC"
             android:gravity="center"
             android:orientation="vertical">
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/WordCloudList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foregroundGravity="center" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-            <!--
-                        <TextView
-                            android:id="@+id/cloudWords"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="키워드 웹뷰 액티비티로 이동됩니다.." />
-                            -->
+                android:foregroundGravity="center"/>
         </LinearLayout>
     </SlidingDrawer>
 </LinearLayout>

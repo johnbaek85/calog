@@ -29,9 +29,9 @@
         <activity android:name=".Drinking.DrinkingCheckActivity" />
         <activity android:name=".Sleeping.SleepingActivity" />
         <activity android:name=".Sleeping.SleepCheckActivity" />
-        <activity android:name=".WordCloud.WordCloudActivity" />
         <activity android:name=".WordCloud.WordCloudWebViewActivity" />
-        <activity android:name=".MainHealthActivity">
+        <activity android:name=".MainHealthActivity" />
+        <activity android:name=".WordCloud.WordCloudActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
