@@ -35,7 +35,7 @@ public class WordCloudAdapter extends RecyclerView.Adapter<WordCloudAdapter.Item
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         holder.wordCloudTitle.setText(array.get(position).getTitle());
-        holder.wordCloudLink.setText(array.get(position).getLink());
+        //    holder.wordCloudLink.setText(array.get(position).getLink());
 
     }
 
@@ -50,7 +50,7 @@ public class WordCloudAdapter extends RecyclerView.Adapter<WordCloudAdapter.Item
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             wordCloudTitle = itemView.findViewById(R.id.WordCloudTitle);
-            wordCloudLink = itemView.findViewById(R.id.WordClouLink);
+            //    wordCloudLink = itemView.findViewById(R.id.WordClouLink);
         }
     }
 }

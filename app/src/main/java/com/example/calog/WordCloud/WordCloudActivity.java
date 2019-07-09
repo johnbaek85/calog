@@ -62,9 +62,9 @@ public class WordCloudActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         WordCloudList.setLayoutManager(manager);
         new JsoupAsyncTask().execute();
+        pageTrans();
 
         array = new ArrayList<CrawlingVO>();
-
 /*
         텍스트로 화면에 출력하기 위해 준비
         textviewHtmlDocument = (TextView) findViewById(R.id.textView);
@@ -117,7 +117,9 @@ public class WordCloudActivity extends AppCompatActivity {
                     // VO에 저장, 타이틀은 "]"의 인덱스 번호 +1 까지만
                     String title = e.select("strong.title").text();
                     int idx = title.indexOf("]");
-                    title = title.substring(0, idx + 1);
+
+                    // [] 가 없는 경우에 전부 널값이 들어간다... 수정 필요 //////////////////////////////
+                    title = (i + ". ") + title.substring(0, idx + 1);
                     vo.setTitle(title);
                     vo.setLink(e.select("a[href]").attr("href"));
                     array.add(vo);
@@ -131,7 +133,7 @@ public class WordCloudActivity extends AppCompatActivity {
                     }
                     i++;
 
-                    System.out.println("vo:................" + vo.toString() );
+                    System.out.println("vo:................" + vo.toString());
                 }
 
                 System.out.println("size of Vo Array fffffffffffffffffffffffffffffffff: " + array.size());
@@ -145,8 +147,43 @@ public class WordCloudActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<CrawlingVO> crawlingVOS) {
             super.onPostExecute(crawlingVOS);
-            adapter = new WordCloudAdapter(WordCloudActivity.this,array);
+            adapter = new WordCloudAdapter(WordCloudActivity.this, array);
             WordCloudList.setAdapter(adapter);
         }
     }
+
+    //페이지 이동 버튼////////////////////////////////////////////////////////////////////////////////////
+
+
+    public void pageTrans() {
+
+        cloudWords = findViewById(R.id.cloudWords);
+        // 뒤로 가기 버튼
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(WordCloudActivity.this, "이전 페이지 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(WordCloudActivity.this, MainHealthActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+ /*
+        // 크롤링한 결과를 클릭하면 웹뷰로 이동하여 해당 기사를 보여줄 것.(예정)
+        cloudWords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(WordCloudActivity.this, "관련 기사로 이동합니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(WordCloudActivity.this, WordCloudWebViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+*/
+    }
+
+
 }
