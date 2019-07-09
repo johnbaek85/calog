@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
+import org.w3c.dom.Text;
+
 public class ExerciseActivity extends AppCompatActivity {
     ImageView btnBack, btnMAinShortcut;
     int fitnessTypeId;
@@ -30,6 +32,13 @@ public class ExerciseActivity extends AppCompatActivity {
     int fitnessMenuId;
     long time;
     long stopTime=0;
+    int h;
+    int m;
+    int s;
+    String hh;
+    String mm;
+    String ss;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -72,12 +81,12 @@ public class ExerciseActivity extends AppCompatActivity {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
                 time = SystemClock.elapsedRealtime() - chronometer.getBase();
-                int h = (int)(time/36000000);
-                int m = (int)(time - h*3600000)/60000;
-                int s= (int)(time - h*3600000- m*60000)/1000 ;
-                String hh = h < 10 ? "0"+h: h+"";
-                String mm = m < 10 ? "0"+m: m+"";
-                String ss = s < 10 ? "0"+s: s+"";
+                h = (int)(time/36000000);
+                m = (int)(time - h*3600000)/60000;
+                s= (int)(time - h*3600000- m*60000)/1000 ;
+                hh = h < 10 ? "0"+h: h+"";
+                mm = m < 10 ? "0"+m: m+"";
+                ss = s < 10 ? "0"+s: s+"";
                 chronometer.setText(hh+":"+mm+":"+ss);
             }
         });
@@ -120,6 +129,22 @@ public class ExerciseActivity extends AppCompatActivity {
 
                 final LinearLayout resultLayout = (LinearLayout)View.inflate(ExerciseActivity.this, R.layout.result_exercise, null);
                 final AlertDialog.Builder resultBox = new AlertDialog.Builder(ExerciseActivity.this);
+                long breakTime =SystemClock.elapsedRealtime()-time;
+                int bh = (int)(breakTime/36000000);
+                int bm = (int)(breakTime - bh*3600000)/60000;
+                int bs= (int)(breakTime - bh*3600000- bm*60000)/1000 ;
+                String tbh = bh < 10 ? "0"+bh: bh+"";
+                String tbm = bm < 10 ? "0"+bm: bm+"";
+                String tbs = bs < 10 ? "0"+bs: bs+"";
+
+                TextView txtResultTime = resultLayout.findViewById(R.id.resultTime);
+                txtResultTime.setText((hh)+"시간 "+(mm)+"분 "+(ss)+"초");
+                TextView txtBreakTime = resultLayout.findViewById(R.id.breakTime);
+                txtBreakTime.setText((tbh)+"시간 "+(tbm)+"분 "+(tbs)+"초");
+                TextView txtTest = resultLayout.findViewById(R.id.test);
+                int setToSecond = (int)time/1000;
+                txtTest.setText("초로 환산 : "+setToSecond+"초");
+                resultBox.setIcon(R.drawable.ic_fitness_center_black_24dp);
                 resultBox.setTitle("운동결과화면");
                 resultBox.setView(resultLayout);
                 resultBox.setNegativeButton("저장 안함", null);
@@ -127,7 +152,6 @@ public class ExerciseActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Toast.makeText(ExerciseActivity.this, "운동기록을 저장합니다.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(ExerciseActivity.this, FitnessActivity.class);
                         startActivity(intent);
                         timeElapse.setBase(SystemClock.elapsedRealtime());
