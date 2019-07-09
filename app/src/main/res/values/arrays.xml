@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name = "email">
+        <item></item>
         <item>naver.com</item>
         <item>daum.net</item>
         <item>google.com</item>
@@ -9,7 +10,8 @@
         <item id = "nameID">직접입력</item>
     </string-array>
 
-    <string-array name = "Month">
+    <string-array name = "month">
+        <item></item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -24,7 +26,8 @@
         <item>12</item>
     </string-array>
 
-    <string-array name = "Day">
+    <string-array name = "day">
+        <item></item>
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -59,7 +62,8 @@
         <item>31</item>
     </string-array>
 
-    <string-array name = "Year">
+    <string-array name = "year">
+        <item></item>
         <item>2019</item>
         <item>2018</item>
         <item>2017</item>
