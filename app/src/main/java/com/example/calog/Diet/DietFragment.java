@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.calog.R;
+import com.example.calog.VO.UserDietViewVO;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class DietFragment extends Fragment
     ImageView btnBack, btnHome;
 
     Intent intent;
-    List<DietMenuVO> dietMenuArray;
+    List<UserDietViewVO> dietMenuArray;
     DietMenuAdapter menuAdapter;
 
     boolean isSearchView;
@@ -52,7 +53,7 @@ public class DietFragment extends Fragment
         recyclerView.setLayoutManager(manager);
 
         //menuAdapter
-        menuAdapter=new DietMenuAdapter(getContext(),dietMenuArray);
+        //menuAdapter=new DietMenuAdapter(getContext(),dietMenuArray);
         recyclerView.setAdapter(menuAdapter);
 
         if(isSearchView)
