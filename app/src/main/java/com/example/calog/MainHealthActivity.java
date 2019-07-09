@@ -1,13 +1,18 @@
 package com.example.calog;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -25,6 +30,7 @@ import com.example.calog.Sleeping.SleepCheckActivity;
 import com.example.calog.Sleeping.SleepingActivity;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.example.calog.signUp.MainJoinActivity;
+import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,6 +58,9 @@ public class MainHealthActivity extends AppCompatActivity {
     TextView txtSleepHours, txtSuggestedSleepHours;
     TextView txtAlcoholContent, txtAlert;
 
+    File screenShot;
+    Uri uriFile;
+
     Intent intent;
 
     HorizontalCalendar horizontalCalendar;
@@ -62,6 +71,8 @@ public class MainHealthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
+
+        permissionCheck();
 
         monthName = findViewById(R.id.monthName);
 
@@ -182,39 +193,11 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
 
-                View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
-                rootView.setDrawingCacheEnabled(true);
-                Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
-
-                String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
-                File dir = new File(dirPath);
-                if (!dir.exists())
-                    dir.mkdirs();
-                File file = new File(dirPath, "screenshot");
-                try {
-                    FileOutputStream fOut = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-                    fOut.flush();
-                    fOut.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                Uri uri = FileProvider.getUriForFile(rootView.getContext(),
-                        "com.bignerdranch.android.test.fileprovider", file);
-
-                intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("image/*");
-
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-                intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-                intent.putExtra(Intent.EXTRA_STREAM, uri);
-                try {
-                    startActivity(Intent.createChooser(intent, "Share Screenshot"));
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(MainHealthActivity.this, "No App Available",
-                            Toast.LENGTH_SHORT).show();
+                View rootView = getWindow().getDecorView();
+                screenShot = ScreenShot(rootView);
+                uriFile = Uri.fromFile(screenShot);
+                if(screenShot!=null){
+                    Crop.of(uriFile, uriFile).asSquare().start(MainHealthActivity.this, 100);
                 }
             }
         });
@@ -255,6 +238,57 @@ public class MainHealthActivity extends AppCompatActivity {
                 monthName.setText(DateFormat.getDateInstance().format(date));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        File cropFile = screenShot;
+
+        if(requestCode ==100){
+            if (resultCode == RESULT_OK) {
+                cropFile = new File(Crop.getOutput(data).getPath());
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { // API 24 이상 일경우..
+                uriFile = FileProvider.getUriForFile(getApplicationContext(),
+                        getApplicationContext().getPackageName() + ".provider", cropFile);
+            } else { // API 24 미만 일경우..
+                uriFile = Uri.fromFile(cropFile);
+            }
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uriFile);
+            shareIntent.setType("image/*");
+            startActivity(Intent.createChooser(shareIntent, "선택"));
+        }
+    }
+
+    public File ScreenShot(View view){
+        view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
+        Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
+        String filename = "screenshot.png";
+        File file = new File(Environment.getExternalStorageDirectory() + "/Pictures", filename);
+
+        System.out.println("..........." + filename);
+        //Pictures폴더 screenshot.png 파일
+        FileOutputStream os = null;
+        try{
+            os = new FileOutputStream(file);
+            screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
+            os.close();
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return null;
+        }
+        view.setDrawingCacheEnabled(false);
+        return file;
+    }
+
+    public void permissionCheck(){
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        }
     }
 
     //기존액티비티가 재실행될때

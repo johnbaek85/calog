@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calog.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DietMenuAdapter extends RecyclerView.Adapter<DietMenuAdapter.ViewHolder> {
