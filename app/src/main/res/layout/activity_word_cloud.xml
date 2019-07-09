@@ -60,31 +60,24 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/WordCloudArticleList"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/WordCloudList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foregroundGravity="center"></ListView>
+                android:foregroundGravity="center" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:text="HTML 가져오기" />
-
-            <TextView
-                android:id="@+id/cloudWords"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="키워드 웹뷰 액티비티로 이동됩니다.." />
+            <!--
+                        <TextView
+                            android:id="@+id/cloudWords"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="키워드 웹뷰 액티비티로 이동됩니다.." />
+                            -->
         </LinearLayout>
     </SlidingDrawer>
 </LinearLayout>

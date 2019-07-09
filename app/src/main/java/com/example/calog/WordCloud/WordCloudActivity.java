@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,23 +28,156 @@ import java.util.ArrayList;
 
 
 public class WordCloudActivity extends AppCompatActivity {
-    //
+    // 페이지 이동
     ImageView btnBack;
     TextView cloudWords;
 
-    // 크롤링 변수
+    // 크롤링/어답터에 사용
+    ArrayList<CrawlingVO> array;
+    MyAdapter adapter;
+    ListView WordCloudList;
 
-    private String htmlPageUrl = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
-    private TextView textviewHtmlDocument;
-    private String htmlContentInStringFormat;
-    //
-    ArrayList<String> array;
-    TextView text;
+    // 크롤링 변수
+    private String keyWordPageUrl = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
+   /* 텍스트로 화면에 출력할 떄 사용
+   private TextView textviewHtmlDocument;
+    private String htmlContentInStringFormat;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_cloud);
+        //  pageTrans();
+
+        new JsoupAsyncTask().execute();
+
+
+
+/*
+        텍스트로 화면에 출력하기 위해 준비
+        textviewHtmlDocument = (TextView) findViewById(R.id.textView);
+        textviewHtmlDocument.setMovementMethod(new ScrollingMovementMethod());
+*/
+/*      테스트. 스트링으로 만들어 출력
+        ArrayList<String> hotKeywordSample = new ArrayList<>();
+        hotKeywordSample.add(cvo.getTitle());
+        // 샘플 데이터를 배열에 넣기!!
+        hotKeywordSample.add("모태솔로");
+        hotKeywordSample.add("전립선염");
+        hotKeywordSample.add("1cm");
+        어댑터 만들기
+        ArrayAdapter<String> wordCloudAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, hotKeywordSample);
+        ListView wordlist = (ListView) findViewById(R.id.WordCloudArticleList);
+        wordlist.setAdapter(wordCloudAdapter);
+*/
+    }
+        /*
+        // 버튼을 클릭했을 때 크롤링한 데이터 가져오는 방식
+        Button htmlTitleButton = (Button) findViewById(R.id.button);
+        htmlTitleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
+                jsoupAsyncTask.execute();
+            }
+        });
+        */
+    //크롤링 -> list에 VO 담아 넣기 /////////////////////////////////////////////////////////////////////////////////////////
+
+    //                                                < parameter , progress, returnType>
+    private class JsoupAsyncTask extends AsyncTask<Void, Void, ArrayList<CrawlingVO>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<CrawlingVO> doInBackground(Void... params) {
+
+
+            try {
+                Document doc = Jsoup.connect(keyWordPageUrl).get();
+                //  System.out.println(keyWordPageUrl); // 주소값 체크
+                Elements elements = doc.select("ul.content_list li");
+                int i = 1;
+                for (Element e : elements.select(".title")) {
+                    CrawlingVO vo = new CrawlingVO();
+                    // VO에 저장, 타이틀은 "]"의 인덱스 번호 +1 까지만
+                    String title = e.select("strong.title").text();
+                    int idx = title.indexOf("]");
+                    title = title.substring(0, idx + 1);
+                    vo.setTitle(title);
+                    vo.setLink(e.select("a[href]").attr("href"));
+
+                    array.add(vo);
+
+                    // 콘솔에 엘리멘트들의 값을 모두 찍기 (elements)
+                    // Log.d("", e.text());
+                    // 안드로이드 화면에 엘리멘트들의 값을  찍기 (element)
+                    // htmlContentInStringFormat += i + ". " + vo.getTitle() + "\n";
+                    if (i == 10) {
+                        break;
+                    }
+                    i++;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("error", e.toString());
+            }
+            System.out.println("size of Vo Array fffffffffffffffffffffffffffffffff: " + array.size());
+            return array;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CrawlingVO> crawlingVOS) {
+            array = new ArrayList<>();
+            adapter = new MyAdapter();
+            WordCloudList.setAdapter(adapter);
+            super.onPostExecute(crawlingVOS);
+        }
+    }
+
+    // Myadapter/////////////////////////////////////////////////
+    class MyAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return array.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.item_wordcloud_keyword, parent, false);
+            }
+
+            TextView title = convertView.findViewById(R.id.WordCloudTitle);
+            TextView link = convertView.findViewById(R.id.WordClouLink);
+
+            CrawlingVO vo = array.get(position);
+            title.setText(vo.getTitle());
+            link.setText(vo.getLink());
+
+            return convertView;
+        }
+    }
+
+    //페이지 이동 버튼////////////////////////////////////////////////////////////////////////////////////
+
+    /*
+    public void pageTrans() {
+
         cloudWords = findViewById(R.id.cloudWords);
         // 뒤로 가기 버튼
         btnBack = findViewById(R.id.btnBack);
@@ -57,6 +190,9 @@ public class WordCloudActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
         // 크롤링한 결과를 클릭하면 웹뷰로 이동하여 해당 기사를 보여줄 것.(예정)
         cloudWords.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,114 +202,6 @@ public class WordCloudActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /////////////////////////////////////////////////
-
-        textviewHtmlDocument = (TextView) findViewById(R.id.textView);
-        textviewHtmlDocument.setMovementMethod(new ScrollingMovementMethod());
-
-        Button htmlTitleButton = (Button) findViewById(R.id.button);
-        htmlTitleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
-                jsoupAsyncTask.execute();
-            }
-        });
-// 데이터 크롤링하기
-        /*
-
-         */
-
-
-        // 데이터 준비 ( -> 크롤링 결과를 VO 에 담아서 넘길 예정)
-        ArrayList<CrawlingVO> hotKeywordSample = new ArrayList<>();
-
-
-        //    ArrayList<String> hotKeywordSample = new ArrayList<>();
-
-//        CrawlingVO cvo = new CrawlingVO();
-//        hotKeywordSample.add(cvo.getTitle());
-
-
-        // 샘플 데이터를 배열에 넣기!!
-/*
-
-        hotKeywordSample.add("모태솔로");
-        hotKeywordSample.add("전립선염");
-        hotKeywordSample.add("1cm");
-
+    }
 */
-
-        //어댑터 만들기
-        //ArrayAdapter<String> wordCloudAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, hotKeywordSample);
-        //  ArrayAdapter<String> wordCloudAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, hotKeywordSample);
-
-        //    ListView wordlist = (ListView) findViewById(R.id.WordCloudArticleList);
-//        wordlist.setAdapter(wordCloudAdapter);
-
-
-    }
-
-// 크롤링해야지!
-
-    private class JsoupAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Document doc = Jsoup.connect(htmlPageUrl).get();
-                ArrayList<CrawlingVO> crawarray = new ArrayList<CrawlingVO>();
-
-                System.out.println(htmlPageUrl);
-                Elements elements = doc.select("ul.content_list li");
-//코드백업                Document doc = Jsoup.connect(htmlPageUrl).get();
-//코드백업                Elements links = doc.select("a[href]");
-                int i = 1;
-                for (Element e : elements.select(".title")) {
-                    CrawlingVO vo = new CrawlingVO();
-
-                    String title = e.select("strong.title").text();
-                    // ]의 인덱스 번호를 알아내어 ]+1 까지만 살려내야 함..
-                    int idx = title.indexOf("]");
-                    title = title.substring(0, idx + 1);
-                    vo.setTitle(title);
-                    vo.setLink(e.select("a[href]").attr("href"));
-
-
-
-
-                    // 콘솔에 엘리멘트들의 값을 모두 찍기 (elements)
-                    // Log.d("", e.text());
-                    // 안드로이드 화면에 엘리멘트들의 값을  찍기 (element)
-                    htmlContentInStringFormat += i + ". " + vo.getTitle() + "\n";
-                    System.out.println("title : " + vo.getTitle());
-                    System.out.println("link : " + vo.getLink());
-
-
-//                    htmlContentInStringFormat += (e.attr("a[href]")
-//                            + i + ". " + e.text().trim() + "\n");
-                    if (i == 10) {
-                        break;
-                    }
-                    i++;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d("error", e.toString());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            textviewHtmlDocument.setText(htmlContentInStringFormat);
-        }
-    }
-
 }
