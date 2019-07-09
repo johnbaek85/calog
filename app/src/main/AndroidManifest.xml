@@ -20,7 +20,6 @@
         <activity android:name=".CalendarActivity" />
         <activity android:name=".Diet.FoodSearchActivity" />
         <activity android:name=".Diet.DietActivity" />
-        <activity android:name=".AddJoinActivitiy" />
         <activity android:name=".signUp.MainJoinActivity" />
         <activity android:name=".signUp.JoinActivity" />
         <activity android:name=".Drinking.TestActivity" />
@@ -36,6 +35,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
         </activity>
 
         <provider
