@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.VO.FitnessVO;
 
 import java.util.List;
 

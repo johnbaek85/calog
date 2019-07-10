@@ -1,9 +1,18 @@
 package com.example.calog;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -24,10 +33,14 @@ import com.example.calog.Sleeping.DecibelCheck.DecibelMainActivity;
 import com.example.calog.Sleeping.SleepingActivity;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.example.calog.signUp.MainJoinActivity;
+import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,12 +61,21 @@ public class MainHealthActivity extends AppCompatActivity {
     TextView txtSleepHours, txtSuggestedSleepHours;
     TextView txtAlcoholContent, txtAlert;
 
+    File screenShot;
+    Uri uriFile;
+
     Intent intent;
+
+    HorizontalCalendar horizontalCalendar;
+
+    long currentSelectedTime=0; //선택시간
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
+
+        permissionCheck();
 
         monthName = findViewById(R.id.monthName);
 
@@ -172,49 +194,23 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
 
-                View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
-                rootView.setDrawingCacheEnabled(true);
-                Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
-
-                String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
-                File dir = new File(dirPath);
-                if (!dir.exists())
-                    dir.mkdirs();
-                File file = new File(dirPath, "screenshot");
-                try {
-                    FileOutputStream fOut = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-                    fOut.flush();
-                    fOut.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                Uri uri = FileProvider.getUriForFile(rootView.getContext(),
-                        "com.bignerdranch.android.test.fileprovider", file);
-
-                intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("image/*");
-
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-                intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-                intent.putExtra(Intent.EXTRA_STREAM, uri);
-                try {
-                    startActivity(Intent.createChooser(intent, "Share Screenshot"));
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(MainHealthActivity.this, "No App Available",
-                            Toast.LENGTH_SHORT).show();
+                View rootView = getWindow().getDecorView();
+                screenShot = ScreenShot(rootView);
+                uriFile = Uri.fromFile(screenShot);
+                if(screenShot!=null){
+                    Crop.of(uriFile, uriFile).asSquare().start(MainHealthActivity.this, 100);
                 }
             }
         });
 
         Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.MONTH, 1);
+        endDate.add(Calendar.YEAR, 1);
         Calendar startDate = Calendar.getInstance();
-        startDate.add(Calendar.MONTH, -1);
+        startDate.add(Calendar.YEAR, -1);
 
-        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(this, R.id.calendarView)
+        //java.sql.Date date = java.sql.Date.valueOf("2019-7-17");
+
+        horizontalCalendar = new HorizontalCalendar.Builder(this, R.id.calendarView)
                 .startDate(startDate.getTime())
                 .endDate(endDate.getTime())
                 .datesNumberOnScreen(5)

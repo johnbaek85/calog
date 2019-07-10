@@ -73,7 +73,6 @@ public class DrinkingActivity extends AppCompatActivity
             {
                 View view = getLayoutInflater().inflate(R.layout.custom_dialog,null);
 
-
                 //spinner 설정
                 final ArrayList<String> arrayList = new ArrayList<>();
                 arrayList.add("1병");
@@ -98,7 +97,6 @@ public class DrinkingActivity extends AppCompatActivity
                     public void onNothingSelected(AdapterView<?> adapterView) {
                     }
                 });
-
 
                 //주량설정 다이얼로그창
                 AlertDialog.Builder box=new AlertDialog.Builder(DrinkingActivity.this);

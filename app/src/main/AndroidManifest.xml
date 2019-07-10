@@ -4,8 +4,6 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -31,6 +29,9 @@
         <activity android:name=".WordCloud.WordCloudActivity" />
         <activity android:name=".WordCloud.WordCloudWebViewActivity" />
         <activity android:name=".Sleeping.DecibelCheck.DecibelMainActivity" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
