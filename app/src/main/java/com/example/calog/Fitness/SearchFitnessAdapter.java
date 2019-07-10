@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calog.R;
+import com.example.calog.VO.FitnessVO;
 
 import java.util.List;
 

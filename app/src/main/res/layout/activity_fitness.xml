@@ -40,14 +40,9 @@
         android:id="@+id/barChartFrag"
         android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="200sp" />
-
-    <FrameLayout
-        android:id="@+id/Pedometer"
-        android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1"
-        ></FrameLayout>
+        android:layout_weight="1"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0px"
