@@ -12,16 +12,29 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.calog.JoinRemoteService;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.VO.UserVO;
+
+import java.util.List;
+
+import retrofit2.Retrofit;
 
 
 public class JoinActivity extends AppCompatActivity {
+
+    Retrofit retrofit;
+    JoinRemoteService rs;
+    List<UserVO> user;
+    MyAdapter dapater;
+    ListView list;
 
     //Button btnSave, btnReset 추가
     Button btnSave, btnReset, btnPost;
@@ -71,16 +84,43 @@ public class JoinActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnReset = findViewById(R.id.btnReset);
 
+        // '아이디' 설정 ( 조건에 따른 색상 변경및 안내메세지 )
+        user_Id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(user_Id.getText().toString().trim().length() <= 20){
+                    user_Id.setTextColor(Color.GREEN);
+                }else{
+                    user_Id.setTextColor(Color.RED);
+                    Toast.makeText(JoinActivity.this, "아이디는 20자리 이하로 입력해주세요", Toast.LENGTH_LONG).show();
+                    user_Id.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         // '비밀번호' 설정 ( 조건에 따른 색상 변경및 안내메세지 )
         password.addTextChangedListener(new TextWatcher() {
+
             @Override
             // 입력하기 전에 호출되는 API
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
+
             // EditText에 변화가 있을 떄
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (password.getText().toString().length() >= 8 && password.getText().toString().equals(checkPassword.getText().toString())) {
+                if (password.getText().toString().trim().length() >= 8 && password.getText().toString().equals(checkPassword.getText().toString())) {
                     //비밀번호확인이 8자리 이상이고 비밀번호와 같을때 검은색
                     password.setTextColor(Color.GREEN);
                     checkPassword.setTextColor(Color.GREEN);
@@ -90,6 +130,7 @@ public class JoinActivity extends AppCompatActivity {
                     checkPassword.setTextColor(Color.RED);
                 }
             }
+
             @Override
             // 입력이 끝났을 때
             public void afterTextChanged(Editable s) {
@@ -98,10 +139,13 @@ public class JoinActivity extends AppCompatActivity {
 
         // '비밀번호확인' 설정( 조건에 따른 색상 변경및 안내메세지 )
         checkPassword.addTextChangedListener(new TextWatcher() {
+
             @Override
             // 입력하기 전에 호출되는 API
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
+
             // EditText에 변화가 있을 떄
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -115,13 +159,102 @@ public class JoinActivity extends AppCompatActivity {
                     password.setTextColor(Color.RED);
                 }
             }
+
             @Override
             // 입력이 끝났을 때
             public void afterTextChanged(Editable s) {
             }
         });
 
-        // EditText 'password'에서 다른곳으로 이동할때 발생하는 이벤트
+        // '이메일아이디' 설정( 조건에 따른 색상 변경및 안내메세지 )
+        emailId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(emailId.getText().toString().length() <= 20){
+                    emailId.setTextColor(Color.GREEN);
+                }else{
+                    emailId.setTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // '번호1' 설정( 조건에 따른 색상 변경및 안내메세지 )
+        phone1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // phone1이 3자리수면 연두색 아니면 빨강색
+                if(phone1.getText().toString().length() == 3){
+                    phone1.setTextColor(Color.GREEN);
+                }else{
+                    phone1.setTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        // '번호2' 설정( 조건에 따른 색상 변경및 안내메세지 )
+        phone2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(phone2.getText().toString().length() == 4){
+                    phone2.setTextColor(Color.GREEN);
+                }else{
+                    phone2.setTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // '번호3' 설정( 조건에 따른 색상 변경및 안내메세지 )
+        phone3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(phone3.getText().toString().length() ==4){
+                    phone3.setTextColor(Color.GREEN);
+                }else{
+                    phone3.setTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // EditText 'password'에서 다른곳으로 이동할때, 'password'를 클릭할 때 발생하는 이벤트
         password.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -131,19 +264,21 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
 
-        // EditText 'checkPassword'에서 다른곳으로 이동할때 발생하는 이벤트
-        checkPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(checkPassword.getText().toString().length() < 8 && checkPassword.getText().toString().length() > 0){
-                    Toast.makeText(JoinActivity.this, "8자리 이상 입력하여주세요", Toast.LENGTH_SHORT).show();
-                }else if(checkPassword.getText().toString().length() >= 8 && password.getText().toString().equals(checkPassword.getText().toString())){
-                    Toast.makeText(JoinActivity.this, "비밀번호가 일치합니다", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(JoinActivity.this, "비밀번호가 일치하지않습니다", Toast.LENGTH_SHORT).show();
+        // EditText 'checkPassword'에서 다른곳으로 이동할때, 'checkPassword'를 클릭할 때 발생하는 이벤트
+
+            checkPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (checkPassword.getText().toString().length() < 8 && checkPassword.getText().toString().length() > 0) {
+                        Toast.makeText(JoinActivity.this, "8자리 이상 입력하여주세요", Toast.LENGTH_SHORT).show();
+                    } else if (checkPassword.getText().toString().length() >= 8 && password.getText().toString().equals(checkPassword.getText().toString())) {
+                        Toast.makeText(JoinActivity.this, "비밀번호가 일치합니다", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(JoinActivity.this, "비밀번호가 일치하지않습니다", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+
 
         // E-mail Spinner 시작
         spin = findViewById(R.id.email);
@@ -210,6 +345,12 @@ public class JoinActivity extends AppCompatActivity {
                     return;
                 }
 
+                if(user_Id.getText().toString().length() > 20){
+                    Toast.makeText(JoinActivity.this, "아이디는 20자 이하로 입력해주세요", Toast.LENGTH_SHORT).show();
+                    user_Id.requestFocus();
+                    return;
+                }
+
                 if(password.getText().toString().length() == 0){
                     Toast.makeText(JoinActivity.this, "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
                     password.requestFocus();
@@ -222,7 +363,7 @@ public class JoinActivity extends AppCompatActivity {
                     return;
                 }
                 if(emailId.getText().toString().length() == 0){
-                    Toast.makeText(JoinActivity.this, "이메일을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(JoinActivity.this, "이메일아이디를 입력해주세요", Toast.LENGTH_SHORT).show();
                     emailId.requestFocus();
                     return;
                 }
@@ -278,7 +419,7 @@ public class JoinActivity extends AppCompatActivity {
                 // checkbox 'man', 'girl' 둘중 하나만 선택하도록 하기
                 man.isChecked();
                 if(man.isChecked() && girl.isChecked()){
-                    Toast.makeText(JoinActivity.this, "남자와 여자 둘중 하나를 선택해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(JoinActivity.this, "성별을 하나만 선택해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -311,6 +452,31 @@ public class JoinActivity extends AppCompatActivity {
                     detailAddress.requestFocus();
                     return;
                 }
+
+                if(!password.getText().toString().equals(checkPassword.getText().toString())){
+                    Toast.makeText(JoinActivity.this, "비밀번호와 비밀번호확인이 일치하지않습니다.", Toast.LENGTH_SHORT).show();
+                    password.requestFocus();
+                    return;
+                }
+
+                if(!phone1.getText().toString().equals("010") || !phone1.getText().toString().equals("011")){
+                    Toast.makeText(JoinActivity.this, "앞번호는 '010'과 011'중 하나를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    phone1.requestFocus();
+                    return;
+                }
+
+                if(phone2.getText().toString().length() != 4){
+                    Toast.makeText(JoinActivity.this, "중앙번호는 4자리만 입력해주세요", Toast.LENGTH_SHORT).show();
+                    phone2.requestFocus();
+                    return;
+                }
+                
+                if(phone3.getText().toString().length() != 4){
+                    Toast.makeText(JoinActivity.this, "마지막번호는 4자리만 입력해주세요", Toast.LENGTH_SHORT).show();
+                    phone3.requestFocus();
+                    return;
+                }
+
                 // 빈값일 때 Toast띄우고 입력하게 하기 끝
 
                 // btnSave 클릭했을때 MainJoinActivity로 이동

@@ -63,8 +63,10 @@
 
             <EditText
                 android:id="@+id/user_Id"
-                android:layout_width="123dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:inputType="text" />
 
         </LinearLayout>
 
@@ -80,9 +82,10 @@
 
             <EditText
                 android:id="@+id/password"
-                android:inputType="textPassword"
-                android:layout_width="185dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:inputType="textPassword" />
 
         </LinearLayout>
         
@@ -97,8 +100,10 @@
 
             <EditText
                 android:id="@+id/checkPassword"
-                android:layout_width="185dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:inputType="textPassword" />
 
         </LinearLayout>
 
@@ -116,8 +121,10 @@
 
                 <EditText
                     android:id="@+id/emailId"
+                    android:inputType="text"
                     android:layout_width="123dp"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="false"
                     >
 
                 </EditText>
@@ -154,8 +161,11 @@
 
                     <EditText
                         android:id="@+id/name"
+                        android:inputType="text"
                         android:layout_width="119dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -169,8 +179,11 @@
 
                     <EditText
                         android:id="@+id/phone1"
+                        android:inputType="number"
                         android:layout_width="40dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -179,8 +192,11 @@
 
                     <EditText
                         android:id="@+id/phone2"
+                        android:inputType="number"
                         android:layout_width="50dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -190,7 +206,9 @@
                     <EditText
                         android:id="@+id/phone3"
                         android:layout_width="50dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:inputType="number" />
 
                 </LinearLayout>
 
@@ -281,8 +299,11 @@
 
                     <EditText
                         android:id="@+id/height"
+                        android:inputType="number"
                         android:layout_width="55dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -298,8 +319,11 @@
 
                     <EditText
                         android:id="@+id/weight"
+                        android:inputType="number"
                         android:layout_width="55dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -317,7 +341,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10sp"
-                        android:hint="우편번호" />
+                        android:hint="우편번호"
+                        />
 
                     <Button
                         android:id="@+id/btnPost"
@@ -346,9 +371,12 @@
 
                     <EditText
                         android:id="@+id/detailAddress"
+                        android:inputType="text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="상세주소" />
+                        android:hint="상세주소"
+                        android:cursorVisible="false"
+                        />
 
                 </LinearLayout>
                 
