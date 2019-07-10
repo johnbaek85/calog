@@ -14,8 +14,12 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.calog.Fitness_Fragment_StopWatchContinue;
+import com.example.calog.Fitness_Fragment_StopWatchStart;
+import com.example.calog.Fitness_Fragment_StopWatchStop;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 

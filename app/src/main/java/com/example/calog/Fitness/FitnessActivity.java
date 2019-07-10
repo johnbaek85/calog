@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Fitness;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.calog.Common.GraphPagerFragment;
+import com.example.calog.MainHealthActivity;
+import com.example.calog.R;
 
 public class FitnessActivity extends AppCompatActivity {
     RelativeLayout btnCardioActivity, btnWeightTrainingActivity, btnStretchingActivity;
