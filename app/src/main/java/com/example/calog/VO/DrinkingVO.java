@@ -4,40 +4,35 @@ import java.sql.Date;
 
 public class DrinkingVO {
 
-    private String userId;
-    private Date drinkingDate;
-    private double alcoholContent;
+    private String user_id;
+    private Date drinking_date;
+    private double alcohol_content;
+    
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public Date getDrinking_date() {
+		return drinking_date;
+	}
+	public void setDrinking_date(Date drinking_date) {
+		this.drinking_date = drinking_date;
+	}
+	public double getAlcohol_content() {
+		return alcohol_content;
+	}
+	public void setAlcohol_content(double alcohol_content) {
+		this.alcohol_content = alcohol_content;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public Date getDrinkingDate() {
-        return drinkingDate;
-    }
-
-    public void setDrinkingDate(Date drinkingDate) {
-        this.drinkingDate = drinkingDate;
-    }
-
-    public double getAlcoholContent() {
-        return alcoholContent;
-    }
-
-    public void setAlcoholContent(double alcoholContent) {
-        this.alcoholContent = alcoholContent;
-    }
-
-    @Override
-    public String toString() {
-        return "DrinkingVO{" +
-                "userId='" + userId + '\'' +
-                ", drinkingDate=" + drinkingDate +
-                ", alcoholContent=" + alcoholContent +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "DrinkingVO{" +
+				"user_id='" + user_id + '\'' +
+				", drinking_date=" + drinking_date +
+				", alcohol_content=" + alcohol_content +
+				'}';
+	}
 }

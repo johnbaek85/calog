@@ -1,14 +1,7 @@
 package com.example.calog;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,6 +14,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.example.calog.Diet.DietActivity;
 import com.example.calog.Drinking.DrinkingActivity;
@@ -35,9 +33,6 @@ import com.soundcloud.android.crop.Crop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -96,8 +91,8 @@ public class MainHealthActivity extends AppCompatActivity {
         btnUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "로그인 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "로그인 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(MainHealthActivity.this, MainJoinActivity.class);
                 startActivity(intent);
             }
@@ -207,7 +202,6 @@ public class MainHealthActivity extends AppCompatActivity {
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.YEAR, -1);
 
-
         //java.sql.Date date = java.sql.Date.valueOf("2019-7-17");
 
         horizontalCalendar = new HorizontalCalendar.Builder(this, R.id.calendarView)
@@ -221,8 +215,6 @@ public class MainHealthActivity extends AppCompatActivity {
                 .showDayName(true)
                 .showMonthName(true)
                 .build();
-
-
 
         //캘린더 데이터 변경
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener()

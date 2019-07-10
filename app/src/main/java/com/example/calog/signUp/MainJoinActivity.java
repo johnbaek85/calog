@@ -12,19 +12,35 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.calog.JoinRemoteService;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.VO.UserVO;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.JoinRemoteService.BASE_URL;
+
 public class MainJoinActivity extends AppCompatActivity implements View.OnClickListener  {
 
     private OAuthLoginButton naverLogInButton;
     private static OAuthLogin naverLoginInstance;
     Button btnGetApi, btnLogout;
+
+    Retrofit retrofit;
+    JoinRemoteService rs;
+    List<UserVO> user;
 
     static final String CLIENT_ID = "yLznJEv7RDN1ugZEgKc8";
     static final String CLIENT_SECRET = "rFyzvuJvZN";
@@ -43,6 +59,15 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_main_join);
         init();
         init_View();
+
+        // RemoteServcie, Retrofit
+        retrofit = new Retrofit.Builder()                           // Retrofit 빌더 생성
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(JoinRemoteService.class);              // API 인터페이스 생성
+
+        
 
         //back 클릭했을때
         back = findViewById(R.id.back);
@@ -89,6 +114,23 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
         });
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        Call<List<UserVO>> call = rs.listUser();
+        call.enqueue(new Callback<List<UserVO>>() {
+            @Override
+            public void onResponse(Call<List<UserVO>> call, Response<List<UserVO>> response) {
+                user = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<UserVO>> call, Throwable t) {
+
+            }
+        });
+        super.onResume();
     }
 
     //초기화

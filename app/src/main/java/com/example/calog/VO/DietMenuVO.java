@@ -2,31 +2,31 @@ package com.example.calog.VO;
 
 public class DietMenuVO {
 
-    private int dietMenuId;
-    private String dietMenuName;
+    private int diet_menu_id;
+    private String diet_menu_name;
     private int calorie;
 
     public DietMenuVO() { }
 
-    public DietMenuVO(String dietMenuName, int calorie) {
-        this.dietMenuName = dietMenuName;
+    public DietMenuVO(String diet_menu_name, int calorie) {
+        this.diet_menu_name = diet_menu_name;
         this.calorie = calorie;
     }
 
-    public int getDietMenuId() {
-        return dietMenuId;
+    public int getDiet_menu_id() {
+        return diet_menu_id;
     }
 
-    public void setDietMenuId(int dietMenuId) {
-        this.dietMenuId = dietMenuId;
+    public void setDiet_menu_id(int diet_menu_id) {
+        this.diet_menu_id = diet_menu_id;
     }
 
-    public String getDietMenuName() {
-        return dietMenuName;
+    public String getDiet_menu_name() {
+        return diet_menu_name;
     }
 
-    public void setDietMenuName(String dietMenuName) {
-        this.dietMenuName = dietMenuName;
+    public void setDiet_menu_name(String diet_menu_name) {
+        this.diet_menu_name = diet_menu_name;
     }
 
     public int getCalorie() {
@@ -40,8 +40,8 @@ public class DietMenuVO {
     @Override
     public String toString() {
         return "DietMenuVO{" +
-                "dietMenuId=" + dietMenuId +
-                ", dietMenuName='" + dietMenuName + '\'' +
+                "diet_menu_id=" + diet_menu_id +
+                ", diet_menu_name='" + diet_menu_name + '\'' +
                 ", calorie=" + calorie +
                 '}';
     }

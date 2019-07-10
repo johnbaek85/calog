@@ -2,50 +2,43 @@ package com.example.calog.VO;
 
 public class UserFitnessFavoriteViewVO {
 
-    private String userId;
+    private String user_id;
     private String name;
-    private String fitnessTypeName;
-    private String fitnessMenuName;
+    private String fitness_type_name;
+    private String fitness_menu_name;
+    
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getFitness_type_name() {
+		return fitness_type_name;
+	}
+	public void setFitness_type_name(String fitness_type_name) {
+		this.fitness_type_name = fitness_type_name;
+	}
+	public String getFitness_menu_name() {
+		return fitness_menu_name;
+	}
+	public void setFitness_menu_name(String fitness_menu_name) {
+		this.fitness_menu_name = fitness_menu_name;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFitnessTypeName() {
-        return fitnessTypeName;
-    }
-
-    public void setFitnessTypeName(String fitnessTypeName) {
-        this.fitnessTypeName = fitnessTypeName;
-    }
-
-    public String getFitnessMenuName() {
-        return fitnessMenuName;
-    }
-
-    public void setFitnessMenuName(String fitnessMenuName) {
-        this.fitnessMenuName = fitnessMenuName;
-    }
-
-    @Override
-    public String toString() {
-        return "UserFitnessFavoriteViewVO{" +
-                "userId='" + userId + '\'' +
-                ", name='" + name + '\'' +
-                ", fitnessTypeName='" + fitnessTypeName + '\'' +
-                ", fitnessMenuName='" + fitnessMenuName + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "UserFitnessFavoriteViewVO{" +
+				"user_id='" + user_id + '\'' +
+				", name='" + name + '\'' +
+				", fitness_type_name='" + fitness_type_name + '\'' +
+				", fitness_menu_name='" + fitness_menu_name + '\'' +
+				'}';
+	}
 }

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,8 +32,6 @@ public class JoinActivity extends AppCompatActivity {
     Retrofit retrofit;
     JoinRemoteService rs;
     List<UserVO> user;
-    MyAdapter dapater;
-    ListView list;
 
     //Button btnSave, btnReset 추가
     Button btnSave, btnReset, btnPost;
