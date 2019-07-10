@@ -46,47 +46,14 @@
 
     </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
-    <LinearLayout
+
+    <!-- TODO 그래프 프래그먼트 -->
+    <fragment
+        android:id="@+id/barChartFrag"
+        android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="30sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="200sp" />
 
-        <Button
-            android:id="@+id/Year"
-            android:text="년간"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/Month"
-            android:text="월간"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/Week"
-            android:text="주간"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/Oneday"
-            android:text="일간"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
