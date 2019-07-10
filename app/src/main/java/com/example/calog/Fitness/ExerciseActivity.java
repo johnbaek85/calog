@@ -10,17 +10,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.calog.FitnessActivity;
-import com.example.calog.Fitness_Fragment_StopWatchContinue;
-import com.example.calog.Fitness_Fragment_StopWatchStart;
-import com.example.calog.Fitness_Fragment_StopWatchStop;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
@@ -33,6 +29,7 @@ public class ExerciseActivity extends AppCompatActivity {
     int fitnessMenuId;
     long time;
     long stopTime=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);

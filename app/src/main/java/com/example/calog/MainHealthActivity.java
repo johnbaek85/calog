@@ -23,6 +23,7 @@ import androidx.core.content.FileProvider;
 import com.example.calog.Diet.DietActivity;
 import com.example.calog.Drinking.DrinkingActivity;
 import com.example.calog.Drinking.DrinkingCheckActivity;
+
 import com.example.calog.Fitness.FitnessActivity;
 import com.example.calog.Sleeping.SleepCheckActivity;
 import com.example.calog.Sleeping.SleepingActivity;
