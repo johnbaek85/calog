@@ -154,8 +154,6 @@ public class MainHealthActivity extends AppCompatActivity {
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
-
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
          {
              @Override
@@ -241,9 +239,9 @@ public class MainHealthActivity extends AppCompatActivity {
 
 
         Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.YEAR, 1);
+        endDate.add(Calendar.YEAR, 5);
         Calendar startDate = Calendar.getInstance();
-        startDate.add(Calendar.YEAR, -1);
+        startDate.add(Calendar.YEAR, -5);
 
 
         //java.sql.Date date = java.sql.Date.valueOf("2019-7-17");
@@ -274,6 +272,12 @@ public class MainHealthActivity extends AppCompatActivity {
 
                 //horizontalCalendar.date
                 monthName.setText(DateFormat.getDateInstance().format(date));
+
+                //java.sql.Date sqldate=new java.sql.Date(date.getTime());
+
+                currentSelectedTime=date.getTime();
+                //System.out.println("horizontalCalendar.setCalendarListener time:"+currentSelectedTime);
+
             }
         });
 
