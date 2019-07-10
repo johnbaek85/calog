@@ -52,6 +52,7 @@ public class MainHealthActivity extends AppCompatActivity {
     TextView txtUsedCalorie, txtSuggestedUsedCalorie;
     TextView txtSleepHours, txtSuggestedSleepHours;
     TextView txtAlcoholContent, txtAlert;
+    TextView user_Id;
 
     File screenShot;
     Uri uriFile;
@@ -68,6 +69,13 @@ public class MainHealthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_health);
 
         permissionCheck();
+
+        //login한 UserID 출력
+        Intent loginIntent=getIntent();
+        user_Id = findViewById(R.id.user_Id);
+        user_Id.setText(loginIntent.getStringExtra("userID"));
+
+
 
         monthName = findViewById(R.id.monthName);
 

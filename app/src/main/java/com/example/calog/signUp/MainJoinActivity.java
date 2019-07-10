@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,10 +37,10 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
     private static OAuthLogin naverLoginInstance;
     Button btnGetApi, btnLogout;
 
+    EditText user_id, password;
     Retrofit retrofit;
     JoinRemoteService rs;
     UserVO user;
-
     static final String CLIENT_ID = "yLznJEv7RDN1ugZEgKc8";
     static final String CLIENT_SECRET = "rFyzvuJvZN";
     static final String CLIENT_NAME = "네이버 아이디로 로그인 테스트";
@@ -91,27 +92,29 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 
         //btnLogin 클릭했을때
         btnLogin = findViewById(R.id.btnLogin);
-
+        user_id = findViewById(R.id.user_Id);
+        password = findViewById(R.id.password);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Call<UserVO> call = rs.readUser("hulk", "2222");
+                Call<UserVO> call = rs.readUser(user_id.getText().toString(), password.getText().toString());
                 call.enqueue(new Callback<UserVO>() {
                     @Override
                     public void onResponse(Call<UserVO> call, Response<UserVO> response) {
                         user = response.body();
-                        Toast.makeText(MainJoinActivity.this, user.getUser_id(), Toast.LENGTH_SHORT);
+                        Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
+                        intent.putExtra("userID", user.getUser_id());
+                        startActivity(intent);
                     }
 
                     @Override
                     public void onFailure(Call<UserVO> call, Throwable t) {
-
+                        Toast.makeText(MainJoinActivity.this, "아이디와 비밀번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-                Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
-                startActivity(intent);
+
             }
         });
 
