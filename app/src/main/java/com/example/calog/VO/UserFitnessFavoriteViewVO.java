@@ -31,4 +31,14 @@ public class UserFitnessFavoriteViewVO {
 	public void setFitness_menu_name(String fitness_menu_name) {
 		this.fitness_menu_name = fitness_menu_name;
 	}
+
+	@Override
+	public String toString() {
+		return "UserFitnessFavoriteViewVO{" +
+				"user_id='" + user_id + '\'' +
+				", name='" + name + '\'' +
+				", fitness_type_name='" + fitness_type_name + '\'' +
+				", fitness_menu_name='" + fitness_menu_name + '\'' +
+				'}';
+	}
 }

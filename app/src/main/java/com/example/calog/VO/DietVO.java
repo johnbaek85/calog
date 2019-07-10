@@ -55,6 +55,16 @@ public class DietVO {
 		this.sum_calorie = sum_calorie;
 	}
 
-   
-    
+	@Override
+	public String toString() {
+		return "DietVO{" +
+				"diet_id=" + diet_id +
+				", user_id='" + user_id + '\'' +
+				", diet_date=" + diet_date +
+				", diet_type_id=" + diet_type_id +
+				", diet_menu_id=" + diet_menu_id +
+				", diet_amount=" + diet_amount +
+				", sum_calorie=" + sum_calorie +
+				'}';
+	}
 }

@@ -69,5 +69,18 @@ public class UserFitnessCardioViewVO {
 		this.used_calorie = used_calorie;
 	}
 
-  
+	@Override
+	public String toString() {
+		return "UserFitnessCardioViewVO{" +
+				"user_id='" + user_id + '\'' +
+				", name='" + name + '\'' +
+				", fitness_type_name='" + fitness_type_name + '\'' +
+				", fitness_menu_name='" + fitness_menu_name + '\'' +
+				", fitness_date=" + fitness_date +
+				", fitness_seconds=" + fitness_seconds +
+				", distance=" + distance +
+				", number_steps=" + number_steps +
+				", used_calorie=" + used_calorie +
+				'}';
+	}
 }

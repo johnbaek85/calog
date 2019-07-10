@@ -55,5 +55,16 @@ public class UserFitnessWeightViewVO {
 		this.unit_calorie = unit_calorie;
 	}
 
-  
+	@Override
+	public String toString() {
+		return "UserFitnessWeightViewVO{" +
+				"user_id='" + user_id + '\'' +
+				", name='" + name + '\'' +
+				", fitness_type_name='" + fitness_type_name + '\'' +
+				", fitness_menu_name='" + fitness_menu_name + '\'' +
+				", fitness_date=" + fitness_date +
+				", fitness_seconds=" + fitness_seconds +
+				", unit_calorie=" + unit_calorie +
+				'}';
+	}
 }

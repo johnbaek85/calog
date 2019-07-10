@@ -90,5 +90,21 @@ public class UserVO {
 		this.del_check_user_id = del_check_user_id;
 	}
 
-   
+	@Override
+	public String toString() {
+		return "UserVO{" +
+				"user_id='" + user_id + '\'' +
+				", password='" + password + '\'' +
+				", name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", phone='" + phone + '\'' +
+				", address='" + address + '\'' +
+				", birthday=" + birthday +
+				", gender='" + gender + '\'' +
+				", height=" + height +
+				", weight=" + weight +
+				", bmi=" + bmi +
+				", del_check_user_id=" + del_check_user_id +
+				'}';
+	}
 }

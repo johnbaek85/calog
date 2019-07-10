@@ -34,5 +34,13 @@ public class UserTotalCaloriesViewVO {
 		this.diet_date = diet_date;
 	}
 
-    
+	@Override
+	public String toString() {
+		return "UserTotalCaloriesViewVO{" +
+				"user_id='" + user_id + '\'' +
+				", name='" + name + '\'' +
+				", sum_calorie=" + sum_calorie +
+				", diet_date=" + diet_date +
+				'}';
+	}
 }

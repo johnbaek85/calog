@@ -26,4 +26,13 @@ public class DrinkingVO {
 	public void setAlcohol_content(double alcohol_content) {
 		this.alcohol_content = alcohol_content;
 	}
+
+	@Override
+	public String toString() {
+		return "DrinkingVO{" +
+				"user_id='" + user_id + '\'' +
+				", drinking_date=" + drinking_date +
+				", alcohol_content=" + alcohol_content +
+				'}';
+	}
 }

@@ -3,6 +3,7 @@ package com.example.calog.VO;
 import java.sql.Date;
 
 public class FitnessVO {
+
     private String user_id;
     private String fitness_menu_name;
     private String fitness_type_name;
@@ -75,5 +76,19 @@ public class FitnessVO {
 		this.number_steps = number_steps;
 	}
 
-  
+	@Override
+	public String toString() {
+		return "FitnessVO{" +
+				"user_id='" + user_id + '\'' +
+				", fitness_menu_name='" + fitness_menu_name + '\'' +
+				", fitness_type_name='" + fitness_type_name + '\'' +
+				", Fitness_date=" + Fitness_date +
+				", Fitness_menu_id=" + Fitness_menu_id +
+				", Fitness_hours=" + Fitness_hours +
+				", used_calorie=" + used_calorie +
+				", fitness_type_id=" + fitness_type_id +
+				", distance=" + distance +
+				", number_steps=" + number_steps +
+				'}';
+	}
 }

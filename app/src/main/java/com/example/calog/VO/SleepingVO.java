@@ -33,4 +33,14 @@ public class SleepingVO {
 	public void setSnoring_seconds(int snoring_seconds) {
 		this.snoring_seconds = snoring_seconds;
 	}
+
+	@Override
+	public String toString() {
+		return "SleepingVO{" +
+				"user_id='" + user_id + '\'' +
+				", sleeping_date=" + sleeping_date +
+				", sleeping_seconds=" + sleeping_seconds +
+				", snoring_seconds=" + snoring_seconds +
+				'}';
+	}
 }

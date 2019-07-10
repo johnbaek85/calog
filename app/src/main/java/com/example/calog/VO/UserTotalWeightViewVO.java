@@ -47,4 +47,16 @@ public class UserTotalWeightViewVO {
 	public void setFitness_date(Date fitness_date) {
 		this.fitness_date = fitness_date;
 	}
+
+	@Override
+	public String toString() {
+		return "UserTotalWeightViewVO{" +
+				"user_id='" + user_id + '\'' +
+				", name='" + name + '\'' +
+				", fitness_type_name='" + fitness_type_name + '\'' +
+				", sum_weight_seconds=" + sum_weight_seconds +
+				", sum_weight_used_calorie=" + sum_weight_used_calorie +
+				", fitness_date=" + fitness_date +
+				'}';
+	}
 }

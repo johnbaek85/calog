@@ -54,4 +54,17 @@ public class UserTotalCardioViewVO {
 	public void setFitness_date(Date fitness_date) {
 		this.fitness_date = fitness_date;
 	}
+
+	@Override
+	public String toString() {
+		return "UserTotalCardioViewVO{" +
+				"user_id='" + user_id + '\'' +
+				", name='" + name + '\'' +
+				", sum_cardio_seconds=" + sum_cardio_seconds +
+				", sum_cardio_distance=" + sum_cardio_distance +
+				", sum_cardio_number_steps=" + sum_cardio_number_steps +
+				", sum_cardio_used_calorie=" + sum_cardio_used_calorie +
+				", fitness_date=" + fitness_date +
+				'}';
+	}
 }
