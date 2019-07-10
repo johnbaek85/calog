@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -78,6 +79,7 @@ public class SleepCheckActivity extends Activity {
                 mmVal.setText(df1.format((World.minDB + World.maxDB) / 2));
                 maxVal.setText(df1.format(World.maxDB));
                 curVal.setText(df1.format(World.dbCount));
+
                 updateData(World.dbCount, 0);
                 if (refresh == 1) {
                     long now = new Date().getTime();
@@ -111,8 +113,12 @@ public class SleepCheckActivity extends Activity {
                 builder.setView(view);
 
                 final TextView TotalSleep = (TextView) view.findViewById(R.id.TotalSleep);
+                long elapsedMillis = (SystemClock.elapsedRealtime() - chronometer.getBase())/1000;
+                TotalSleep.setText("총 수면 시간: "+String.valueOf(elapsedMillis));
+
                 final TextView SleepSnoring = (TextView) view.findViewById(R.id.SleepSnoring);
                 final TextView SleepDecibel = (TextView) view.findViewById(R.id.SleepDecibel);
+                SleepDecibel.setText("평균 소음 : "+mmVal.getText().toString());
                 final TextView SleepQuality = (TextView) view.findViewById(R.id.SleepQuality);
                 builder.show();
             }
