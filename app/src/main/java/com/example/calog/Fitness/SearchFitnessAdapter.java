@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calog.R;
+import com.example.calog.VO.FitnessVO;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class SearchFitnessAdapter extends RecyclerView.Adapter<SearchFitnessAdap
         this.context = context;
         this.array = array;
     }
+
 
     @NonNull
     @Override

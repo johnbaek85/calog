@@ -22,8 +22,6 @@ import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import org.json.JSONObject;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +38,7 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 
     Retrofit retrofit;
     JoinRemoteService rs;
-    List<UserVO> user;
+    UserVO user;
 
     static final String CLIENT_ID = "yLznJEv7RDN1ugZEgKc8";
     static final String CLIENT_SECRET = "rFyzvuJvZN";
@@ -67,7 +65,7 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
                 .build();
         rs = retrofit.create(JoinRemoteService.class);              // API 인터페이스 생성
 
-        
+
 
         //back 클릭했을때
         back = findViewById(R.id.back);
@@ -97,10 +95,26 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Call<UserVO> call = rs.readUser("hulk", "2222");
+                call.enqueue(new Callback<UserVO>() {
+                    @Override
+                    public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                        user = response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserVO> call, Throwable t) {
+
+                    }
+                });
+
                 Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });
+
+
 
         //btnJoin 클릭했을때
         btnJoin = findViewById(R.id.btnJoin);
@@ -114,23 +128,6 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
         });
 
 
-    }
-
-    @Override
-    protected void onResume() {
-        Call<List<UserVO>> call = rs.listUser();
-        call.enqueue(new Callback<List<UserVO>>() {
-            @Override
-            public void onResponse(Call<List<UserVO>> call, Response<List<UserVO>> response) {
-                user = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<List<UserVO>> call, Throwable t) {
-
-            }
-        });
-        super.onResume();
     }
 
     //초기화
