@@ -24,7 +24,7 @@ import com.example.calog.Diet.DietActivity;
 import com.example.calog.Drinking.DrinkingActivity;
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.Fitness.FitnessActivity;
-import com.example.calog.Sleeping.DecibelCheck.DecibelMainActivity;
+import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
 import com.example.calog.Sleeping.SleepingActivity;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.example.calog.signUp.MainJoinActivity;
@@ -66,7 +66,6 @@ public class MainHealthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
-
         permissionCheck();
 
         monthName = findViewById(R.id.monthName);
@@ -176,7 +175,7 @@ public class MainHealthActivity extends AppCompatActivity {
         btnSleepStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(MainHealthActivity.this, DecibelMainActivity.class);
+                intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
                 startActivity(intent);
             }
         });

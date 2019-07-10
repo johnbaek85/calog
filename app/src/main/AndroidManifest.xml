@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Sleeping.SleepCustomDialog"></activity>
+        <activity android:name=".Sleeping.SleepResultFragment" />
         <activity android:name=".Fitness.ExerciseActivity" />
         <activity android:name=".Fitness.SearchFitnessActivity" />
         <activity android:name=".Fitness.FitnessActivity" />
@@ -26,12 +28,13 @@
         <activity android:name=".Drinking.DrinkingActivity" />
         <activity android:name=".Drinking.DrinkingCheckActivity" />
         <activity android:name=".Sleeping.SleepingActivity" />
-        <activity android:name=".Sleeping.DecibelCheck.DecibelMainActivity" />
+        <activity android:name=".Sleeping.DecibelCheck.SleepCheckActivity" />
         <activity android:name=".WordCloud.WordCloudActivity" />
         <activity android:name=".WordCloud.WordCloudWebViewActivity" />
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity"
+        <activity
+            android:name="com.soundcloud.android.crop.CropImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

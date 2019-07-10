@@ -2,7 +2,6 @@ package com.example.calog.Sleeping.DecibelCheck;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,17 +9,20 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
-import com.example.calog.Sleeping.SleepCheckResultDialog;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -36,7 +38,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class DecibelMainActivity extends Activity {
+public class SleepCheckActivity extends Activity {
     private static final int MY_PERMISSIONS_REQUEST_AUDIO = 1001;
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 1002;
     private Thread timeThread = null;
@@ -93,7 +95,30 @@ public class DecibelMainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_check);
-        setContentView(R.layout.activity_sleep_check);
+        //시간 측정
+        final Chronometer chronometer = (np.Chronometer) findViewById(R.id.chronometer);
+        chronometer.start();
+
+        Button btnSleepFinish = (Button) findViewById(R.id.btnSleepFinish);
+        btnSleepFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chronometer.stop();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SleepCheckActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View view = inflater.inflate(R.layout.activity_sleep_check_result, null);
+                builder.setView(view);
+
+                final TextView TotalSleep = (TextView) view.findViewById(R.id.TotalSleep);
+                final TextView SleepSnoring = (TextView) view.findViewById(R.id.SleepSnoring);
+                final TextView SleepDecibel = (TextView) view.findViewById(R.id.SleepDecibel);
+                final TextView SleepQuality = (TextView) view.findViewById(R.id.SleepQuality);
+                builder.show();
+            }
+        });
+
+        //메인 화면 버튼
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +127,17 @@ public class DecibelMainActivity extends Activity {
             }
         });
 
+        //메인 화면 홈버튼
         btnHome = findViewById(R.id.btnHome);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DecibelMainActivity.this, MainHealthActivity.class);
+                Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });
 
+        //데시벨 측정 종류
         tf = Typeface.createFromAsset(this.getAssets(), "fonts/Let_s go Digital Regular.ttf");
         minVal = (TextView) findViewById(R.id.minval);
         minVal.setTypeface(tf);
@@ -121,8 +148,10 @@ public class DecibelMainActivity extends Activity {
         curVal = (TextView) findViewById(R.id.curval);
         curVal.setTypeface(tf);
 
+        //음성 녹음
         mRecorder = new MyMediaRecorder();
 
+        //권한 주기
         int permssionCheckAudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int permssionCheckStorage = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
@@ -138,7 +167,6 @@ public class DecibelMainActivity extends Activity {
                         new String[]{Manifest.permission.RECORD_AUDIO},
                         MY_PERMISSIONS_REQUEST_AUDIO);
                 Toast.makeText(this, "수면 품질 체크를 위해 녹음 권한이 필요합니다.", Toast.LENGTH_LONG).show();
-
             }
         }
         if (permssionCheckStorage != PackageManager.PERMISSION_GRANTED) {
@@ -156,12 +184,6 @@ public class DecibelMainActivity extends Activity {
 
             }
         }
-    }
-
-    public void mClick(View v) {//수면측정중지버튼
-        Dialog sleepDialog = new SleepCheckResultDialog(this, android.R.style.Theme_NoTitleBar_Fullscreen);
-        sleepDialog.setCancelable(true);
-        sleepDialog.show();
     }
 
     @Override

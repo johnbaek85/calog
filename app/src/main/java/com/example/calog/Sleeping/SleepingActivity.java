@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.calog.Common.GraphPagerFragment;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
-import com.example.calog.Sleeping.DecibelCheck.DecibelMainActivity;
+import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
 
 import java.util.Calendar;
 
@@ -117,9 +117,8 @@ public class SleepingActivity extends AppCompatActivity {
                 sendBroadcast(intent);
             }
         });
-        //Intent gointent = new Intent(SleepingActivity.this,SleepCheckActivity.class);
 
-        Intent gointent = new Intent(SleepingActivity.this, DecibelMainActivity.class);
+        Intent gointent = new Intent(SleepingActivity.this, SleepCheckActivity.class);
         startActivity(gointent);
     }
 }

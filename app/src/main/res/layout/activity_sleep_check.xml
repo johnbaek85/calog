@@ -60,9 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:onClick="mClick"
-            tools:ignore="OnClick" />
+            android:layout_centerInParent="true"/>
 
             <LinearLayout
                 android:layout_marginTop="10dp"
