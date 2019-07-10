@@ -15,15 +15,15 @@ public class StopWatchActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_check);
 
-        final Chronometer chronometer = (Chronometer) findViewById(R.id.chronometer);
+        final Chronometer chronometer = (np.Chronometer) findViewById(R.id.chronometer);
         Button buttonStart = (Button) findViewById(R.id.btnSleepStart);
         Button buttonReset = (Button) findViewById(R.id.btnSleepFinish);
+
         buttonStart.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 chronometer.start();
             }
         });
-
         buttonReset.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 chronometer.setBase(SystemClock.elapsedRealtime());

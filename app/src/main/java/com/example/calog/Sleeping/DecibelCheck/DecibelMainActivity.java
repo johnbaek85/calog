@@ -125,6 +125,7 @@ public class DecibelMainActivity extends Activity {
 
         int permssionCheckAudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int permssionCheckStorage = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
         if (permssionCheckAudio != PackageManager.PERMISSION_GRANTED) {
 
             Toast.makeText(this, "권한 승인이 필요합니다", Toast.LENGTH_LONG).show();
