@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 
 
 public class SearchFitnessActivity extends AppCompatActivity {
+    TextView fitnessType;
     Button temporaryBtn;
     ImageView btnBack, btnMAinShortcut;
     RecyclerView list;
@@ -33,6 +35,17 @@ public class SearchFitnessActivity extends AppCompatActivity {
 
         intent = getIntent();
         fitnessTypeId = intent.getIntExtra("운동타입", 0);
+
+        fitnessType = findViewById(R.id.fitnessType);
+        switch (fitnessTypeId){
+            case 1:
+                fitnessType.setText("유산소 운동");
+                break;
+            case 2:
+                fitnessType.setText("무산소 운동");
+                break;
+        }
+
 
 
         btnBack=findViewById(R.id.btnBack);

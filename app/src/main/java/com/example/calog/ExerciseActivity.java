@@ -111,6 +111,7 @@ public class ExerciseActivity extends AppCompatActivity {
             case R.id.btnStop:
                 timeElapse.stop();
                 stopTime = SystemClock.elapsedRealtime()-timeElapse.getBase();
+//                System.out.println("정지시간 : "+(int)(stopTime - h*3600000- m*60000)/1000);
 
                 tr=fm.beginTransaction();
                 Fitness_Fragment_StopWatchContinue fragmentContinue = new Fitness_Fragment_StopWatchContinue();
@@ -129,10 +130,11 @@ public class ExerciseActivity extends AppCompatActivity {
 
                 final LinearLayout resultLayout = (LinearLayout)View.inflate(ExerciseActivity.this, R.layout.result_exercise, null);
                 final AlertDialog.Builder resultBox = new AlertDialog.Builder(ExerciseActivity.this);
-                long breakTime =SystemClock.elapsedRealtime()-time;
-                int bh = (int)(breakTime/36000000);
-                int bm = (int)(breakTime - bh*3600000)/60000;
-                int bs= (int)(breakTime - bh*3600000- bm*60000)/1000 ;
+//                stopTime =SystemClock.elapsedRealtime()-timeElapse.getBase();
+//                System.out.println("완료 : "+ (int)(stopTime - h*3600000- m*60000)/1000);
+                int bh = (int)(stopTime/36000000);
+                int bm = (int)(stopTime - bh*3600000)/60000;
+                int bs= (int)(stopTime - bh*3600000- bm*60000)/1000 ;
                 String tbh = bh < 10 ? "0"+bh: bh+"";
                 String tbm = bm < 10 ? "0"+bm: bm+"";
                 String tbs = bs < 10 ? "0"+bs: bs+"";

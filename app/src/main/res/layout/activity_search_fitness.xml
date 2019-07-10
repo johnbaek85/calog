@@ -34,6 +34,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
+        android:id="@+id/fitnessType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="선택된 운동종류"
