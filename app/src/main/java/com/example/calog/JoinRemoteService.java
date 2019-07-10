@@ -20,8 +20,8 @@ public interface JoinRemoteService {
     @GET("join/read")
     Call<UserVO> readUser(@Query("user_id") String user_id, @Query("password") String password);
 
-    @POST("user/insert.jsp")
-    Call<Void> insertUser(@Body UserVO vo);
+    @POST("join/insert")
+    Call<UserVO> insertUser(@Body UserVO vo);
 
     @POST("user/delete.jsp")
     Call<Void> deleteUser(@Query("userId") String userId);

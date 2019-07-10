@@ -24,6 +24,7 @@ import com.example.calog.VO.UserVO;
 
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Retrofit;
 
 
@@ -80,6 +81,9 @@ public class JoinActivity extends AppCompatActivity {
         btnPost = findViewById(R.id.btnPost);
         btnSave = findViewById(R.id.btnSave);
         btnReset = findViewById(R.id.btnReset);
+
+        String E_mail = emailId;
+        +=  "@"+email;
 
         // '아이디' 설정 ( 조건에 따른 색상 변경및 안내메세지 )
         user_Id.addTextChangedListener(new TextWatcher() {
@@ -473,8 +477,9 @@ public class JoinActivity extends AppCompatActivity {
                     phone3.requestFocus();
                     return;
                 }
-
                 // 빈값일 때 Toast띄우고 입력하게 하기 끝
+
+                Call<UserVO> call = rs.insertUser(user_Id.getText().toString(), password.getText().toString(), name.getText().toString(), )
 
                 // btnSave 클릭했을때 MainJoinActivity로 이동
                 Intent intent = new Intent(JoinActivity.this, MainJoinActivity.class);
