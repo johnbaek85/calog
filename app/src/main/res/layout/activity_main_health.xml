@@ -57,7 +57,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="360sp"
+        android:layout_height="400sp"
         android:orientation="vertical"
         android:padding="10sp"
         android:layout_below="@id/appBar">
@@ -78,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:text="식사"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -86,6 +87,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtDiet"
                 android:text="섭취칼로리 : 400kcal"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -93,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtEatCalorie"
-                android:text="권장 섭취 칼로리 : 300kcal"
+                android:text="권장 섭취 칼로리 : 2500kcal"
                 android:textColor="#FFFFFF"/>
 
             <ImageView
@@ -101,7 +104,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_bad"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -122,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:text="운동"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -130,6 +133,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtFitness"
                 android:text="소모칼로리 : 700kcal"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -145,7 +150,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_good"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -166,6 +170,7 @@
                 android:layout_height="wrap_content"
                 android:text="수면"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -174,6 +179,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtSleep"
                 android:text="수면시간 : 3시간"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -181,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtSleepHours"
-                android:text="권장 수면 시간 : 7시간"
+                android:text="권장 수면 시간 : 8시간"
                 android:textColor="#FFFFFF"/>
 
             <ImageView
@@ -189,7 +196,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_bad"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>
@@ -209,6 +215,7 @@
                 android:layout_height="wrap_content"
                 android:text="음주"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -216,7 +223,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtDrink"
-                android:text="알코올 수치 : 0.5 lev"
+                android:text="알코올 수치 : 0.5 %"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
 
             <TextView
@@ -232,7 +241,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_neutral"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>

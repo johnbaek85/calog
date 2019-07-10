@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.Fitness.FitnessActivity;
 import com.example.calog.Sleeping.SleepCheckActivity;
 import com.example.calog.Sleeping.SleepingActivity;
+import com.example.calog.VO.MainHealthVO;
+import com.example.calog.VO.UserTotalCaloriesViewVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.example.calog.signUp.MainJoinActivity;
 import com.soundcloud.android.crop.Crop;
@@ -34,11 +37,20 @@ import com.soundcloud.android.crop.Crop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
 
 public class MainHealthActivity extends AppCompatActivity {
 
@@ -63,12 +75,45 @@ public class MainHealthActivity extends AppCompatActivity {
 
     long currentSelectedTime=0; //선택시간
 
+    Retrofit retrofit;
+    RemoteService rs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
 
         permissionCheck();
+
+        txtEatCalorie = findViewById(R.id.txtEatCalorie);
+        txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
+
+        txtUsedCalorie = findViewById(R.id.txtUsedCalorie);
+        txtUsedCalorie.setText("소모 칼로리 : " + 0 + "kcal");
+
+        txtSleepHours = findViewById(R.id.txtSleepHours);
+        txtSleepHours.setText("수면시간 : " + 0 + "시간");
+
+        txtAlcoholContent = findViewById(R.id.txtAlcoholContent);
+        txtAlcoholContent.setText("알코올 수치 : " + 0 + "%");
+
+        txtAlert = findViewById(R.id.txtAlert);
+        txtAlert.setText("");
+
+        imgDiet = findViewById(R.id.imgDiet);
+        imgDiet.setBackgroundResource(R.drawable.ic_neutral);
+        imgFitness = findViewById(R.id.imgFitness);
+        imgFitness.setBackgroundResource(R.drawable.ic_neutral);
+        imgSleep = findViewById(R.id.imgSleep);
+        imgSleep.setBackgroundResource(R.drawable.ic_neutral);
+        imgDrink = findViewById(R.id.imgDrink);
+        imgDrink.setBackgroundResource(R.drawable.ic_neutral);
+
+        retrofit = new Retrofit.Builder() //Retrofit 빌더생성
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
 
         monthName = findViewById(R.id.monthName);
 
@@ -227,11 +272,87 @@ public class MainHealthActivity extends AppCompatActivity {
                         DateFormat.getDateInstance().format(date) + " is selected!",
                         Toast.LENGTH_SHORT).show();
 
+
+                java.sql.Date datesql = new java.sql.Date(date.getTime());
+                currentSelectedTime = datesql.getTime();
+
+                Call<MainHealthVO> call =
+                        rs.userMainHealth("spider", String.valueOf(datesql));
+                call.enqueue(new Callback<MainHealthVO>() {
+                    @Override
+                    public void onResponse(Call<MainHealthVO> call, Response<MainHealthVO> response) {
+                        System.out.println("섭취칼로리 ..............................." + currentSelectedTime);
+                        MainHealthVO userVO = response.body();
+
+                        if(userVO == null){
+                            txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
+                            txtUsedCalorie.setText("소모 칼로리 : " + 0 + "kcal");
+                            txtSleepHours.setText("수면시간 : " + 0 + "시간");
+                            txtAlcoholContent.setText("알코올 수치 : " + 0 + "%");
+                        }else{
+                            int hour = userVO.getSleeping_seconds() / 3600;
+                            int minute = userVO.getSleeping_seconds() % 3600 / 60;
+
+                            int dietSum = (int)(userVO.getSum_calorie());
+                            int fitnessSum = (int)(userVO.getSum_cardio_used_calorie() + userVO.getSum_weight_used_calorie());
+
+                            txtEatCalorie.setText("섭취칼로리 : " + dietSum + "kcal");
+                            txtUsedCalorie.setText("소모 칼로리 : " + fitnessSum + "kcal");
+                            txtSleepHours.setText("수면시간 : " + hour + "시간 " + minute + "분 ");
+                            txtAlcoholContent.setText("알코올 수치 : " + userVO.getAlcohol_content() + "%");
+
+                            if(userVO.getSum_calorie() < 1500 || userVO.getSum_calorie() > 3000){
+                                imgDiet.setBackgroundResource(R.drawable.ic_bad);
+                            }else if(userVO.getSum_calorie() >= 2000 && userVO.getSum_calorie() <= 2500){
+                                imgDiet.setBackgroundResource(R.drawable.ic_good);
+                            }else{
+                                imgDiet.setBackgroundResource(R.drawable.ic_neutral);
+                            }
+
+                            if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) < 300
+                                    || (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) > 1500){
+                                imgFitness.setBackgroundResource(R.drawable.ic_bad);
+                            }else if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) >= 500
+                                    && (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) <= 1000){
+                                imgFitness.setBackgroundResource(R.drawable.ic_good);
+                            }else{
+                                imgFitness.setBackgroundResource(R.drawable.ic_neutral);
+                            }
+
+                            if(userVO.getSleeping_seconds() < 18000 || userVO.getSleeping_seconds() > 36000){
+                                imgSleep.setBackgroundResource(R.drawable.ic_bad);
+                            }else if(userVO.getSleeping_seconds() >= 25200 && userVO.getSleeping_seconds() <= 28800){
+                                imgSleep.setBackgroundResource(R.drawable.ic_good);
+                            }else{
+                                imgSleep.setBackgroundResource(R.drawable.ic_neutral);
+                            }
+
+                            if(userVO.getAlcohol_content() > 0.07){
+                                imgDrink.setBackgroundResource(R.drawable.ic_bad);
+                                txtAlert.setText("만취 상태입니다. 음주에 유의하세요.");
+                            }else if(userVO.getSleeping_seconds() >= 0.001 && userVO.getSleeping_seconds() <= 0.02){
+                                imgDrink.setBackgroundResource(R.drawable.ic_good);
+                                txtAlert.setText("음주가 시작되었군요. 적당한 음주를 권합니다.");
+                            }else{
+                                imgDrink.setBackgroundResource(R.drawable.ic_neutral);
+                                txtAlert.setText("적당히 마셨습니다. 그만 마시는 것을 권합니다.");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MainHealthVO> call, Throwable t) {
+                        System.out.println("<<<<<<<<<<<<<<<<<< Error : "+ t.toString());
+                    }
+                });
+
+                System.out.println("horizontalCalendar.setCalendarListener : " + datesql);
                 //horizontalCalendar.date
                 monthName.setText(DateFormat.getDateInstance().format(date));
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -296,6 +417,8 @@ public class MainHealthActivity extends AppCompatActivity {
         currentSelectedTime=intent.getLongExtra("currentSelectedTime",0);
 
         java.sql.Date date = new java.sql.Date(currentSelectedTime);
+
+        System.out.println("<<<<<<<<<<<<<<<현재 선택된 시간 : " + currentSelectedTime);
 
         //date.setTime(mill);
         //시간 재설정
