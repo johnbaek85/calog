@@ -1,10 +1,5 @@
 package com.example.calog.Sleeping;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -18,9 +13,15 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.calog.Common.GraphPagerFragment;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.Sleeping.DecibelCheck.DecibelMainActivity;
 
 import java.util.Calendar;
 
@@ -116,7 +117,9 @@ public class SleepingActivity extends AppCompatActivity {
                 sendBroadcast(intent);
             }
         });
-        Intent gointent = new Intent(SleepingActivity.this,SleepCheckActivity.class);
+        //Intent gointent = new Intent(SleepingActivity.this,SleepCheckActivity.class);
+
+        Intent gointent = new Intent(SleepingActivity.this, DecibelMainActivity.class);
         startActivity(gointent);
     }
 }

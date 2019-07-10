@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Sleeping.SleepCheckActivity">
+    android:background="@android:color/transparent"
+    tools:context=".Sleeping.DecibelCheck.StopWatchActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,6 +15,7 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -41,14 +43,15 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_home"
                 android:layout_alignParentRight="true"/>
-
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/castelmezzano">
+
 
         <Button
             android:id="@+id/btnSleepFinish"
@@ -58,7 +61,142 @@
             android:layout_marginBottom="20sp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
-            android:onClick="mClick"/>
+            android:onClick="mClick"
+            tools:ignore="OnClick" />
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <np.TextView
+                        style="@style/Uy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_minlabel"
+                        android:id="@+id/minlabel"
+                        android:textColor="@color/external_progress2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23 Db"
+                        android:textSize="36dp"
+                        android:id="@+id/minval"
+                        android:textColor="#ffffff"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent">
+
+                    <np.TextView
+                        style="@style/Uy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_avglabel"
+                        android:id="@+id/avglabel"
+                        android:textColor="@color/external_progress2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23 Db"
+                        android:textSize="36dp"
+                        android:id="@+id/mmval"
+                        android:textColor="#ffffff"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent">
+
+                    <np.TextView
+                        style="@style/Uy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_maxlabel"
+                        android:id="@+id/maxlabel"
+                        android:textColor="@color/external_progress2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23 Db"
+                        android:id="@+id/maxval"
+                        android:textSize="36dp"
+                        android:textColor="#ffffff"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent">
+
+                    <np.TextView
+                        style="@style/Uy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_curlabel"
+                        android:id="@+id/curlabel"
+                        android:textColor="@color/external_progress2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23 Db"
+                        android:id="@+id/curval"
+                        android:textSize="36dp"
+                        android:textColor="#ffffff" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent">
+
+                    <np.TextView
+                        style="@style/Uy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수면 시간"
+                        android:id="@+id/setTime"
+                        android:textColor="@color/external_progress2" />
+
+                    <np.Chronometer
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chronometer"
+                        android:textSize="36dp"
+                        android:textColor="#ffffff" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 

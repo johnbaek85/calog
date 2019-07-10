@@ -2,16 +2,14 @@ package com.example.calog.Sleeping;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
 import com.example.calog.R;
 
 public class SleepCheckResultDialog extends Dialog {
@@ -35,8 +33,5 @@ public class SleepCheckResultDialog extends Dialog {
         ImageView btnHome = findViewById(R.id.btnHome);
         getWindow().setAttributes(window);
         setContentView(R.layout.activity_sleep_check_result);
-    }
-    public void mClick(View v){//수면측정중지버튼
-
     }
 }

@@ -2,10 +2,6 @@ package com.example.calog;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,11 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import com.example.calog.Diet.DietActivity;
 import com.example.calog.Drinking.DrinkingActivity;
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.Fitness.FitnessActivity;
-import com.example.calog.Sleeping.SleepCheckActivity;
+import com.example.calog.Sleeping.DecibelCheck.DecibelMainActivity;
 import com.example.calog.Sleeping.SleepingActivity;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.example.calog.signUp.MainJoinActivity;
@@ -161,7 +160,7 @@ public class MainHealthActivity extends AppCompatActivity {
         btnSleepStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
+                intent = new Intent(MainHealthActivity.this, DecibelMainActivity.class);
                 startActivity(intent);
             }
         });
