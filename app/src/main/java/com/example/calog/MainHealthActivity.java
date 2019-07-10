@@ -96,8 +96,8 @@ public class MainHealthActivity extends AppCompatActivity {
         btnUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainHealthActivity.this, "로그인 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(MainHealthActivity.this, "로그인 Activity로 이동",
+                        Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(MainHealthActivity.this, MainJoinActivity.class);
                 startActivity(intent);
             }
@@ -207,7 +207,6 @@ public class MainHealthActivity extends AppCompatActivity {
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.YEAR, -1);
 
-
         //java.sql.Date date = java.sql.Date.valueOf("2019-7-17");
 
         horizontalCalendar = new HorizontalCalendar.Builder(this, R.id.calendarView)
@@ -221,8 +220,6 @@ public class MainHealthActivity extends AppCompatActivity {
                 .showDayName(true)
                 .showMonthName(true)
                 .build();
-
-
 
         //캘린더 데이터 변경
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener()
