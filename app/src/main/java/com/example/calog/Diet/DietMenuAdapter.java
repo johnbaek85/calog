@@ -35,7 +35,7 @@ public class DietMenuAdapter extends RecyclerView.Adapter<DietMenuAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.txtMenuName.setText(dietMenus.get(position).getDietMenuName());
+        holder.txtMenuName.setText(dietMenus.get(position).getDiet_menu_name());
         holder.txtCalorie.setText(String.valueOf(dietMenus.get(position).getCalorie())+" kal");
     }
 

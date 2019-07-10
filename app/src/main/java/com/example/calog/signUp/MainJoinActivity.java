@@ -101,6 +101,7 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onResponse(Call<UserVO> call, Response<UserVO> response) {
                         user = response.body();
+                        Toast.makeText(MainJoinActivity.this, user.getUser_id(), Toast.LENGTH_SHORT);
                     }
 
                     @Override
