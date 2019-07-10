@@ -1,4 +1,4 @@
-package com.example.calog.Fitness;
+package com.example.calog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,18 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.calog.R;
-
-public class Fitness_Fragment_GPS extends Fragment {
-    int FitnessMenuId;
-    public Fitness_Fragment_GPS(int fitnessMenuId) {
-        this.FitnessMenuId = fitnessMenuId;
-    }
+public class Fitness_Fragment_StopWatchContinue extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gps, container, false);
+        View view = inflater.inflate(R.layout.fragment_stopwatchcontinue, container, false);
+
         return view;
     }
 }
