@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -13,7 +16,8 @@ import com.example.calog.R;
 
 public class WordCloudWebViewActivity extends AppCompatActivity {
     ImageView btnBack, btnMainShortcut;
-
+    WebView webView;
+    String link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,26 @@ public class WordCloudWebViewActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+
+        link = intent.getStringExtra("Link");
+        // 링크 주소 확인
+        // System.out.println("링크 주소 : " + link);
+
+        webView = (WebView) findViewById(R.id.webView);
+        webView.setWebViewClient(new MyWebView());
+        WebSettings set = webView.getSettings();
+        set.setBuiltInZoomControls(true);
+        webView.loadUrl(link);
+
 
     }
+
+    public class MyWebView extends WebViewClient {
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+    }
+
 }

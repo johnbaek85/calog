@@ -7,15 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,14 +28,19 @@ import java.util.ArrayList;
 public class WordCloudActivity extends AppCompatActivity {
     // 페이지 이동
     ImageView btnBack;
-    TextView cloudWords;
+    TextView cloudWords, WordCloudTitle;
 
     // 크롤링/어답터에 사용
     ArrayList<CrawlingVO> array;
     RecyclerView WordCloudList;
     WordCloudAdapter adapter;
+
     // 크롤링 변수
     private String keyWordPageUrl = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
+
+
+
+
    /* 텍스트로 화면에 출력할 떄 사용
    private TextView textviewHtmlDocument;
     private String htmlContentInStringFormat;*/
@@ -57,14 +56,15 @@ public class WordCloudActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_cloud);
 
-
         WordCloudList = findViewById(R.id.WordCloudList);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         WordCloudList.setLayoutManager(manager);
         new JsoupAsyncTask().execute();
         pageTrans();
 
+
         array = new ArrayList<CrawlingVO>();
+
 /*
         텍스트로 화면에 출력하기 위해 준비
         textviewHtmlDocument = (TextView) findViewById(R.id.textView);
@@ -83,6 +83,7 @@ public class WordCloudActivity extends AppCompatActivity {
         wordlist.setAdapter(wordCloudAdapter);
 */
     }
+
         /*
         // 버튼을 클릭했을 때 크롤링한 데이터 가져오는 방식
         Button htmlTitleButton = (Button) findViewById(R.id.button);
@@ -133,10 +134,10 @@ public class WordCloudActivity extends AppCompatActivity {
                     }
                     i++;
 
-                    System.out.println("vo:................" + vo.toString());
+                    // Vo에 담긴 테이터 체크     System.out.println("vo data check:................" + vo.toString());
                 }
 
-                System.out.println("size of Vo Array fffffffffffffffffffffffffffffffff: " + array.size());
+                // System.out.println("size of Vo Array check: " + array.size());
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.d("error", e.toString());
@@ -151,7 +152,10 @@ public class WordCloudActivity extends AppCompatActivity {
             WordCloudList.setAdapter(adapter);
         }
     }
-
+    /*
+    public void mClick(View view) {
+    }
+    */
     //페이지 이동 버튼////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -170,6 +174,17 @@ public class WordCloudActivity extends AppCompatActivity {
             }
         });
 
+        WordCloudTitle = findViewById(R.id.WordCloudTitle);
+     /*   WordCloudTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(WordCloudActivity.this, "관련 기사로 이동합니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(WordCloudActivity.this, WordCloudWebViewActivity.class);
+                intent.putExtra(        WordCloudTitle.getText()        );
+
+                startActivity(intent);
+            }
+        });*/
 
  /*
         // 크롤링한 결과를 클릭하면 웹뷰로 이동하여 해당 기사를 보여줄 것.(예정)
@@ -183,7 +198,8 @@ public class WordCloudActivity extends AppCompatActivity {
         });
 
 */
-    }
 
+
+    }
 
 }
