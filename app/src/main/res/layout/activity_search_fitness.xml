@@ -48,37 +48,5 @@
        >
 
     </androidx.recyclerview.widget.RecyclerView>
-    <TextView
-        android:id="@+id/walking"
-        android:text="걷기"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
 
-    <TextView
-        android:id="@+id/run"
-        android:text="달리기"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
-
-    <TextView
-        android:id="@+id/jogging"
-        android:text="조깅"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
-
-    <TextView
-        android:id="@+id/bycicle"
-        android:text="자전거"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
-
-    <Button
-        android:id="@+id/temporaryBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="(임의)운동선택"/>
 </LinearLayout>

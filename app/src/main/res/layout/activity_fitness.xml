@@ -65,7 +65,7 @@
                     android:id="@+id/CardioCal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="소모칼로리"
+                    android:text="0.0kcal"
                     android:textSize="20sp"
                     android:layout_below="@id/CardioName"
                     android:layout_alignParentLeft="true"/>
@@ -73,7 +73,7 @@
                     android:id="@+id/CardioTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="운동시간"
+                    android:text="00시간 00분 00초"
                     android:textSize="20sp"
                     android:layout_below="@id/CardioName"
                     android:layout_centerHorizontal="true"/>
@@ -81,7 +81,7 @@
                     android:id="@+id/CardioDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="이동거리"
+                    android:text="0.0km"
                     android:textSize="20sp"
                     android:layout_below="@id/CardioName"
                     android:layout_alignParentRight="true" />
@@ -101,10 +101,10 @@
                 android:textSize="50sp"
                 android:textAlignment="center"/>
             <TextView
-                android:id="@+id/WeigtCal"
+                android:id="@+id/WeightCal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="소모칼로리"
+                android:text="0.0kcal"
                 android:textSize="20sp"
                 android:layout_below="@id/WeightName"
                 android:layout_alignParentLeft="true"/>
@@ -112,7 +112,7 @@
                 android:id="@+id/WeightTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="운동시간"
+                android:text="00시간 00분 00초"
                 android:textSize="20sp"
                 android:layout_below="@id/WeightName"
                 android:layout_centerHorizontal="true"/>

@@ -21,11 +21,11 @@ import com.example.calog.R;
 
 public class ExerciseActivity extends AppCompatActivity {
     ImageView btnBack, btnMAinShortcut;
-    int fitnessTypeId;
+    int fitness_type_id;
     Intent intent;
     Chronometer timeElapse;
     TextView usedCalorie;
-    int fitnessMenuId;
+    int fitness_menu_id;
     long time;
     long stopTime=0;
     int h;
@@ -41,9 +41,9 @@ public class ExerciseActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_exercise);
 
                 intent = getIntent();
-                fitnessTypeId = intent.getIntExtra("운동타입", 0);
-                fitnessMenuId = intent.getIntExtra("운동명", 0);
-                System.out.println("Exercise Activity = "+fitnessTypeId);
+                fitness_type_id = intent.getIntExtra("운동타입", 0);
+                fitness_menu_id = intent.getIntExtra("운동명", 0);
+           //     System.out.println("Exercise Activity = "+fitness_type_id);
 
                 openImageFrame();
                 openButtonFrame();
@@ -101,7 +101,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 timeElapse.setBase(SystemClock.elapsedRealtime());
                 btnStartandStop();
                 timeElapse.start();
-                calorieCalculator(fitnessMenuId);
+                calorieCalculator(fitness_menu_id);
                 break;
 
             case R.id.btnStop:
@@ -170,17 +170,21 @@ public class ExerciseActivity extends AppCompatActivity {
         tr.commit();
     }
 
+
+
+
+
     public void openImageFrame(){
         FragmentManager fm=getSupportFragmentManager();
         FragmentTransaction tr =fm.beginTransaction();
-        switch (fitnessTypeId){
+        switch (fitness_type_id){
             case 1: //유산소 운동이면 gps프레그먼트
-                Fitness_Fragment_GPS fragment_gps = new Fitness_Fragment_GPS(fitnessMenuId);
+                Fitness_Fragment_GPS fragment_gps = new Fitness_Fragment_GPS(fitness_menu_id);
                 tr.add(R.id.exerciseFrame, fragment_gps, "gps");
                 tr.commit();
                 break;
             case 2: //무산소 운동이면 gif프레그먼트
-                Fitness_Fragment_GIF fragment_gif = new Fitness_Fragment_GIF(fitnessMenuId);
+                Fitness_Fragment_GIF fragment_gif = new Fitness_Fragment_GIF(fitness_menu_id);
                 tr.add(R.id.exerciseFrame, fragment_gif, "gif");
                 tr.commit();
                 break;

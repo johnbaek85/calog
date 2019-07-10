@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface RemoteService {
 
-    public static final String BASE_URL = "http://192.168.0.27:8088/";
+    public static final String BASE_URL = "http://192.168.0.56:8088/calog/";
 
     //User
     @GET("user/list.jsp")
@@ -41,4 +41,16 @@ public interface RemoteService {
 
     @POST("fitnessCardio/delete.jsp")
     Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);
+
+    @GET("FitnessVOweightday")
+    Call<FitnessVO> OneDayWeightTotalCalorie(@Query("user_id") String user_id, @Query("fitness_date") String fitness_date);
+
+    @GET("FitnessVOcardioday")
+    Call<FitnessVO> OneDayCardioTotalCalorie(@Query("user_id") String user_id, @Query("fitness_date") String fitness_date);
+
+    @GET("CardioList")
+    Call<List<FitnessVO>> CardioList();
+
+    @GET("WeightList")
+    Call<List<FitnessVO>> WeightList();
 }
