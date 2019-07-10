@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SleepCheckActivity">
+    tools:context=".Sleeping.SleepCheckActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,7 +24,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="35sp"
-                android:text="수면관리"
+                android:text="수면체크"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp" />
 
@@ -61,11 +61,6 @@
             android:onClick="mClick"/>
 
     </RelativeLayout>
-    <fragment
-        android:id="@+id/SleepResult"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.example.calog.SleepCheckResult"/>
 
 
 </LinearLayout>

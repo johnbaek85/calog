@@ -13,21 +13,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ExerciseActivity" />
-        <activity android:name=".SearchFitnessActivity" />
-        <activity android:name=".FitnessActivity" />
+        <activity android:name=".Fitness.ExerciseActivity" />
+        <activity android:name=".Fitness.SearchFitnessActivity" />
+        <activity android:name=".Fitness.FitnessActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".FoodSearchActivity" />
-        <activity android:name=".DietActivity" />
-        <activity android:name=".MainJoinActivity" />
-        <activity android:name=".JoinActivity" />
+        <activity android:name=".Diet.FoodSearchActivity" />
+        <activity android:name=".Diet.DietActivity" />
+        <activity android:name=".signUp.MainJoinActivity" />
+        <activity android:name=".signUp.JoinActivity" />
         <activity android:name=".Drinking.TestActivity" />
-        <activity android:name=".DrinkingActivity" />
-        <activity android:name=".DrinkingCheckActivity" />
-        <activity android:name=".SleepingActivity" />
-        <activity android:name=".SleepCheckActivity" />
-        <activity android:name=".WordCloudActivity" />
-        <activity android:name=".WordCloudWebViewActivity" />
+        <activity android:name=".Drinking.DrinkingActivity" />
+        <activity android:name=".Drinking.DrinkingCheckActivity" />
+        <activity android:name=".Sleeping.SleepingActivity" />
+        <activity android:name=".Sleeping.SleepCheckActivity" />
+        <activity android:name=".WordCloud.WordCloudActivity" />
+        <activity android:name=".WordCloud.WordCloudWebViewActivity" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,12 +41,12 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.bignerdranch.android.test.fileprovider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
+                android:resource="@xml/provider_path" />
         </provider>
     </application>
 
