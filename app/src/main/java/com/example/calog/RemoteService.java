@@ -1,5 +1,6 @@
 package com.example.calog;
 
+import com.example.calog.VO.FitnessVO;
 import com.example.calog.VO.MainHealthVO;
 import com.example.calog.VO.UserVO;
 
@@ -36,7 +37,9 @@ public interface RemoteService {
     //User Diet Total calories
     @GET("MainHealthVO")
     Call<MainHealthVO> userMainHealth(@Query("user_id") String user_id, @Query("select_date") String date);
-/*    //FitnessCardio
+
+
+    /*//FitnessCardio
     @GET("fitnessCardio/list.jsp")
     Call<List<FitnessVO>> listFitness();
 
@@ -44,5 +47,6 @@ public interface RemoteService {
     Call<ResponseBody> insertFitnessCardio(@Body FitnessVO vo);
 
     @POST("fitnessCardio/delete.jsp")
-    Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);
+    Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);*/
+
 }
