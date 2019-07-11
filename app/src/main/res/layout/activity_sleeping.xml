@@ -52,11 +52,13 @@
         android:id="@+id/barChartFrag"
         android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="200sp" />
+        android:layout_height="0sp"
+        android:layout_weight="1" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@android:mipmap/sym_def_app_icon">
@@ -74,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/timepicker"
-            android:layout_marginTop="30sp"
+            android:layout_marginTop="20sp"
             android:layout_centerInParent="true"
             android:onClick="mClick"/>
 

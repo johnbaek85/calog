@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
         <item
             android:id="@+id/rankingMenu"
             android:icon="@drawable/ranking_bottom_icon"
+
             android:title="TOP10" />
 
         <item
