@@ -27,6 +27,7 @@ import com.example.calog.RemoteService;
 import com.example.calog.VO.FitnessVO;
 
 import java.sql.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,13 +41,14 @@ public class FitnessActivity extends AppCompatActivity {
     RelativeLayout btnCardioActivity, btnWeightTrainingActivity, btnStretchingActivity;
     ImageView btnBack, btnHome;
     Intent intent;
-    TextView txtCardioCal, txtCardioTime, txtCardioDistance, txtWeightCal, txtWeightTime;
+    TextView txtDate, txtCardioCal, txtCardioTime, txtCardioDistance, txtWeightCal, txtWeightTime;
     Retrofit retrofit;
     RemoteService rs;
+    ImageView cardioList, weightList;
 
     //임시 사용자정보, 메인페이지에서 전달받아야함
-    String user_id="spider";
-    String fitness_date = "2019-07-01";
+    String user_id;
+    String fitness_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,15 @@ public class FitnessActivity extends AppCompatActivity {
         GraphPagerFragment graphFragment = new GraphPagerFragment();
         tr.replace(R.id.barChartFrag,graphFragment);
         //////////////////////////////
+
+        intent = getIntent();
+        fitness_date = intent.getStringExtra("select_date");
+        user_id = intent.getStringExtra("user_id");
+
+
+        txtDate=findViewById(R.id.txtDate);
+        txtDate.setText(fitness_date);
+
 
 
 //메인페이지로 이동
@@ -90,15 +101,31 @@ public class FitnessActivity extends AppCompatActivity {
                goToSearchActivity(1);
             }
         });
+//당일 유산소운동 목록
+        cardioList = findViewById(R.id.cardioList);
+        cardioList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMyFitnessList(1);
+            }
+        });
 
 
-//무산소운동 목록 출력
+//근력운동 목록 출력
         btnWeightTrainingActivity=findViewById(R.id.btnWeightTrainingActivity);
         btnWeightTrainingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Toast.makeText(FitnessActivity.this, "무산소운동 목록을 출력합니다.", Toast.LENGTH_SHORT).show();
                 goToSearchActivity(2);
+            }
+        });
+//당일 근력운동 목록
+        weightList = findViewById(R.id.weightList);
+        weightList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMyFitnessList(2);
             }
         });
 
@@ -122,9 +149,7 @@ public class FitnessActivity extends AppCompatActivity {
 
 
 //유산소 데이터 출력
-        txtCardioCal = findViewById(R.id.CardioCal);
-        txtCardioTime = findViewById(R.id.CardioTime);
-        txtCardioDistance = findViewById(R.id.CardioDistance);
+
 
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -135,6 +160,10 @@ public class FitnessActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<FitnessVO> call, Response<FitnessVO> response) {
                 FitnessVO vo = response.body();
+                System.out.println("vo값 출력" + vo.toString());
+                txtCardioCal = findViewById(R.id.CardioCal);
+                txtCardioTime = findViewById(R.id.CardioTime);
+                txtCardioDistance = findViewById(R.id.CardioDistance);
                 txtCardioCal.setText(vo.getSum_cardio_used_calorie()+"kcal");
 
 
@@ -150,7 +179,7 @@ public class FitnessActivity extends AppCompatActivity {
                     txtCardioTime.setText(strH + "시간 " + strM + "분 " + strS + "초");
 
 
-                    txtCardioDistance.setText(vo.getSum_cardio_distance()+"km");
+                    txtCardioDistance.setText(vo.getSum_cardio_distance()+"m");
             }
 
             @Override
@@ -195,10 +224,23 @@ public class FitnessActivity extends AppCompatActivity {
 
 
     }
-//Activity 이동 Method
+
+
+    //Activity 이동 Method
     public void goToSearchActivity(int fitnessTypeid){
         intent = new Intent(FitnessActivity.this, SearchFitnessActivity.class);
         intent.putExtra("운동타입", fitnessTypeid);
+        intent.putExtra("user_id", user_id);
+        intent.putExtra("select_date", fitness_date);
+        startActivity(intent);
+    }
+
+
+    public void goToMyFitnessList(int fitnessTypeid){
+        intent = new Intent(FitnessActivity.this, MyFitnessList.class);
+        intent.putExtra("운동타입", fitnessTypeid);
+        intent.putExtra("select_date", fitness_date);
+        intent.putExtra("user_id", user_id);
         startActivity(intent);
     }
 

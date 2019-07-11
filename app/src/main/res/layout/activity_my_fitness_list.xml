@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fitness.ExerciseActivity"
+    tools:context=".Fitness.MyFitnessList"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -33,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:text="2019-07-01"/>
             <ImageView
-                android:id="@+id/btnMAinShortcut"
+                android:id="@+id/btnHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -44,58 +44,21 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <FrameLayout
-        android:id="@+id/exerciseFrame"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1.5">
-        <ImageView
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-    </FrameLayout>
-
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="fill_parent"
-        android:gravity="center"
-        android:layout_height="0px"
-        android:layout_weight="0.5"
-        android:layout_gravity="center_horizontal"
-        android:textSize="60sp"
-        android:textStyle="bold"/>
     <TextView
-        android:id="@+id/stepCount"
-        android:layout_width="match_parent"
+        android:id="@+id/myListTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text="오늘 실행한 운동목록"
         android:textSize="30sp"
-        android:textAlignment="center"
-        android:visibility="invisible"/>
-    <TextView
-        android:id="@+id/usedCalorie"
+        android:padding="5dp" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/OnedayFitnessList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0kcal"
-        android:textSize="30sp"
-        android:textAlignment="center"/>
-
-    <TextView
-        android:id="@+id/distance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0km"
-        android:textSize="30sp"
-        android:textAlignment="center"
-        android:visibility="invisible"/>
+        android:layout_height="wrap_content">
 
 
+    </androidx.recyclerview.widget.RecyclerView>
 
-    <FrameLayout
-        android:id="@+id/btnFrame"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="0.5"></FrameLayout>
 </LinearLayout>

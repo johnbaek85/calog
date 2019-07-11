@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10sp">
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="50sp"
+        android:layout_height="70sp"
+        android:src="@drawable/ic_directions_run_black_24dp"
+        android:layout_marginRight="10sp"/>
+    <TextView
+        android:id="@+id/FitnessName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/image"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:text="달리기"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/eachCalorie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kcal"
+        android:layout_below="@id/FitnessName"
+        android:layout_toRightOf="@id/image"
+        android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/eachTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시간"
+        android:layout_below="@id/eachCalorie"
+        android:layout_toRightOf="@id/image"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/eachDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/eachTime"
+        android:text="km"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:id="@+id/deleteThis"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_delete_forever_black_24dp"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

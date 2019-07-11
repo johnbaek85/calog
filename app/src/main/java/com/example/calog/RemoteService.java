@@ -58,4 +58,13 @@ public interface RemoteService {
 
     @GET("WeightList")
     Call<List<FitnessVO>> WeightList();
+
+    @GET("FitnessVOmycardio")
+    Call<List<FitnessVO>> OneDayCardioList(@Query("user_id")String user_id, @Query("fitness_date") String fitness_date);
+
+    @GET("FitnessVOmyweight")
+    Call<List<FitnessVO>> OneDayWeightList(@Query("user_id")String user_id, @Query("fitness_date") String fitness_date);
+
+    @POST("UserWeightInsert")
+    Call<Void> UserWeightInsert(@Body FitnessVO vo);
 }

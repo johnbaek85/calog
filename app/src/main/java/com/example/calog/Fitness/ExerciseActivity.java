@@ -21,8 +21,18 @@ import android.widget.Toast;
 import com.example.calog.Fitness.*;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
+import com.example.calog.VO.FitnessVO;
 
 import java.util.logging.LogRecord;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
 
 public class ExerciseActivity extends AppCompatActivity {
     ImageView btnBack, btnMAinShortcut;
@@ -32,11 +42,13 @@ public class ExerciseActivity extends AppCompatActivity {
     int fitness_type_id;
     int fitness_menu_id;
     double fitness_unit_calorie;
+    Retrofit retrofit;
+    RemoteService rs;
 
     //총운동시간(초)
-    int calorieSecond;
+    int fitness_seconds;
     //총소모칼로리
-    double totalCalorie;
+    double used_calorie;
 
     long time;
     long stopTime=0;
@@ -47,8 +59,9 @@ public class ExerciseActivity extends AppCompatActivity {
     String mm;
     String ss;
     BackThread thread;
+    String user_id;
 
-    TextView usedCalorie;
+    TextView txtCalorie, txtDate, stepCount, distance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -58,13 +71,28 @@ public class ExerciseActivity extends AppCompatActivity {
                 fitness_type_id = intent.getIntExtra("운동타입", 0);
                 fitness_menu_id = intent.getIntExtra("운동명", 0);
                 fitness_unit_calorie = intent.getDoubleExtra("단위칼로리", 0.0);
-                System.out.println("운동타입" + fitness_type_id+"운동명" +fitness_menu_id+ "단위칼로리 = "+fitness_unit_calorie);
+                user_id = intent.getStringExtra("user_id");
+                txtDate = findViewById(R.id.txtDate);
+                txtDate.setText(intent.getStringExtra("select_date"));
+
+    //            System.out.println("운동타입" + fitness_type_id+"운동명" +fitness_menu_id+ "단위칼로리 = "+fitness_unit_calorie);
 
                 openImageFrame();
                 openButtonFrame();
-                usedCalorie=findViewById(R.id.usedCalorie);
+                txtCalorie=findViewById(R.id.usedCalorie);
                 thread = new BackThread();
                 thread.setDaemon(true);
+
+                txtDate = findViewById(R.id.txtDate);
+                txtDate.setText(intent.getStringExtra("select_date"));
+
+                if(fitness_type_id==1){
+                    stepCount = findViewById(R.id.stepCount);
+                    distance = findViewById(R.id.distance);
+                    stepCount.setVisibility(View.VISIBLE);
+                    distance.setVisibility(View.VISIBLE);
+                }
+
 
 
 
@@ -126,8 +154,8 @@ public class ExerciseActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if(msg.what ==0){
-                String strCalorie = String.format("%.1f",totalCalorie);
-                usedCalorie.setText("소모칼로리 : "+strCalorie+" kcal");
+                String strCalorie = String.format("%.1f",used_calorie);
+                txtCalorie.setText("소모칼로리 : "+strCalorie+" kcal");
             }
             super.handleMessage(msg);
         }
@@ -156,7 +184,6 @@ public class ExerciseActivity extends AppCompatActivity {
             case R.id.btnStop:
                 timeElapse.stop();
                 stopTime = SystemClock.elapsedRealtime()-timeElapse.getBase();
-//                System.out.println("정지시간 : "+(int)(stopTime - h*3600000- m*60000)/1000);
 
                 tr=fm.beginTransaction();
                 Fitness_Fragment_StopWatchContinue fragmentContinue = new Fitness_Fragment_StopWatchContinue();
@@ -167,7 +194,6 @@ public class ExerciseActivity extends AppCompatActivity {
             case R.id.btnContinue:
                 btnStartandStop();
                 timeElapse.setBase(SystemClock.elapsedRealtime()-stopTime);
- //               System.out.println("stopTime = "+ stopTime);
                 timeElapse.start();
                 break;
 
@@ -175,22 +201,11 @@ public class ExerciseActivity extends AppCompatActivity {
 
                 final LinearLayout resultLayout = (LinearLayout)View.inflate(ExerciseActivity.this, R.layout.result_exercise, null);
                 final AlertDialog.Builder resultBox = new AlertDialog.Builder(ExerciseActivity.this);
-/*               stopTime =SystemClock.elapsedRealtime()-timeElapse.getBase();
-                System.out.println("완료 : "+ (int)(stopTime - h*3600000- m*60000)/1000);
 
-                int bh = (int)(stopTime/36000000);
-                int bm = (int)(stopTime - bh*3600000)/60000;
-                int bs= (int)(stopTime - bh*3600000- bm*60000)/1000 ;
-                String tbh = bh < 10 ? "0"+bh: bh+"";
-                String tbm = bm < 10 ? "0"+bm: bm+"";
-                String tbs = bs < 10 ? "0"+bs: bs+"";
-*/
                 TextView txtResultTime = resultLayout.findViewById(R.id.resultTime);
                 txtResultTime.setText((hh)+"시간 "+(mm)+"분 "+(ss)+"초");
-//                TextView txtBreakTime = resultLayout.findViewById(R.id.breakTime);
-//                txtBreakTime.setText((tbh)+"시간 "+(tbm)+"분 "+(tbs)+"초");
                 TextView txtTotalUsedCalorie = resultLayout.findViewById(R.id.totalUsedCal);
-                String strCalorie = String.format("%.1f",totalCalorie);
+                String strCalorie = String.format("%.1f",used_calorie);
                 txtTotalUsedCalorie.setText(strCalorie+"kcal");
 
                 resultBox.setIcon(R.drawable.ic_fitness_center_black_24dp);
@@ -201,10 +216,10 @@ public class ExerciseActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Toast.makeText(ExerciseActivity.this, "운동기록을 저장합니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(ExerciseActivity.this, FitnessActivity.class);
+                        insertData();
+                        intent = new Intent(ExerciseActivity.this, MainHealthActivity.class);
                         startActivity(intent);
-                        timeElapse.setBase(SystemClock.elapsedRealtime());
+
                     }
                 });
                 resultBox.show();
@@ -251,11 +266,38 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     public void calorieCalculator(){
-        calorieSecond = (int)time/1000;
-                totalCalorie=calorieSecond* fitness_unit_calorie;
+        fitness_seconds = (int)time/1000;
+                used_calorie=fitness_seconds* fitness_unit_calorie;
 
     }
 
+
+    public void insertData(){
+        FitnessVO vo = new FitnessVO();
+        vo.setUser_id(user_id);
+        vo.setFitness_menu_id(fitness_menu_id);
+        vo.setFitness_seconds(fitness_seconds);
+        vo.setUsed_calorie(used_calorie);
+
+        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(RemoteService.class);
+        Call<Void> call =rs.UserWeightInsert(vo);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(ExerciseActivity.this, "운동기록을 저장합니다.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(ExerciseActivity.this, "저장 실패.", Toast.LENGTH_SHORT).show();
+                System.out.println("저장 오류: " + t.toString());
+
+            }
+        });
+    }
 
 
 }

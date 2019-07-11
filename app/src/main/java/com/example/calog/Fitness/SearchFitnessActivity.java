@@ -31,7 +31,7 @@ import static com.example.calog.RemoteService.BASE_URL;
 
 
 public class SearchFitnessActivity extends AppCompatActivity {
-    TextView fitnessType;
+    TextView txtDate, fitnessType;
     ImageView btnBack, btnMAinShortcut;
     RecyclerView list;
     List<FitnessVO> array;
@@ -41,14 +41,19 @@ public class SearchFitnessActivity extends AppCompatActivity {
 
     Retrofit retrofit;
     RemoteService rs;
+    String fitness_date;
+    String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_fitness);
-
+        txtDate=findViewById(R.id.txtDate);
         intent = getIntent();
         fitnessTypeId = intent.getIntExtra("운동타입", 0);
+        fitness_date = intent.getStringExtra("select_date");
+        user_id = intent.getStringExtra("user_id");
+        txtDate.setText(fitness_date);
 
         list=findViewById(R.id.exerciseList);
         LinearLayoutManager manager =new LinearLayoutManager(this);
@@ -65,11 +70,13 @@ public class SearchFitnessActivity extends AppCompatActivity {
 
                 break;
             case 2:
-                fitnessType.setText("무산소 운동");
+                fitnessType.setText("근력 운동");
                 connect(fitnessTypeId);
 
                 break;
         }
+
+        txtDate = findViewById(R.id.txtDate);
 
 
 
@@ -94,7 +101,6 @@ public class SearchFitnessActivity extends AppCompatActivity {
     }
 
 
-
     public void connect(int type) {
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -109,7 +115,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
                             array = response.body();
-                            adapter =new SearchFitnessAdapter(SearchFitnessActivity.this, array);
+                            adapter =new SearchFitnessAdapter(SearchFitnessActivity.this, array, fitness_date, user_id);
                             list.setAdapter(adapter);
                         }
 
@@ -128,7 +134,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
                             array = response.body();
-                            adapter =new SearchFitnessAdapter(SearchFitnessActivity.this, array);
+                            adapter =new SearchFitnessAdapter(SearchFitnessActivity.this, array, fitness_date, user_id);
                             list.setAdapter(adapter);
 
                         }

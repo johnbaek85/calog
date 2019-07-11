@@ -8,13 +8,5 @@
         android:layout_height="0px"
         android:layout_weight="1"
         android:src="@drawable/temporarymap"/>
-    <TextView
-        android:id="@+id/distance"
-        android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="0.2"
-        android:text="이동거리"
-        android:textSize="40sp"
-        android:textAlignment="center"/>
 
 </LinearLayout>

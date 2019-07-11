@@ -23,6 +23,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_back" />
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/btnBack"
+                android:textColor="#FFFFFF"
+                android:layout_centerVertical="true"
+                android:text="2019-07-01"/>
+
             <ImageView
                 android:id="@+id/btnHome"
                 android:layout_width="wrap_content"
@@ -75,7 +84,7 @@
                     android:text="0.0kcal"
                     android:layout_below="@id/CardioName"
                     android:layout_alignParentLeft="true"
-                    android:textSize="15sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"/>
                 <TextView
@@ -86,14 +95,22 @@
                     android:textSize="15sp"
                     android:layout_below="@id/CardioCal"
                     android:textColor="#FFFFFF"/>
-                <TextView
-                    android:id="@+id/CardioDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.0km"
-                    android:textSize="15sp"
-                    android:layout_below="@id/CardioTime"
-                    android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/CardioDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignBaseline="@+id/CardioTime"
+                android:text="0.0km"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/cardioList"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_format_list_bulleted_black_24dp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -112,7 +129,7 @@
                 android:id="@+id/WeightName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="무산소 운동"
+                android:text="근력 운동"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF" />
@@ -122,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:text="0.0kcal"
                 android:layout_below="@id/WeightName"
-                android:textSize="15sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
             <TextView
@@ -134,6 +151,12 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/weightList"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_format_list_bulleted_black_24dp"/>
 
         </RelativeLayout>
         <RelativeLayout
