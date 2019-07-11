@@ -16,13 +16,13 @@ import com.example.calog.R;
 
 public class WordCloudWebViewActivity extends AppCompatActivity {
     ImageView btnBack, btnMainShortcut;
-    WebView webView;
-    String link;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_cloud_web_view);
+/*
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -45,26 +45,9 @@ public class WordCloudWebViewActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-
-        link = intent.getStringExtra("Link");
-        // 링크 주소 확인
-        // System.out.println("링크 주소 : " + link);
-
-        webView = (WebView) findViewById(R.id.webView);
-        webView.setWebViewClient(new MyWebView());
-        WebSettings set = webView.getSettings();
-        set.setBuiltInZoomControls(true);
-        webView.loadUrl(link);
-
+*/
 
     }
 
-    public class MyWebView extends WebViewClient {
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-    }
 
 }

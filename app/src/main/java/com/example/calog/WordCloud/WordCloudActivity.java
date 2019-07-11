@@ -9,6 +9,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +40,9 @@ public class WordCloudActivity extends AppCompatActivity {
 
     // 크롤링 변수
     private String keyWordPageUrl = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
-
-
+    // 웹뷰 링크 변수
+    WebView webView;
+    String link;
 
 
    /* 텍스트로 화면에 출력할 떄 사용
@@ -62,8 +66,24 @@ public class WordCloudActivity extends AppCompatActivity {
         new JsoupAsyncTask().execute();
         pageTrans();
 
-
         array = new ArrayList<CrawlingVO>();
+        //웹뷰
+
+        Intent intent = getIntent();
+        link = intent.getStringExtra("Link");
+        // 링크 주소 확인
+        // System.out.println("링크 주소 : " + link);
+        webView = (WebView) findViewById(R.id.webView);
+        webView.setWebViewClient(new MyWebView());
+        WebSettings set = webView.getSettings();
+        set.setBuiltInZoomControls(true);
+        // 웹뷰 첫 페이지에 보여줄 페이지
+        if (link == null) {
+            link = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
+            webView.loadUrl(link);
+        } else {
+            webView.loadUrl(link);
+        }
 
 /*
         텍스트로 화면에 출력하기 위해 준비
@@ -196,10 +216,14 @@ public class WordCloudActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 */
-
-
     }
 
+
+    public class MyWebView extends WebViewClient {
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+    }
 }
