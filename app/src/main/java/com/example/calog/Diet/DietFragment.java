@@ -21,7 +21,6 @@ import com.example.calog.VO.DietMenuVO;
 
 import java.util.List;
 
-
 public class DietFragment extends Fragment
 {
 

@@ -27,6 +27,7 @@ public class GraphPagerFragment extends Fragment {
 //        fragmentManager=fm;
 //    }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -54,10 +55,10 @@ public class GraphPagerFragment extends Fragment {
         public PagerAdapter(FragmentManager fm)
         {
             super(fm);
-            fragments.add(new GraphFragment()); //일
-            fragments.add(new GraphFragment()); //주
-            fragments.add(new GraphFragment()); //월
-            fragments.add(new GraphFragment()); //년
+            fragments.add(new GraphFragment("day")); //일
+            fragments.add(new GraphFragment("week")); //주
+            fragments.add(new GraphFragment("month")); //월
+            fragments.add(new GraphFragment("year")); //년
         }
 
         @Override

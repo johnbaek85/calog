@@ -31,6 +31,29 @@ import java.util.List;
 
 public class GraphFragment extends Fragment
 {
+    String[] labels;
+
+    public GraphFragment(String unitDate)
+    {
+        //라벨 작업
+       if(unitDate.equals("day"))
+       {
+           this.labels = new String[]{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+       }
+       else if(unitDate.equals("week"))
+       {
+           this.labels = new String[]{"1~7", "8~14", "15~21", "22~26", "26~end", "Sat", "Sun"};
+       }
+       else if(unitDate.equals("month"))
+       {
+           this.labels = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+       }
+       else if(unitDate.equals("year"))
+       {
+           this.labels = new String[]{"2016","2017","2018","2019"};
+       }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +82,6 @@ public class GraphFragment extends Fragment
         //data.setBarWidth(barWidth); // set the width of each bar
 
         //x축에 String 데이터를 넣기
-        String[] labels={"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
 
         //x축 포지션 Bottom은 그래프에서 아래에 위치하게됨
