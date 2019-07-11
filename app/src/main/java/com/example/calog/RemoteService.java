@@ -1,11 +1,8 @@
 package com.example.calog;
 
-import com.example.calog.VO.FitnessVO;
 import com.example.calog.VO.MainHealthVO;
-import com.example.calog.VO.UserTotalCaloriesViewVO;
 import com.example.calog.VO.UserVO;
 
-import java.sql.Date;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -19,8 +16,7 @@ public interface RemoteService {
 
     public static final String BASE_URL = "http://192.168.0.56:8088/calog/";
 
-/*
-    //User
+    /*//User
     @GET("user/list.jsp")
     Call<List<UserVO>> listUser();
 
@@ -48,6 +44,5 @@ public interface RemoteService {
     Call<ResponseBody> insertFitnessCardio(@Body FitnessVO vo);
 
     @POST("fitnessCardio/delete.jsp")
-    Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);*/
-
+    Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);
 }
