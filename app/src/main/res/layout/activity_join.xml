@@ -49,42 +49,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="30sp"
+            android:padding="10sp"
             >
         
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/idfrm"
-            >
+            android:layout_height="wrap_content">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="아이디 : ">
-        </TextView>
+            <TextView
+                android:layout_width="91dp"
+                android:layout_height="wrap_content"
+                android:text="아이디              : " />
 
             <EditText
-                android:id="@+id/user_id"
+                android:id="@+id/user_Id"
                 android:layout_width="123dp"
-                android:layout_height="wrap_content">
-
-            </EditText>
-
-           <ImageView
-               android:layout_width="35sp"
-               android:layout_height="40sp"
-               android:src="@mipmap/golbang"
-               />
-
-
-            <Spinner
-                android:id="@+id/email"
-                android:layout_width="144dp"
-                android:layout_height="match_parent"
-                >
-            </Spinner>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -94,14 +74,13 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="91dp"
                 android:layout_height="wrap_content"
-                android:text="비밀번호 : "
-                />
+                android:text="비밀번호          : " />
 
             <EditText
                 android:id="@+id/password"
-                android:layout_width="match_parent"
+                android:layout_width="185dp"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -116,11 +95,47 @@
                 android:text="비밀번호 확인 : "/>
 
             <EditText
-                android:id="@+id/repassword"
-                android:layout_width="match_parent"
+                android:id="@+id/checkPassword"
+                android:layout_width="185dp"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이메일 : ">
+                </TextView>
+
+                <EditText
+                    android:id="@+id/emailId"
+                    android:layout_width="123dp"
+                    android:layout_height="wrap_content"
+                    >
+
+                </EditText>
+
+                <ImageView
+                    android:layout_width="35sp"
+                    android:layout_height="40sp"
+                    android:src="@mipmap/golbang"
+                    />
+
+
+                <Spinner
+                    android:id="@+id/email"
+                    android:layout_width="144dp"
+                    android:layout_height="match_parent"
+                    >
+                </Spinner>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -178,21 +193,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="주소     : " />
-
-                    <EditText
-                        android:id="@+id/address"
-                        android:layout_width="355dp"
-                        android:layout_height="wrap_content"
-                        android:hint="주소 API추가하기" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -212,7 +213,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" 년 "
+                        android:text="년"
                         />
 
                     <Spinner
@@ -225,7 +226,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" 월 "
+                        android:text="월"
                         />
 
                     <Spinner
@@ -238,7 +239,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" 일"
+                        android:text="일"
                         />
 
                 </LinearLayout>
@@ -277,19 +278,15 @@
 
                     <EditText
                         android:id="@+id/height"
-                        android:layout_width="42dp"
+                        android:layout_width="55dp"
                         android:layout_height="wrap_content" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="cm" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        android:text="cm"
+                        android:layout_marginRight="40sp"
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -298,9 +295,8 @@
 
                     <EditText
                         android:id="@+id/weight"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        />
+                        android:layout_width="55dp"
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -309,15 +305,58 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/post"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10sp"
+                        android:hint="우편번호" />
+
+                    <Button
+                        android:id="@+id/btnpost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:text="우편번호 찾기"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="주소" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/detailaddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="상세주소" />
+
+                </LinearLayout>
+                
+            </LinearLayout>
+
     </LinearLayout>
 
-
-
-    </LinearLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="25sp"
+            android:padding="13sp"
             >
             <Button
                 android:id="@+id/btnSave"

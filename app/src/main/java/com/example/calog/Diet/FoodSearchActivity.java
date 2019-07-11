@@ -96,7 +96,6 @@ public class FoodSearchActivity extends AppCompatActivity {
             List<DietMenuVO> MyDietList=new ArrayList<DietMenuVO>();
 
             //내 음식
-
             fragments.add(new DietFragment(dietMenuArray,true)); //검색
             fragments.add(new DietFragment(dietMenuArray,false)); //자주 찾는 음식
             fragments.add(new DietFragment(dietMenuArray,false)); //내 음식

@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.calog.Fitness.*;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
@@ -150,6 +151,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        Toast.makeText(ExerciseActivity.this, "운동기록을 저장합니다.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(ExerciseActivity.this, FitnessActivity.class);
                         startActivity(intent);
                         timeElapse.setBase(SystemClock.elapsedRealtime());
