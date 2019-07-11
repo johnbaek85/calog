@@ -2,6 +2,7 @@ package com.example.calog.Sleeping.DecibelCheck;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -99,6 +100,7 @@ public class SleepCheckActivity extends Activity {
         setContentView(R.layout.activity_sleep_check);
         //시간 측정
         final Chronometer chronometer = (np.Chronometer) findViewById(R.id.chronometer);
+        chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
 
         Button btnSleepFinish = (Button) findViewById(R.id.btnSleepFinish);
@@ -110,6 +112,22 @@ public class SleepCheckActivity extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SleepCheckActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
                 View view = inflater.inflate(R.layout.activity_sleep_check_result, null);
+
+                builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(SleepCheckActivity.this,MainHealthActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(SleepCheckActivity.this,MainHealthActivity.class);
+                        startActivity(intent);
+                    }
+                });
                 builder.setView(view);
 
                 final TextView TotalSleep = (TextView) view.findViewById(R.id.TotalSleep);
