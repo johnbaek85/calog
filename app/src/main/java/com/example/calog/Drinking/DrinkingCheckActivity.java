@@ -96,14 +96,13 @@ public class DrinkingCheckActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-
-        //시리얼 연결 종료
-        mSerialConn.finalize();
-    }
+//    @Override
+//    public void onDestroy()
+//    {
+//        super.onDestroy();
+//        //시리얼 연결 종료
+//        mSerialConn.finalize();
+//    }
 
     private class UIBackThread extends AsyncTask<Integer, Integer, Integer>
     {
@@ -145,7 +144,6 @@ public class DrinkingCheckActivity extends AppCompatActivity
                     //circleProgress.setProgress(value);
                     //TODO 실시간 Ui변경은 이곳에서 하지말라고하여 onProgressUpdate로 대체
                     publishProgress(value);
-
                 }
 
                 //로딩바 시간
@@ -182,13 +180,13 @@ public class DrinkingCheckActivity extends AppCompatActivity
             //취소시 결과화면으로
             Button cancelBtn = findViewById(R.id.cancelBtn);
 
-
             //시리얼 연결 종료
             mSerialConn.finalize();
 
             //결과데이터 출력
             checkText.setText(resultA);
 
+            //캔슬버튼
             cancelBtn.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -209,11 +207,9 @@ public class DrinkingCheckActivity extends AppCompatActivity
                 }
             });
         }
-
     }
 
     ////////////////////////////////////////////////////////// 아두이노와 통신하는 백그라운드 객체
-
     public class ActivityHandler extends Handler //핸들러란 다른 객체들이 보낸 데이터를 받고 이 데이터를 처리하는 객체입니다.
     {
         @Override
