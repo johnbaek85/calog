@@ -49,6 +49,7 @@ public class SearchFitnessAdapter extends RecyclerView.Adapter<SearchFitnessAdap
             Intent intent = new Intent(context, ExerciseActivity.class);
             intent.putExtra("운동타입", array.get(i).getFitness_type_id());
             intent.putExtra("운동명", array.get(i).getFitness_menu_id());
+            intent.putExtra("단위칼로리", array.get(i).getUnit_calorie());
             context.startActivity(intent);
         }
     });

@@ -62,7 +62,7 @@
         android:id="@+id/usedCalorie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="40cal"
+        android:text="0kcal"
         android:textSize="30sp"
         android:textAlignment="center"/>
 

@@ -47,44 +47,53 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10sp">
         <RelativeLayout
             android:id="@+id/btnCardioActivity"
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="@drawable/rounded"
+            android:layout_marginBottom="10sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            >
             <TextView
                 android:id="@+id/CardioName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="유산소 운동"
-                android:textSize="50sp"
-                android:textAlignment="center"/>
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
                 <TextView
                     android:id="@+id/CardioCal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0kcal"
-                    android:textSize="20sp"
                     android:layout_below="@id/CardioName"
-                    android:layout_alignParentLeft="true"/>
+                    android:layout_alignParentLeft="true"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"/>
                 <TextView
                     android:id="@+id/CardioTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="00시간 00분 00초"
-                    android:textSize="20sp"
-                    android:layout_below="@id/CardioName"
-                    android:layout_centerHorizontal="true"/>
+                    android:textSize="15sp"
+                    android:layout_below="@id/CardioCal"
+                    android:textColor="#FFFFFF"/>
                 <TextView
                     android:id="@+id/CardioDistance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0km"
-                    android:textSize="20sp"
-                    android:layout_below="@id/CardioName"
-                    android:layout_alignParentRight="true" />
+                    android:textSize="15sp"
+                    android:layout_below="@id/CardioTime"
+                    android:textColor="#FFFFFF"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -92,30 +101,39 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="@drawable/rounded"
+            android:layout_marginBottom="10sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+
+            >
             <TextView
                 android:id="@+id/WeightName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="무산소 운동"
-                android:textSize="50sp"
-                android:textAlignment="center"/>
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
             <TextView
                 android:id="@+id/WeightCal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.0kcal"
-                android:textSize="20sp"
                 android:layout_below="@id/WeightName"
-                android:layout_alignParentLeft="true"/>
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
             <TextView
                 android:id="@+id/WeightTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00시간 00분 00초"
-                android:textSize="20sp"
-                android:layout_below="@id/WeightName"
-                android:layout_centerHorizontal="true"/>
+                android:layout_below="@id/WeightCal"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
 
         </RelativeLayout>
         <RelativeLayout
@@ -123,14 +141,19 @@
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:background="@drawable/rounded"
+            android:layout_marginBottom="10sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
             <TextView
                 android:id="@+id/StretchingName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="스트레칭"
-                android:textSize="50sp"
-                android:textAlignment="center"/>
+                android:textSize="40sp"
+                android:textAlignment="center"
+                android:textColor="#ffff"/>
 
 
         </RelativeLayout>

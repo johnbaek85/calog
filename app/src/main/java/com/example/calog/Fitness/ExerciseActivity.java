@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.Chronometer;
@@ -20,13 +22,22 @@ import com.example.calog.Fitness.*;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
+import java.util.logging.LogRecord;
+
 public class ExerciseActivity extends AppCompatActivity {
     ImageView btnBack, btnMAinShortcut;
-    int fitness_type_id;
     Intent intent;
     Chronometer timeElapse;
-    TextView usedCalorie;
+
+    int fitness_type_id;
     int fitness_menu_id;
+    double fitness_unit_calorie;
+
+    //총운동시간(초)
+    int calorieSecond;
+    //총소모칼로리
+    double totalCalorie;
+
     long time;
     long stopTime=0;
     int h;
@@ -35,7 +46,9 @@ public class ExerciseActivity extends AppCompatActivity {
     String hh;
     String mm;
     String ss;
+    BackThread thread;
 
+    TextView usedCalorie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -44,10 +57,14 @@ public class ExerciseActivity extends AppCompatActivity {
                 intent = getIntent();
                 fitness_type_id = intent.getIntExtra("운동타입", 0);
                 fitness_menu_id = intent.getIntExtra("운동명", 0);
-           //     System.out.println("Exercise Activity = "+fitness_type_id);
+                fitness_unit_calorie = intent.getDoubleExtra("단위칼로리", 0.0);
+                System.out.println("운동타입" + fitness_type_id+"운동명" +fitness_menu_id+ "단위칼로리 = "+fitness_unit_calorie);
 
                 openImageFrame();
                 openButtonFrame();
+                usedCalorie=findViewById(R.id.usedCalorie);
+                thread = new BackThread();
+                thread.setDaemon(true);
 
 
 
@@ -92,6 +109,37 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
 
+
+    class BackThread extends Thread{
+        public void run(){
+            while(true){
+                calorieCalculator();
+                handler.sendEmptyMessage(0);
+                try{
+                    Thread.sleep(1000);
+                }catch(Exception e){  }
+            }
+        }
+    }
+
+    android.os.Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what ==0){
+                String strCalorie = String.format("%.1f",totalCalorie);
+                usedCalorie.setText("소모칼로리 : "+strCalorie+" kcal");
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+
+
+
+
+
+
+
     //운동 중 시작, 중지 버튼 선택시
     public void mClick(View view){
         FragmentManager fm=getSupportFragmentManager();
@@ -102,7 +150,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 timeElapse.setBase(SystemClock.elapsedRealtime());
                 btnStartandStop();
                 timeElapse.start();
-                calorieCalculator(fitness_menu_id);
+                thread.start();
                 break;
 
             case R.id.btnStop:
@@ -127,22 +175,24 @@ public class ExerciseActivity extends AppCompatActivity {
 
                 final LinearLayout resultLayout = (LinearLayout)View.inflate(ExerciseActivity.this, R.layout.result_exercise, null);
                 final AlertDialog.Builder resultBox = new AlertDialog.Builder(ExerciseActivity.this);
-//                stopTime =SystemClock.elapsedRealtime()-timeElapse.getBase();
-//                System.out.println("완료 : "+ (int)(stopTime - h*3600000- m*60000)/1000);
+/*               stopTime =SystemClock.elapsedRealtime()-timeElapse.getBase();
+                System.out.println("완료 : "+ (int)(stopTime - h*3600000- m*60000)/1000);
+
                 int bh = (int)(stopTime/36000000);
                 int bm = (int)(stopTime - bh*3600000)/60000;
                 int bs= (int)(stopTime - bh*3600000- bm*60000)/1000 ;
                 String tbh = bh < 10 ? "0"+bh: bh+"";
                 String tbm = bm < 10 ? "0"+bm: bm+"";
                 String tbs = bs < 10 ? "0"+bs: bs+"";
-
+*/
                 TextView txtResultTime = resultLayout.findViewById(R.id.resultTime);
                 txtResultTime.setText((hh)+"시간 "+(mm)+"분 "+(ss)+"초");
-                TextView txtBreakTime = resultLayout.findViewById(R.id.breakTime);
-                txtBreakTime.setText((tbh)+"시간 "+(tbm)+"분 "+(tbs)+"초");
-                TextView txtTest = resultLayout.findViewById(R.id.test);
-                int setToSecond = (int)time/1000;
-                txtTest.setText("초로 환산 : "+setToSecond+"초");
+//                TextView txtBreakTime = resultLayout.findViewById(R.id.breakTime);
+//                txtBreakTime.setText((tbh)+"시간 "+(tbm)+"분 "+(tbs)+"초");
+                TextView txtTotalUsedCalorie = resultLayout.findViewById(R.id.totalUsedCal);
+                String strCalorie = String.format("%.1f",totalCalorie);
+                txtTotalUsedCalorie.setText(strCalorie+"kcal");
+
                 resultBox.setIcon(R.drawable.ic_fitness_center_black_24dp);
                 resultBox.setTitle("운동결과화면");
                 resultBox.setView(resultLayout);
@@ -200,19 +250,9 @@ public class ExerciseActivity extends AppCompatActivity {
                 tr.commit();
     }
 
-    public void calorieCalculator(int fitnessMenuId){
-        double baseCalorie;
-        double conCalorie;
-        String strCalorie;
-        usedCalorie=findViewById(R.id.usedCalorie);
-        switch (fitnessMenuId){
-            case 1:         //팔굽혀펴기 일 경우 소모칼로리
-                baseCalorie=0.04;
-                conCalorie=time* baseCalorie;
-                strCalorie = String.valueOf(conCalorie);
-                usedCalorie.setText("소모칼로리 : "+strCalorie+" kcal");
-                break;
-        }
+    public void calorieCalculator(){
+        calorieSecond = (int)time/1000;
+                totalCalorie=calorieSecond* fitness_unit_calorie;
 
     }
 

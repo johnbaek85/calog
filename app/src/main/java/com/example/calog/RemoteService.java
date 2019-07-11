@@ -1,5 +1,8 @@
 package com.example.calog;
 
+import com.example.calog.VO.FitnessVO;
+import com.example.calog.VO.MainHealthVO;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
