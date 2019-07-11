@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.calog.Fitness_Fragment_StopWatchContinue;
-import com.example.calog.Fitness_Fragment_StopWatchStart;
-import com.example.calog.Fitness_Fragment_StopWatchStop;
+
+import com.example.calog.Fitness.*;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 
@@ -29,6 +29,7 @@ public class ExerciseActivity extends AppCompatActivity {
     int fitnessMenuId;
     long time;
     long stopTime=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);

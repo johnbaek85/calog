@@ -6,7 +6,7 @@
         <item>daum.net</item>
         <item>google.com</item>
         <item>nate.com</item>
-        <item>zum.com</item>
+        <item id = "nameID">직접입력</item>
     </string-array>
 
     <string-array name = "Month">

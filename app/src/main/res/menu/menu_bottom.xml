@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/rankingMenu"
+            android:icon="@drawable/ranking_bottom_icon"
+
+            android:title="TOP10" />
+
+        <item
+            android:id="@+id/drinkingMenu"
+            android:icon="@drawable/drink_bottom_icon"
+            android:title="DRINK" />
+
+        <item
+            android:id="@+id/HomeMenu"
+            android:icon="@drawable/home_bottom_menu"
+            android:title="HOME" />
+
+        <item
+            android:id="@+id/sleepMenu"
+            android:icon="@drawable/sleep_bottom_icon"
+            android:title="SLEEP" />
+
+        <item
+            android:id="@+id/shareMenu"
+            android:icon="@drawable/share_bottom_icon"
+            android:title="SHARE" />
+
+</menu>

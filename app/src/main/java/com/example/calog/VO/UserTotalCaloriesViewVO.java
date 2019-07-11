@@ -7,7 +7,7 @@ public class UserTotalCaloriesViewVO {
     private String user_id;
     private String name;
     private double sum_calorie;
-    private Date diet_date;
+    private String diet_date;
     
 	public String getUser_id() {
 		return user_id;
@@ -27,10 +27,10 @@ public class UserTotalCaloriesViewVO {
 	public void setSum_calorie(double sum_calorie) {
 		this.sum_calorie = sum_calorie;
 	}
-	public Date getDiet_date() {
+	public String getDiet_date() {
 		return diet_date;
 	}
-	public void setDiet_date(Date diet_date) {
+	public void setDiet_date(String diet_date) {
 		this.diet_date = diet_date;
 	}
 

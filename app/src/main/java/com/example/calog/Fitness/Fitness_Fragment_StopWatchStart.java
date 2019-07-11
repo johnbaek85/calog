@@ -1,4 +1,4 @@
-package com.example.calog;
+package com.example.calog.Fitness;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,12 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class Fitness_Fragment_StopWatchContinue extends Fragment {
+import com.example.calog.R;
+
+public class Fitness_Fragment_StopWatchStart extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stopwatchcontinue, container, false);
+        View view = inflater.inflate(R.layout.fragment_stopwatchstart, container, false);
 
         return view;
     }
