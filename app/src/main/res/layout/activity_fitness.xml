@@ -87,6 +87,15 @@
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"/>
+            <TextView
+                android:id="@+id/CardioStep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/CardioCal"
+                android:layout_centerInParent="true"
+                android:text="걸음"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
                 <TextView
                     android:id="@+id/CardioTime"
                     android:layout_width="wrap_content"

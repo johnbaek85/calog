@@ -49,6 +49,10 @@ public class ExerciseActivity extends AppCompatActivity {
     int fitness_seconds;
     //총소모칼로리
     double used_calorie;
+    //총걸음수
+    int number_step;
+    //총이동거리
+    int distance;
 
     long time;
     long stopTime=0;
@@ -61,7 +65,7 @@ public class ExerciseActivity extends AppCompatActivity {
     BackThread thread;
     String user_id;
 
-    TextView txtCalorie, txtDate, stepCount, distance;
+    TextView txtCalorie, txtDate, txtStepCount, txtDistance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -72,10 +76,9 @@ public class ExerciseActivity extends AppCompatActivity {
                 fitness_menu_id = intent.getIntExtra("운동명", 0);
                 fitness_unit_calorie = intent.getDoubleExtra("단위칼로리", 0.0);
                 user_id = intent.getStringExtra("user_id");
+
                 txtDate = findViewById(R.id.txtDate);
                 txtDate.setText(intent.getStringExtra("select_date"));
-
-    //            System.out.println("운동타입" + fitness_type_id+"운동명" +fitness_menu_id+ "단위칼로리 = "+fitness_unit_calorie);
 
                 openImageFrame();
                 openButtonFrame();
@@ -86,11 +89,12 @@ public class ExerciseActivity extends AppCompatActivity {
                 txtDate = findViewById(R.id.txtDate);
                 txtDate.setText(intent.getStringExtra("select_date"));
 
+                //유산소일 경우 걸음 수, 거리 표시
                 if(fitness_type_id==1){
-                    stepCount = findViewById(R.id.stepCount);
-                    distance = findViewById(R.id.distance);
-                    stepCount.setVisibility(View.VISIBLE);
-                    distance.setVisibility(View.VISIBLE);
+                    txtStepCount = findViewById(R.id.stepCount);
+                    txtDistance = findViewById(R.id.distance);
+                    txtStepCount.setVisibility(View.VISIBLE);
+                    txtDistance.setVisibility(View.VISIBLE);
                 }
 
 
@@ -116,8 +120,10 @@ public class ExerciseActivity extends AppCompatActivity {
         });
 
 
-        timeElapse = (Chronometer)findViewById(R.id.chronometer);
 
+
+        //스톱워치
+        timeElapse = (Chronometer)findViewById(R.id.chronometer);
         timeElapse.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
 
             @Override
@@ -133,11 +139,12 @@ public class ExerciseActivity extends AppCompatActivity {
             }
         });
         timeElapse.setText("00:00:00");
-
     }
 
 
 
+
+    //초마다 칼로리 계산하는 thread
     class BackThread extends Thread{
         public void run(){
             while(true){
@@ -149,7 +156,6 @@ public class ExerciseActivity extends AppCompatActivity {
             }
         }
     }
-
     android.os.Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -198,6 +204,8 @@ public class ExerciseActivity extends AppCompatActivity {
                 break;
 
             case R.id.btnFinish:
+                number_step = 500;
+                distance = 240;
 
                 final LinearLayout resultLayout = (LinearLayout)View.inflate(ExerciseActivity.this, R.layout.result_exercise, null);
                 final AlertDialog.Builder resultBox = new AlertDialog.Builder(ExerciseActivity.this);
@@ -207,7 +215,10 @@ public class ExerciseActivity extends AppCompatActivity {
                 TextView txtTotalUsedCalorie = resultLayout.findViewById(R.id.totalUsedCal);
                 String strCalorie = String.format("%.1f",used_calorie);
                 txtTotalUsedCalorie.setText(strCalorie+"kcal");
-
+                if(fitness_type_id==1) {
+                    txtStepCount.setText(number_step + "걸음");
+                    txtDistance.setText(distance + "m");
+                }
                 resultBox.setIcon(R.drawable.ic_fitness_center_black_24dp);
                 resultBox.setTitle("운동결과화면");
                 resultBox.setView(resultLayout);
@@ -216,7 +227,7 @@ public class ExerciseActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        insertData();
+                        insertData(fitness_type_id);
                         intent = new Intent(ExerciseActivity.this, MainHealthActivity.class);
                         startActivity(intent);
 
@@ -229,6 +240,8 @@ public class ExerciseActivity extends AppCompatActivity {
 
 
 
+
+//버튼 변환 프레그먼트
     public void btnStartandStop(){
         FragmentManager fm=getSupportFragmentManager();
         FragmentTransaction tr=fm.beginTransaction();
@@ -240,7 +253,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
 
 
-
+//운동화면 프레그먼트
     public void openImageFrame(){
         FragmentManager fm=getSupportFragmentManager();
         FragmentTransaction tr =fm.beginTransaction();
@@ -257,6 +270,10 @@ public class ExerciseActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
+
+    //스톱워치 버튼변환 프레그먼트
     public void openButtonFrame(){
                 FragmentManager fm=getSupportFragmentManager();
                 FragmentTransaction tr =fm.beginTransaction();
@@ -265,39 +282,66 @@ public class ExerciseActivity extends AppCompatActivity {
                 tr.commit();
     }
 
+
+
+    //칼로리 계산메소드 (단위칼로리*초)
     public void calorieCalculator(){
         fitness_seconds = (int)time/1000;
                 used_calorie=fitness_seconds* fitness_unit_calorie;
-
     }
 
 
-    public void insertData(){
+
+//데이터 저장 메소드
+    public void insertData(int fitness_type_id){
+
         FitnessVO vo = new FitnessVO();
         vo.setUser_id(user_id);
         vo.setFitness_menu_id(fitness_menu_id);
         vo.setFitness_seconds(fitness_seconds);
         vo.setUsed_calorie(used_calorie);
+        vo.setNumber_steps(number_step);
+        vo.setDistance(distance);
 
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         rs = retrofit.create(RemoteService.class);
-        Call<Void> call =rs.UserWeightInsert(vo);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                Toast.makeText(ExerciseActivity.this, "운동기록을 저장합니다.", Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(ExerciseActivity.this, "저장 실패.", Toast.LENGTH_SHORT).show();
-                System.out.println("저장 오류: " + t.toString());
+        switch (fitness_type_id){
+            case 1:     //유산소일경우
+                Call<Void> cardioCall = rs.UserCardioInsert(vo);
+                cardioCall.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(ExerciseActivity.this, "운동기록을 저장합니다.", Toast.LENGTH_SHORT).show();
+                    }
 
-            }
-        });
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(ExerciseActivity.this, "저장 실패.", Toast.LENGTH_SHORT).show();
+                        System.out.println("저장 오류: " + t.toString());
+                    }
+                });
+                break;
+            case 2:     //근력운동일경우
+                Call<Void> weightCall =rs.UserWeightInsert(vo);
+                weightCall.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(ExerciseActivity.this, "운동기록을 저장합니다.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(ExerciseActivity.this, "저장 실패.", Toast.LENGTH_SHORT).show();
+                        System.out.println("저장 오류: " + t.toString());
+                    }
+                });
+                break;
+        }
     }
+
 
 
 }

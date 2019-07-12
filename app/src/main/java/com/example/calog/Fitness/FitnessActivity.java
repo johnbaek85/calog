@@ -52,7 +52,7 @@ public class FitnessActivity extends AppCompatActivity {
     RelativeLayout btnCardioActivity, btnWeightTrainingActivity, btnStretchingActivity;
     ImageView btnBack, btnHome;
     Intent intent;
-    TextView txtDate, txtCardioCal, txtCardioTime, txtCardioDistance, txtWeightCal, txtWeightTime;
+    TextView txtDate, txtCardioCal, txtCardioTime, txtCardioDistance, txtWeightCal, txtWeightTime, txtCardioStep;
     Retrofit retrofit;
     RemoteService rs;
     ImageView cardioList, weightList;
@@ -179,6 +179,7 @@ public class FitnessActivity extends AppCompatActivity {
                 txtCardioCal = findViewById(R.id.CardioCal);
                 txtCardioTime = findViewById(R.id.CardioTime);
                 txtCardioDistance = findViewById(R.id.CardioDistance);
+                txtCardioStep = findViewById(R.id.CardioStep);
                 txtCardioCal.setText(vo.getSum_cardio_used_calorie()+"kcal");
 
 
@@ -193,6 +194,7 @@ public class FitnessActivity extends AppCompatActivity {
                     String strS = fts < 10 ? "0" + fts : fts + "";
                     txtCardioTime.setText(strH + "시간 " + strM + "분 " + strS + "초");
 
+                    txtCardioStep.setText(vo.getSum_cardio_number_steps()+"걸음");
 
                     txtCardioDistance.setText(vo.getSum_cardio_distance()+"m");
             }

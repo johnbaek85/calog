@@ -67,4 +67,7 @@ public interface RemoteService {
 
     @POST("UserWeightInsert")
     Call<Void> UserWeightInsert(@Body FitnessVO vo);
+
+    @POST("UserCardioInsert")
+    Call<Void> UserCardioInsert(@Body FitnessVO vo);
 }

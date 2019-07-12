@@ -45,8 +45,10 @@ public class MyFitnessListAdapter extends RecyclerView.Adapter<MyFitnessListAdap
     viewholder.fitness_menu_name.setText(array.get(i).getFitness_menu_name());
     double unitCal = array.get(i).getUnit_calorie();
     int seconds = array.get(i).getFitness_seconds();
+    int steps = array.get(i).getNumber_steps();
     String eachConsumedCalrorie = String.format("%.1f",unitCal * seconds);
     viewholder.eachCalorie.setText(eachConsumedCalrorie+"kcal");
+
 
         long fitnessTime = array.get(i).getFitness_seconds();
 
@@ -62,9 +64,11 @@ public class MyFitnessListAdapter extends RecyclerView.Adapter<MyFitnessListAdap
     switch (type){
         case 1:
             viewholder.eachDistance.setText(array.get(i).getDistance()+"m");
+            viewholder.eachStep.setText(steps+"걸음");
             break;
         case 2:
             viewholder.eachDistance.setVisibility(View.INVISIBLE);
+            viewholder.eachStep.setVisibility(View.INVISIBLE);
             break;
     }
 
@@ -78,7 +82,7 @@ public class MyFitnessListAdapter extends RecyclerView.Adapter<MyFitnessListAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView fitness_menu_name, eachTime, eachCalorie, eachDistance;
+        TextView fitness_menu_name, eachTime, eachCalorie, eachDistance, eachStep;
         ImageView fitness_menu_image;
 
 
@@ -89,6 +93,8 @@ public class MyFitnessListAdapter extends RecyclerView.Adapter<MyFitnessListAdap
             eachTime = itemView.findViewById(R.id.eachTime);
             eachCalorie = itemView.findViewById(R.id.eachCalorie);
             eachDistance = itemView.findViewById(R.id.eachDistance);
+            eachStep = itemView.findViewById(R.id.eachStep);
+
 
         }
     }
