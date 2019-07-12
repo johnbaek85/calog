@@ -1,6 +1,7 @@
 package com.example.calog;
 
 import com.example.calog.VO.MainHealthVO;
+import com.example.calog.VO.SleepingVO;
 import com.example.calog.VO.UserVO;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface RemoteService {
 
-    public static final String BASE_URL = "http://192.168.0.27:8088/";
+    public static final String BASE_URL = "http://192.168.0.56:8088/calog/";
 
     //User
     @GET("user/list.jsp")
@@ -35,12 +36,15 @@ public interface RemoteService {
     @GET("MainHealthVO")
     Call<MainHealthVO> userMainHealth(@Query("user_id") String user_id, @Query("select_date") String date);
 
+    @POST("UserSleepInsert")
+    Call<Void> sleepResultInsert(@Body SleepingVO vo);
+
 
     /*//FitnessCardio
     @GET("fitnessCardio/list.jsp")
     Call<List<FitnessVO>> listFitness();
 
-    @POST("fitnessCardio/insert.jsp")
+    @POST("fitnessCardio/insert.jsp")/
     Call<ResponseBody> insertFitnessCardio(@Body FitnessVO vo);
 
     @POST("fitnessCardio/delete.jsp")

@@ -8,7 +8,7 @@ public class SleepingVO {
     private Date sleeping_date;
     private int sleeping_seconds;
     private int snoring_seconds;
-    
+
 	public String getUser_id() {
 		return user_id;
 	}

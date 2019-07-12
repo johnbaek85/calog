@@ -1,7 +1,6 @@
 package com.example.calog.Sleeping.DecibelCheck;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,13 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
+import com.example.calog.VO.SleepingVO;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -30,12 +35,22 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class SleepCheckActivity extends Activity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
+
+public class SleepCheckActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_AUDIO = 1001;
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 1002;
     private Thread timeThread = null;
@@ -52,6 +67,11 @@ public class SleepCheckActivity extends Activity {
     long currentTime = 0;
     long savedTime = 0;
     boolean isChart = false;
+
+    Retrofit retrofit;
+    RemoteService rs;
+    List<SleepingVO> sleeping;
+    ListView list;
 
     //시간설정
     TextView timeset;
@@ -98,6 +118,12 @@ public class SleepCheckActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_check);
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(RemoteService.class);
+
         //수면 시작 하기
         timeset = (TextView) findViewById(R.id.Timer);
         TimeCatch timecatch = new TimeCatch();
@@ -118,12 +144,32 @@ public class SleepCheckActivity extends Activity {
                 builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //값 보내기
+                        SleepingVO vo = new SleepingVO();
+                        vo.setUser_id("spider");
+                        vo.setSleeping_seconds(4000);
+                        vo.setSnoring_seconds(5000);
+
+                        RemoteService rs = retrofit.create(RemoteService.class);
+                        Call<Void> call = rs.sleepResultInsert(vo);
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(SleepCheckActivity.this,"저장되었습니다.",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(SleepCheckActivity.this,"에러발생"+t.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                         Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
                         startActivity(intent);
                     }
                 });
 
-                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
@@ -133,12 +179,13 @@ public class SleepCheckActivity extends Activity {
                 builder.setView(view);
 
                 //총 수면 시간
-                final TextView TotalSleep = (TextView) view.findViewById(R.id.TotalSleep);
-                long time = timeput;
-                int h = (int) (time / 3600000);
-                int m = (int) (time - h * 3600000) / 60000;
-                int s = (int) (time - h * 3600000 - m * 60000) / 1000;
-                TotalSleep.setText("총 수면 시간: " + String.valueOf(h + "시간" + m + "분" + s + "초"));
+                final TextView TotalSleep = (TextView)findViewById(R.id.TotalSleep);
+                TextView Timer = (np.TextView)findViewById(R.id.Timer);
+//                long time = timeput;
+//                int h = (int) (time / 3600000);
+//                int m = (int) (time - h * 3600000) / 60000;
+//                int s = (int) (time - h * 3600000 - m * 60000) / 1000;
+//                TotalSleep.setText(timeset.getText().toString());
 
                 //평균소음
                 final TextView SleepDecibel = (TextView) view.findViewById(R.id.SleepDecibel);
@@ -237,7 +284,7 @@ public class SleepCheckActivity extends Activity {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    ;
+                    e.printStackTrace();
                 }
             }
         }
