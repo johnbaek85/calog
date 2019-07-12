@@ -1,5 +1,6 @@
 package com.example.calog.Fitness;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -9,7 +10,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.drm.DrmStore;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +25,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.calog.Common.GraphPagerFragment;
+import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.example.calog.RemoteService;
+import com.example.calog.Sleeping.SleepCheckActivity;
 import com.example.calog.VO.FitnessVO;
+import com.example.calog.WordCloud.WordCloudActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.soundcloud.android.crop.Crop;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.util.List;
 
@@ -49,6 +60,10 @@ public class FitnessActivity extends AppCompatActivity {
     //임시 사용자정보, 메인페이지에서 전달받아야함
     String user_id;
     String fitness_date;
+
+    File screenShot;
+    Uri uriFile;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +238,71 @@ public class FitnessActivity extends AppCompatActivity {
         });
 
 
+        //TODO 하단 메뉴설정
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+
+                switch (item.getItemId())
+                {
+                    case R.id.rankingMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(FitnessActivity.this, WordCloudActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.drinkingMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        intent = new Intent(FitnessActivity.this, DrinkingCheckActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.HomeMenu:{
+                        intent = new Intent(FitnessActivity.this, MainHealthActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.sleepMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+                        intent = new Intent(FitnessActivity.this, SleepCheckActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.shareMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        View rootView = getWindow().getDecorView();
+                        screenShot = ScreenShot(rootView);
+                        uriFile = Uri.fromFile(screenShot);
+                        if(screenShot != null) {
+                            Crop.of(uriFile, uriFile).asSquare().start(FitnessActivity.this, 100);
+                        }
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        //바텀메뉴 초기화
+        //BottomMenuClearSelection(bottomNavigationView,false);
+
+
+
     }
 
 
@@ -242,6 +322,28 @@ public class FitnessActivity extends AppCompatActivity {
         intent.putExtra("select_date", fitness_date);
         intent.putExtra("user_id", user_id);
         startActivity(intent);
+    }
+
+
+    public File ScreenShot(View view){
+        view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
+        Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
+        String filename = "screenshot.png";
+        File file = new File(Environment.getExternalStorageDirectory() + "/Pictures", filename);
+
+        System.out.println("..........." + filename);
+        //Pictures폴더 screenshot.png 파일
+        FileOutputStream os = null;
+        try{
+            os = new FileOutputStream(file);
+            screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
+            os.close();
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return null;
+        }
+        view.setDrawingCacheEnabled(false);
+        return file;
     }
 
 }
