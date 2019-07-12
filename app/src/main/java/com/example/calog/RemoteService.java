@@ -1,5 +1,7 @@
 package com.example.calog;
 
+import com.example.calog.VO.DietMenuVO;
+import com.example.calog.VO.DietVO;
 import com.example.calog.VO.FitnessVO;
 import com.example.calog.VO.MainHealthVO;
 import com.example.calog.VO.UserVO;
@@ -37,6 +39,10 @@ public interface RemoteService {
     //User Diet Total calories
     @GET("MainHealthVO")
     Call<MainHealthVO> userMainHealth(@Query("user_id") String user_id, @Query("select_date") String date);
+
+
+    @GET("DietMenuVO")
+    Call<List<DietMenuVO>> listDiet(@Query("keyword") String keyword);
 
 
     /*//FitnessCardio
