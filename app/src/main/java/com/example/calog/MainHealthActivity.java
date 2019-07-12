@@ -1,7 +1,6 @@
 package com.example.calog;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -172,6 +171,15 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
+
+                Date longDate = new Date(currentSelectedTime);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = dateFormat.format(longDate);
+                System.out.println("선택된 날짜: " + selectedDate);
+
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("select_date", selectedDate);
+
                 startActivity(intent);
             }
         });

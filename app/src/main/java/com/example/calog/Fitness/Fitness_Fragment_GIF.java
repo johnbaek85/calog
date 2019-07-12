@@ -29,10 +29,25 @@ public class Fitness_Fragment_GIF extends Fragment {
         ImageView gifworkout = (ImageView)view.findViewById(R.id.imageGif);
         GlideDrawableImageViewTarget getImage = new GlideDrawableImageViewTarget(gifworkout);
         switch (FitnessMenuId){
-            case 1:         //팔굽혀펴기일 경우
+            case 21:
+                Glide.with(getContext()).load(R.drawable.close_hands_push_up).into(getImage);
+                break;
+
+            case 22:         //팔굽혀펴기일 경우
                 Glide.with(getContext()).load(R.drawable.pushup).into(getImage);
                 break;
-            case 2:
+            case 29:
+                Glide.with(getContext()).load(R.drawable.airbike).into(getImage);
+                break;
+            case 40:
+                Glide.with(getContext()).load(R.drawable.crunch).into(getImage);
+                break;
+
+            case 48:
+                Glide.with(getContext()).load(R.drawable.plank).into(getImage);
+                break;
+            case 51:
+                Glide.with(getContext()).load(R.drawable.situp).into(getImage);
                 break;
         }
 

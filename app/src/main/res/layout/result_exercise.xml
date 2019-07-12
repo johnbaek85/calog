@@ -7,34 +7,66 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/burn"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:src="@drawable/burncalobtm"
-        />
-    <TextView
-        android:id="@+id/resultCal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/burn"
-        android:text="소모 칼로리"
-        android:textSize="50dp"/>
+        <ImageView
+            android:id="@+id/burn"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:src="@drawable/burncalobtm"
+            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:id="@+id/totalUsedCal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/burn"
+            android:text="소모 칼로리"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:layout_marginRight="50dp"/>
 
-    <ImageView
-        android:id="@+id/clock"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
-        android:src="@drawable/ic_access_alarm_black_24dp"
-        android:layout_below="@id/burn"
-        android:layout_marginTop="30dp"/>
-    <TextView
-        android:id="@+id/resultTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/resultCal"
-        android:layout_toRightOf="@id/clock"
-        android:text="운동 시간"
-        android:textSize="50dp"/>
+        <ImageView
+            android:id="@+id/clock"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:src="@drawable/ic_access_alarm_black_24dp"
+            android:layout_below="@id/burn"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:id="@+id/resultTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/totalUsedCal"
+            android:layout_toRightOf="@id/clock"
+            android:text="운동 시간"
+            android:textSize="30dp"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:layout_marginRight="50dp"/>
+        <!--       <ImageView
+                   android:id="@+id/pause"
+                   android:layout_width="30sp"
+                   android:layout_height="30sp"
+                   android:src="@drawable/ic_pause_circle_outline_black_24dp"
+                   android:layout_below="@id/clock"
+                   android:layout_marginTop="30dp"
+                   />
+               <TextView
+                   android:id="@+id/breakTime"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/resultTime"
+                   android:text="휴식시간"
+                   android:textSize="30sp"
+                   android:layout_toRightOf="@id/pause"
+                   android:layout_marginTop="20dp"/>
+
+               <TextView
+                   android:id="@+id/test"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/pause"
+                   android:text="초로환산"/>
+                    -->
     </RelativeLayout>
 </LinearLayout>

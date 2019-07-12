@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Fitness.MyFitnessList"/>
         <activity android:name=".Fitness.ExerciseActivity" />
         <activity android:name=".Fitness.SearchFitnessActivity" />
         <activity android:name=".Fitness.FitnessActivity" />

@@ -46,7 +46,7 @@ public interface RemoteService {
     @GET("UserDietViewVO")
     Call<List<UserDietViewVO>> userDietDailyMenu(@Query("user_id") String user_id, @Query("diet_date") String date);
 
-    /*//FitnessCardio
+    //FitnessCardio
     @GET("fitnessCardio/list.jsp")
     Call<List<FitnessVO>> listFitness();
 
@@ -54,6 +54,30 @@ public interface RemoteService {
     Call<ResponseBody> insertFitnessCardio(@Body FitnessVO vo);
 
     @POST("fitnessCardio/delete.jsp")
-    Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);*/
+    Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);
+
+    @GET("FitnessVOweightday")
+    Call<FitnessVO> OneDayWeightTotalCalorie(@Query("user_id") String user_id, @Query("fitness_date") String fitness_date);
+
+    @GET("FitnessVOcardioday")
+    Call<FitnessVO> OneDayCardioTotalCalorie(@Query("user_id") String user_id, @Query("fitness_date") String fitness_date);
+
+    @GET("CardioList")
+    Call<List<FitnessVO>> CardioList();
+
+    @GET("WeightList")
+    Call<List<FitnessVO>> WeightList();
+
+    @GET("FitnessVOmycardio")
+    Call<List<FitnessVO>> OneDayCardioList(@Query("user_id")String user_id, @Query("fitness_date") String fitness_date);
+
+    @GET("FitnessVOmyweight")
+    Call<List<FitnessVO>> OneDayWeightList(@Query("user_id")String user_id, @Query("fitness_date") String fitness_date);
+
+    @POST("UserWeightInsert")
+    Call<Void> UserWeightInsert(@Body FitnessVO vo);
+
+    @POST("UserCardioInsert")
+    Call<Void> UserCardioInsert(@Body FitnessVO vo);
 
 }

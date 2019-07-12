@@ -15,9 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +31,6 @@ import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,63 +41,48 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.calog.RemoteService.BASE_URL;
 
-
-public class SearchFitnessActivity extends AppCompatActivity {
-    TextView txtDate, fitnessType;
+public class MyFitnessList extends AppCompatActivity {
+    TextView myListTitle, txtDate;
     ImageView btnBack, btnMAinShortcut;
     RecyclerView list;
     List<FitnessVO> array;
-    SearchFitnessAdapter adapter;
+    MyFitnessListAdapter adapter;
+
     int fitnessTypeId;          //운동타입, fitnessActivity에서 넘겨받음 1 = 유산소, 2 = 무산소
     Intent intent;
-
     Retrofit retrofit;
     RemoteService rs;
-    String fitness_date;
     String user_id;
+    String fitness_date;
 
     //TODO 하단 Menu
     File screenShot;
     Uri uriFile;
     BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_fitness);
-        txtDate=findViewById(R.id.txtDate);
+        setContentView(R.layout.activity_my_fitness_list);
+
+
+        myListTitle = findViewById(R.id.myListTitle);
         intent = getIntent();
         fitnessTypeId = intent.getIntExtra("운동타입", 0);
-        fitness_date = intent.getStringExtra("select_date");
         user_id = intent.getStringExtra("user_id");
+
+
+        fitness_date = intent.getStringExtra("select_date");
+        txtDate = findViewById(R.id.txtDate);
         txtDate.setText(fitness_date);
 
-        list=findViewById(R.id.exerciseList);
-        LinearLayoutManager manager =new LinearLayoutManager(this);
+        list = findViewById(R.id.OnedayFitnessList);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         list.setLayoutManager(manager);
 
-        array= new ArrayList<>();
 
-        fitnessType = findViewById(R.id.fitnessType);
-        switch (fitnessTypeId){
-            case 1:
-                fitnessType.setText("유산소 운동");
-                connect(fitnessTypeId);
-
-
-                break;
-            case 2:
-                fitnessType.setText("근력 운동");
-                connect(fitnessTypeId);
-
-                break;
-        }
-
-        txtDate = findViewById(R.id.txtDate);
-
-
-
-        btnBack=findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,15 +90,34 @@ public class SearchFitnessActivity extends AppCompatActivity {
             }
         });
 
-        btnMAinShortcut = findViewById(R.id.btnMAinShortcut);
+
+        btnMAinShortcut = findViewById(R.id.btnHome);
         btnMAinShortcut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SearchFitnessActivity.this, "메인 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
-                intent = new Intent(SearchFitnessActivity.this, MainHealthActivity.class);
+                Toast.makeText(MyFitnessList.this, "메인 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+                intent = new Intent(MyFitnessList.this, MainHealthActivity.class);
                 startActivity(intent);
+
+
             }
         });
+
+
+        switch (fitnessTypeId) {
+            case 1:
+                myListTitle.setText("오늘 실행한 유산소 운동입니다.");
+                connect(fitnessTypeId);
+
+
+                break;
+            case 2:
+                myListTitle.setText("오늘 실행한 근력 운동입니다.");
+                connect(fitnessTypeId);
+
+                break;
+
+        }
 
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
@@ -133,7 +134,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(SearchFitnessActivity.this, WordCloudActivity.class);
+                        intent = new Intent(MyFitnessList.this, WordCloudActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -142,13 +143,13 @@ public class SearchFitnessActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(SearchFitnessActivity.this, DrinkingCheckActivity.class);
+                        intent = new Intent(MyFitnessList.this, DrinkingCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
-                        intent = new Intent(SearchFitnessActivity.this, MainHealthActivity.class);
+                        intent = new Intent(MyFitnessList.this, MainHealthActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -156,7 +157,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
-                        intent = new Intent(SearchFitnessActivity.this, SleepCheckActivity.class);
+                        intent = new Intent(MyFitnessList.this, SleepCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -169,7 +170,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
                         screenShot = ScreenShot(rootView);
                         uriFile = Uri.fromFile(screenShot);
                         if(screenShot != null) {
-                            Crop.of(uriFile, uriFile).asSquare().start(SearchFitnessActivity.this, 100);
+                            Crop.of(uriFile, uriFile).asSquare().start(MyFitnessList.this, 100);
                         }
                         break;
                     }
@@ -180,8 +181,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
 
     }
 
-
-    public void connect(int type) {
+    public void connect(final int type) {
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -190,42 +190,42 @@ public class SearchFitnessActivity extends AppCompatActivity {
 
         switch (type) {
             case 1:
-                Call<List<FitnessVO>> cardiCall = rs.CardioList();
+                Call<List<FitnessVO>> cardiCall = rs.OneDayCardioList(user_id, fitness_date);
                 cardiCall.enqueue(new Callback<List<FitnessVO>>() {
-                        @Override
-                        public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
-                            array = response.body();
-                            adapter =new SearchFitnessAdapter(SearchFitnessActivity.this, array, fitness_date, user_id);
-                            list.setAdapter(adapter);
-                        }
+                    @Override
+                    public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
+                        array = response.body();
+                        adapter =new MyFitnessListAdapter(MyFitnessList.this, array, type);
+                        list.setAdapter(adapter);
+                    }
 
-                        @Override
-                        public void onFailure(Call<List<FitnessVO>> call, Throwable t) {
-                            System.out.println("유산소 운동 목록 호출 오류 : "+t.toString());
+                    @Override
+                    public void onFailure(Call<List<FitnessVO>> call, Throwable t) {
+                        System.out.println("당일 유산소 운동 목록 호출 오류 : "+t.toString());
 
 
-                        }
-                    });
+                    }
+                });
 
                 break;
             case 2:
-                Call<List<FitnessVO>> weightCall = rs.WeightList();
+                Call<List<FitnessVO>> weightCall = rs.OneDayWeightList(user_id, fitness_date);
                 weightCall.enqueue(new Callback<List<FitnessVO>>() {
-                        @Override
-                        public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
-                            array = response.body();
-                            adapter =new SearchFitnessAdapter(SearchFitnessActivity.this, array, fitness_date, user_id);
-                            list.setAdapter(adapter);
+                    @Override
+                    public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
+                        array = response.body();
+                        adapter =new MyFitnessListAdapter(MyFitnessList.this, array, type);
+                        list.setAdapter(adapter);
 
-                        }
+                    }
 
-                        @Override
-                        public void onFailure(Call<List<FitnessVO>> call, Throwable t) {
-                            System.out.println("무산소 운동 목록 호출 오류 : "+t.toString());
+                    @Override
+                    public void onFailure(Call<List<FitnessVO>> call, Throwable t) {
+                        System.out.println("당일 근력 운동 목록 호출 오류 : "+t.toString());
 
-                        }
-                    });
-                    break;
+                    }
+                });
+                break;
 
 
         }
@@ -275,7 +275,5 @@ public class SearchFitnessActivity extends AppCompatActivity {
         view.setDrawingCacheEnabled(false);
         return file;
     }
-
-
 
 }
