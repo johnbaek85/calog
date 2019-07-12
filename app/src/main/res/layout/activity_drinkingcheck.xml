@@ -37,15 +37,8 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="35sp"
                 android:text="음주 측정"
-                android:textColor="#FFFFFF"
+                android:textColor="#706B6B"
                 android:textSize="15sp" />
-
-            <ImageView
-                android:id="@+id/btnHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_home"
-                android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -112,6 +105,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
+        app:itemIconTint="@color/browser_actions_title_color"
+        app:labelVisibilityMode="labeled"
+        app:itemTextColor="@color/browser_actions_title_color"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom"/>
 

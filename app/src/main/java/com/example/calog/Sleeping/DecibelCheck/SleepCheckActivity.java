@@ -56,7 +56,7 @@ public class SleepCheckActivity extends Activity {
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 1002;
     private Thread timeThread = null;
     private Boolean isRunning = true;
-    ImageView btnBack, btnHome;
+    ImageView btnBack;
     ArrayList<Entry> yVals;
     boolean refreshed = false;
     public static Typeface tf;
@@ -190,16 +190,6 @@ public class SleepCheckActivity extends Activity {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-
-        //메인 화면 홈버튼
-        btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
-                startActivity(intent);
             }
         });
 

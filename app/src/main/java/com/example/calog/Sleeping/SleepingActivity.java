@@ -43,7 +43,7 @@ public class SleepingActivity extends AppCompatActivity {
     TimePicker alarmPicker;
     Context context;
     PendingIntent pendingIntent;
-    ImageView btnBack, btnHome;
+    ImageView btnBack;
 
     Intent intent;
 
@@ -61,15 +61,6 @@ public class SleepingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-
-        btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SleepingActivity.this, MainHealthActivity.class);
-                startActivity(intent);
             }
         });
 

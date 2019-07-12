@@ -43,7 +43,7 @@ public class JoinActivity extends AppCompatActivity {
     Button btnSave, btnReset;
 
     //ImageView back, home 추가
-    ImageView back, home;
+    ImageView back;
 
     //Spinner 추가
     Spinner spin;
@@ -212,17 +212,6 @@ public class JoinActivity extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spin.setAdapter(adapter2);
         // Day Spinner 끝
-
-        //home 클릭했을때
-        home = findViewById(R.id.home);
-
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(JoinActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
 
         //btnSave 클릭했을때
         btnSave = findViewById(R.id.btnSave);

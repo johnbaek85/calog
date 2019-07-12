@@ -51,7 +51,7 @@ public class FoodSearchActivity extends AppCompatActivity {
 
     RecyclerView dietList;
     Button btnSave, btnSearch;
-    ImageView btnBack, btnHome;
+    ImageView btnBack;
     EditText searchEdit;
     Intent intent;
     Retrofit retrofit;
@@ -259,14 +259,6 @@ public class FoodSearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-        btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(FoodSearchActivity.this, MainHealthActivity.class);
-                startActivity(intent);
             }
         });
     }

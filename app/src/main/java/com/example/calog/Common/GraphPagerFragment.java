@@ -11,6 +11,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.example.calog.R;
 import com.google.android.material.tabs.TabLayout;
@@ -26,6 +28,7 @@ public class GraphPagerFragment extends Fragment {
 //    {
 //        fragmentManager=fm;
 //    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

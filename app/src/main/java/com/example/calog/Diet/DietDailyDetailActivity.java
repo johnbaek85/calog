@@ -53,7 +53,7 @@ public class DietDailyDetailActivity extends AppCompatActivity {
     DietDailyMenuAdapter adapter;
     List<UserDietViewVO> userDietDailyMenuArray;
 
-    ImageView btnBack, btnHome;
+    ImageView btnBack;
 
     //TODO 하단 Menu
     File screenShot;
@@ -71,15 +71,6 @@ public class DietDailyDetailActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 finish();
-            }
-        });
-
-        btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(DietDailyDetailActivity.this, MainHealthActivity.class);
-                startActivity(intent);
             }
         });
 

@@ -50,7 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.calog.RemoteService.BASE_URL;
 
 public class ExerciseActivity extends AppCompatActivity {
-    ImageView btnBack, btnMAinShortcut;
+    ImageView btnBack;
     Intent intent;
     Chronometer timeElapse;
 
@@ -129,19 +129,6 @@ public class ExerciseActivity extends AppCompatActivity {
                 finish();
             }
         });
-//메인페이지로 이동
-        btnMAinShortcut = findViewById(R.id.btnMAinShortcut);
-        btnMAinShortcut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ExerciseActivity.this, "메인 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
-                intent = new Intent(ExerciseActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-
 
         //스톱워치
         timeElapse = (Chronometer)findViewById(R.id.chronometer);

@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="35sp"
                 android:text="수면체크결과"
-                android:textColor="#FFFFFF"
+                android:textColor="#706B6B"
                 android:textSize="15sp" />
 
             <!--<ImageView-->

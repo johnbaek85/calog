@@ -47,7 +47,7 @@ import static com.example.calog.RemoteService.BASE_URL;
 
 public class SearchFitnessActivity extends AppCompatActivity {
     TextView txtDate, fitnessType;
-    ImageView btnBack, btnMAinShortcut;
+    ImageView btnBack;
     RecyclerView list;
     List<FitnessVO> array;
     SearchFitnessAdapter adapter;
@@ -105,16 +105,6 @@ public class SearchFitnessActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-
-        btnMAinShortcut = findViewById(R.id.btnMAinShortcut);
-        btnMAinShortcut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(SearchFitnessActivity.this, "메인 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
-                intent = new Intent(SearchFitnessActivity.this, MainHealthActivity.class);
-                startActivity(intent);
             }
         });
 
