@@ -300,7 +300,7 @@ public class MainHealthActivity extends AppCompatActivity {
                             if(userVO.getAlcohol_content() > 0.07){
                                 imgDrink.setBackgroundResource(R.drawable.ic_bad);
                                 txtAlert.setText("만취 상태입니다. 음주에 유의하세요.");
-                            }else if(userVO.getAlcohol_content() == 0.0){
+                            }else if(userVO.getAlcohol_content() == 0.0 || userVO.getAlcohol_content() < 0.0){
                                 imgDrink.setBackgroundResource(R.drawable.ic_neutral);
                                 txtAlert.setText("");
                             }else if(userVO.getAlcohol_content() >= 0.001 && userVO.getAlcohol_content() <= 0.02){
