@@ -1,22 +1,14 @@
 package com.example.calog;
 
-import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -25,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -33,28 +26,21 @@ import androidx.core.content.FileProvider;
 import com.example.calog.Diet.DietActivity;
 import com.example.calog.Drinking.DrinkingActivity;
 import com.example.calog.Drinking.DrinkingCheckActivity;
-
 import com.example.calog.Fitness.FitnessActivity;
-import com.example.calog.Sleeping.SleepCheckActivity;
+import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
 import com.example.calog.Sleeping.SleepingActivity;
 import com.example.calog.VO.MainHealthVO;
-import com.example.calog.VO.UserTotalCaloriesViewVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.example.calog.signUp.MainJoinActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarListener;

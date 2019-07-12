@@ -3,4 +3,21 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- MainActivity.java -->
+    <string name="activity_infobutton">Ok</string>
+    <string name="activity_recStartErr">녹음을 시작할 수 없습니다.</string>
+    <string name="activity_recBusyErr">레코더가 사용 중이거나 기록 할 수 있는 권한이 없습니다.</string>
+    <string name="activity_recFileErr">파일을 생성할 수 없습니다.</string>
+    <!-- activity_main.xml -->
+    <string name="activity_minlabel">최소 소음</string>
+    <string name="activity_avglabel">평균 소음</string>
+    <string name="activity_maxlabel">최대 소음</string>
+    <string name="activity_curlabel">현재 소음</string>
+    <!-- dialog_info.xml -->
+    <!--<string name="info_0db">0dB : Most people just hear a low noise.</string>-->
+    <!--<string name="info_30db">30dB～40dB it\'s the ideal calm.</string>-->
+    <!--<string name="info_50db">50dB and more: affects rest and sleep.</string>-->
+    <!--<string name="info_70db">70dB and more: can affect learning and work.</string>-->
+    <!--<string name="info_90db">90dB and more affect audition.</string>-->
+    <!--<string name="info_150db">150dB : A sudden exposure to a sound environment of 150dB, will break the eardrums. The audition will be completely lost.</string>-->
 </resources>

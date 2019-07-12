@@ -23,7 +23,7 @@ import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.example.calog.RemoteService;
-import com.example.calog.Sleeping.SleepCheckActivity;
+import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
 import com.example.calog.VO.UserDietViewVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

@@ -28,7 +28,7 @@ import com.example.calog.CalendarActivity;
 import com.example.calog.Common.GraphPagerFragment;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
-import com.example.calog.Sleeping.SleepCheckActivity;
+import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;

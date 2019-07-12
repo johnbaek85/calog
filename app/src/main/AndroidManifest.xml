@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.calog">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -15,20 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Diet.DietDailyDetailActivity"></activity>
         <activity android:name=".Fitness.ExerciseActivity" />
         <activity android:name=".Fitness.SearchFitnessActivity" />
         <activity android:name=".Fitness.FitnessActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".Diet.FoodSearchActivity" />
         <activity android:name=".Diet.DietActivity" />
+        <activity android:name=".Diet.DietDailyDetailActivity" />
         <activity android:name=".signUp.MainJoinActivity" />
         <activity android:name=".signUp.JoinActivity" />
         <activity android:name=".Drinking.TestActivity" />
         <activity android:name=".Drinking.DrinkingActivity" />
         <activity android:name=".Drinking.DrinkingCheckActivity" />
         <activity android:name=".Sleeping.SleepingActivity" />
-        <activity android:name=".Sleeping.SleepCheckActivity" />
+        <activity android:name=".Sleeping.DecibelCheck.SleepCheckActivity" />
         <activity android:name=".WordCloud.WordCloudActivity" />
         <activity android:name=".WordCloud.WordCloudWebViewActivity" />
         <activity
@@ -41,10 +41,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
-
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
