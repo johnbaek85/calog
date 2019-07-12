@@ -1,4 +1,4 @@
-package com.example.calog.WordCloud;
+package com.example.calog.VO;
 
 public class CrawlingVO {
     private String title;

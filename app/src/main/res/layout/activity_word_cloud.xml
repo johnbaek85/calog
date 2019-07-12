@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".WordCloud.WordCloudActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -28,15 +27,35 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <ImageView
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/toolbar">
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/wordcloud" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="" />
+        <!--  <ImageView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:src="@drawable/wordcloud"/>-->
+    </WebView>
+
+    <!--
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/wordcloud" />
+        </LinearLayout>
+
 
     <SlidingDrawer
         android:id="@+id/drawer"
@@ -51,38 +70,51 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/arrow_up_float" />
+    -->
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CCCCCC"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_below="@id/webView">
 
-        <LinearLayout
-            android:id="@+id/content"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#CCCCCC"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/cardview_light_background"
+            android:padding="3dp"
+            android:text="주간 검색어 순위 10" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="주간 검색어 순위 10" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/WordCloudList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/WordCloudList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foregroundGravity="center" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
+        <TextView
+            android:id="@+id/cloudWords"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="키워드 웹뷰 액티비티로 이동됩니다.." />
 
-            <TextView
-                android:id="@+id/cloudWords"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="키워드 웹뷰 액티비티로 이동됩니다.." />
+    </LinearLayout>
 
-        </LinearLayout>
-    </SlidingDrawer>
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_bottom"/>
+    <!--</SlidingDrawer>-->
+</RelativeLayout>

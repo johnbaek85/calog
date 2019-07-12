@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".WordCloud.WordCloudWebViewActivity">
+<!--
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -32,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="키워드 기사" />
+                android:text="상세 보기" />
 
             <ImageView
                 android:id="@+id/btnMAinShortcut"
@@ -43,15 +44,6 @@
                 android:src="@drawable/ic_home" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
-
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </WebView>
+-->
 
 </LinearLayout>
