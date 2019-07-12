@@ -95,10 +95,7 @@ public class MainHealthActivity extends AppCompatActivity {
     Retrofit retrofit;
     RemoteService rs;
 
-
     private FragmentManager fragmentManager = getSupportFragmentManager();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

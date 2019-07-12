@@ -26,9 +26,20 @@ import com.example.calog.Drinking.driver.UsbSerialPort;
 import com.example.calog.Drinking.driver.UsbSerialProber;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
+import com.example.calog.VO.DrinkingVO;
+import com.example.calog.VO.MainHealthVO;
 
 import java.io.IOException;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
 
 public class DrinkingCheckActivity extends AppCompatActivity
 {
@@ -49,6 +60,11 @@ public class DrinkingCheckActivity extends AppCompatActivity
 
     //아두이노 결과값
     private String resultA;
+    private double dubResultA;
+
+    //DB용
+    Retrofit retrofit;
+    RemoteService rs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,7 +84,8 @@ public class DrinkingCheckActivity extends AppCompatActivity
         });
 
         ImageView btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
+        btnHome.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(DrinkingCheckActivity.this, MainHealthActivity.class);
@@ -184,6 +201,7 @@ public class DrinkingCheckActivity extends AppCompatActivity
             mSerialConn.finalize();
 
             //결과데이터 출력
+            dubResultA=Double.valueOf(resultA);
             checkText.setText(resultA);
 
             //캔슬버튼
@@ -203,7 +221,34 @@ public class DrinkingCheckActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v)
                 {
-                    Toast.makeText(getApplicationContext(), "DB에 데이터 저장", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "DB에 데이터 저장", Toast.LENGTH_SHORT).show();
+
+                    retrofit = new Retrofit.Builder() //Retrofit 빌더생성
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
+
+                    DrinkingVO vo=new DrinkingVO();
+                    vo.setUser_id("spider");
+                    vo.setAlcohol_content(dubResultA);
+
+
+                    //TODO Drinking INSERT 작업
+                    Call<Void> call = rs.UserDrinkInsert(vo);
+                    call.enqueue(new Callback<Void>()
+                    {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            Toast.makeText(DrinkingCheckActivity.this, "DB에 데이터 저장되었습니다", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(DrinkingCheckActivity.this, "error:"+t.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
             });
         }

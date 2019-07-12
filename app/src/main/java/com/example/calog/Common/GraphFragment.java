@@ -33,6 +33,8 @@ public class GraphFragment extends Fragment
 {
     String[] labels;
 
+    GraphFragment(){}
+
     public GraphFragment(String unitDate)
     {
         //라벨 작업
@@ -53,6 +55,15 @@ public class GraphFragment extends Fragment
            this.labels = new String[]{"2016","2017","2018","2019"};
        }
     }
+
+//    public static GraphFragment newInstance() {
+//
+//        Bundle args = new Bundle();
+//
+//        GraphFragment fragment = new GraphFragment();
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

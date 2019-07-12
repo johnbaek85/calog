@@ -128,6 +128,5 @@ public class DrinkingActivity extends AppCompatActivity
         GraphPagerFragment graphFragment = new GraphPagerFragment();
         tr.replace(R.id.barChartFrag,graphFragment);
 
-
     }
 }

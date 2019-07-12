@@ -27,7 +27,6 @@ public class GraphPagerFragment extends Fragment {
 //        fragmentManager=fm;
 //    }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

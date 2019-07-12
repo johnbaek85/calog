@@ -13,15 +13,63 @@ import android.widget.Toast;
 import com.example.calog.Common.GraphPagerFragment;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
+import com.example.calog.VO.MainHealthVO;
+import com.example.calog.VO.UserTotalCaloriesViewVO;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
 
 public class DietActivity extends AppCompatActivity {
 
     Intent intent;
 
+    //DB 용
+    Retrofit retrofit;
+    RemoteService rs;
+
+    List<UserTotalCaloriesViewVO> userTotalCaloriesViewVOList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet);
+
+        retrofit = new Retrofit.Builder() //Retrofit 빌더생성
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
+
+        Call<List<UserTotalCaloriesViewVO>> call = rs.UserTotalCaloriesViewVO("spider");
+        call.enqueue(new Callback<List<UserTotalCaloriesViewVO>>() {
+
+                 @Override
+                 public void onResponse(Call<List<UserTotalCaloriesViewVO>> call, Response<List<UserTotalCaloriesViewVO>> response)
+                 {
+                     userTotalCaloriesViewVOList=response.body();
+
+                     for(int i=0; i<userTotalCaloriesViewVOList.size(); i++)
+                     {
+                         UserTotalCaloriesViewVO vo = userTotalCaloriesViewVOList.get(i);
+
+                     }
+                     System.out.println("userTotalCaloriesViewVOList==================="+userTotalCaloriesViewVOList.toString());
+                 }
+
+                 @Override
+                 public void onFailure(Call<List<UserTotalCaloriesViewVO>> call, Throwable t) {
+                    System.out.println("error >>>>>>>>>>>>>>>>>>>>>>>>>>>"+t.toString());
+                 }
+         });
 
         //TODO 그래프 BarChart Fragment 장착
         FragmentManager fm=getSupportFragmentManager();
