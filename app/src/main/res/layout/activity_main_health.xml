@@ -79,7 +79,7 @@
                 android:text="식사"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/txtEatCalorie"
@@ -89,7 +89,7 @@
                 android:text="섭취칼로리 : 400kcal"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/txtSuggestedEatCalorie"
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtEatCalorie"
                 android:text="권장 섭취 칼로리 : 2500kcal"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <ImageView
                 android:id="@+id/imgDiet"
@@ -125,7 +125,7 @@
                 android:text="운동"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/txtUsedCalorie"
@@ -135,7 +135,7 @@
                 android:text="소모칼로리 : 700kcal"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/txtSuggestedUsedCalorie"
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtUsedCalorie"
                 android:text="권장 소모 칼로리 : 500kcal"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <ImageView
                 android:id="@+id/imgFitness"
@@ -171,7 +171,7 @@
                 android:text="수면"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/txtSleepHours"
@@ -181,7 +181,7 @@
                 android:text="수면시간 : 3시간"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/txtSuggestedSleepHours"
@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtSleepHours"
                 android:text="권장 수면 시간 : 8시간"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <ImageView
                 android:id="@+id/imgSleep"
@@ -216,7 +216,7 @@
                 android:text="음주"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/txtAlcoholContent"
@@ -226,7 +226,7 @@
                 android:text="알코올 수치 : 0.5 %"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/txtAlert"
@@ -234,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtAlcoholContent"
                 android:text="만취 상태입니다. 음주에 유의하세요."
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
 
             <ImageView
                 android:id="@+id/imgDrink"

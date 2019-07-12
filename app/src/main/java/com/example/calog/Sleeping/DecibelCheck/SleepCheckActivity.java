@@ -4,28 +4,37 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.example.calog.RemoteService;
 import com.example.calog.VO.SleepingVO;
+import com.example.calog.WordCloud.WordCloudActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -35,12 +44,14 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,15 +78,14 @@ public class SleepCheckActivity extends AppCompatActivity {
     long currentTime = 0;
     long savedTime = 0;
     boolean isChart = false;
-
     Retrofit retrofit;
     RemoteService rs;
-    List<SleepingVO> sleeping;
-    ListView list;
 
     //시간설정
     TextView timeset;
     int timeput = 0;
+    TextView snoreTimer;
+    int snoretimeput = 0;
 
     /* Decibel */
     private boolean bListener = true;
@@ -113,6 +123,35 @@ public class SleepCheckActivity extends AppCompatActivity {
         }
     };
 
+    Handler timehandler = new Handler() {
+        String stringTimer= "00:00:00";
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                stringTimer = String.format("%02d:%02d:%02d", timeput / (60 * 60) , (timeput/60)%60, (timeput % 60));
+                timeset.setText(stringTimer);
+            }
+        }
+    };
+
+    Handler snorehandler = new Handler() {
+        String stringTimer= "00:00:00";
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                stringTimer = String.format("%02d:%02d:%02d", snoretimeput / (60 * 60) , (snoretimeput/60)%60, (snoretimeput % 60));
+                snoreTimer.setText(stringTimer);
+            }
+        }
+    };
+
+    Intent intent;
+
+    //TODO 하단 Menu
+    File screenShot;
+    Uri uriFile;
+    BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,9 +165,15 @@ public class SleepCheckActivity extends AppCompatActivity {
 
         //수면 시작 하기
         timeset = (TextView) findViewById(R.id.Timer);
-        TimeCatch timecatch = new TimeCatch();
+        snoreTimer = (TextView) findViewById(R.id.snoreTimer);
+        final TimeCatch timecatch = new TimeCatch();
+        final SnoreTimeCatch snoretimecatch = new SnoreTimeCatch();
+
         timecatch.setDaemon(true);
         timecatch.start();
+
+        snoretimecatch.setDaemon(true);
+        snoretimecatch.start();
 
         //수면 종료
         Button btnSleepFinish = (Button) findViewById(R.id.btnSleepFinish);
@@ -136,19 +181,23 @@ public class SleepCheckActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //수면 종료 시키기
+                TimeCatch.interrupted();
 
+                //다이얼 로그 생성
                 AlertDialog.Builder builder = new AlertDialog.Builder(SleepCheckActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
-                View view = inflater.inflate(R.layout.activity_sleep_check_result, null);
+                final View view = inflater.inflate(R.layout.activity_sleep_check_result, null);
 
                 builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //값 보내기
+
+                        int SleepSeconds = timeput;
                         SleepingVO vo = new SleepingVO();
                         vo.setUser_id("spider");
-                        vo.setSleeping_seconds(4000);
-                        vo.setSnoring_seconds(5000);
+                        vo.setSleeping_seconds(SleepSeconds);
+                        vo.setSnoring_seconds(2000);
 
                         RemoteService rs = retrofit.create(RemoteService.class);
                         Call<Void> call = rs.sleepResultInsert(vo);
@@ -169,7 +218,7 @@ public class SleepCheckActivity extends AppCompatActivity {
                     }
                 });
 
-                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
@@ -179,19 +228,27 @@ public class SleepCheckActivity extends AppCompatActivity {
                 builder.setView(view);
 
                 //총 수면 시간
-                final TextView TotalSleep = (TextView)findViewById(R.id.TotalSleep);
-                TextView Timer = (np.TextView)findViewById(R.id.Timer);
-//                long time = timeput;
-//                int h = (int) (time / 3600000);
-//                int m = (int) (time - h * 3600000) / 60000;
-//                int s = (int) (time - h * 3600000 - m * 60000) / 1000;
-//                TotalSleep.setText(timeset.getText().toString());
+                final TextView TotalSleep = (TextView) view.findViewById(R.id.TotalSleep);
+                long time = timeput;
+                int hour = (int) (time / 3600);
+                int minute = (int) (time % 3600 / 60);
+                int second = (int) (time % 3600 % 60);
+                TotalSleep.setText("총 수면 시간: " + String.valueOf(hour + "시간" + minute + "분" + second + "초"));
+
+                //코골이
+                final TextView SnoreTime = (TextView)view.findViewById(R.id.SleepSnoring);
+                long snoretime = snoretimeput;
+                int snorehour = (int) (snoretime / 3600);
+                int snoreminute = (int) (snoretime % 3600 / 60);
+                int snoresecond = (int) (snoretime % 3600 % 60);
+                SnoreTime.setText("총 코골이 시간: " + String.valueOf(snorehour + "시간" + snoreminute + "분" + snoresecond + "초"));
 
                 //평균소음
                 final TextView SleepDecibel = (TextView) view.findViewById(R.id.SleepDecibel);
                 SleepDecibel.setText("평균 소음 : " + mmVal.getText().toString() + "db");
                 double mmval = Double.parseDouble(mmVal.getText().toString());
 
+                //수면의 질
                 final TextView SleepQuality = (TextView) view.findViewById(R.id.SleepQuality);
                 if (mmval >= 0 && mmval <= 40) {
                     SleepQuality.setText("수면의 질 : 좋음");
@@ -205,25 +262,6 @@ public class SleepCheckActivity extends AppCompatActivity {
                     SleepQuality.setText("수면의 질 : 나쁨");
                 }
                 builder.show();
-            }
-        });
-
-        //메인 화면 버튼
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        //메인 화면 홈버튼
-        btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -271,9 +309,68 @@ public class SleepCheckActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_STORAGE);
                 Toast.makeText(this, "수면 품질 체크를 위해 저장 권한이 필요합니다.", Toast.LENGTH_LONG).show();
-
             }
         }
+
+        //TODO 하단 메뉴설정
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+
+                switch (item.getItemId())
+                {
+                    case R.id.rankingMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        intent = new Intent(SleepCheckActivity.this, WordCloudActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.drinkingMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        intent = new Intent(SleepCheckActivity.this, DrinkingCheckActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.HomeMenu:{
+                        intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.sleepMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+                        intent = new Intent(SleepCheckActivity.this, SleepCheckActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.shareMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        View rootView = getWindow().getDecorView();
+                        screenShot = ScreenShot(rootView);
+                        uriFile = Uri.fromFile(screenShot);
+                        if(screenShot != null) {
+                            Crop.of(uriFile, uriFile).asSquare().start(SleepCheckActivity.this, 100);
+                        }
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     class TimeCatch extends Thread {
@@ -290,14 +387,25 @@ public class SleepCheckActivity extends AppCompatActivity {
         }
     }
 
-    Handler timehandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-                timeset.setText("수면 시간 : " + timeput);
-            }
+    class SnoreTimeCatch extends Thread{
+        public void run(){
+            mmVal = (TextView) findViewById(R.id.mmval);
+            double mmval = Double.parseDouble(mmVal.getText().toString());
+            maxVal = (TextView) findViewById(R.id.maxval);
+            double maxval = Double.parseDouble(maxVal.getText().toString());
+            double Snoring = (maxval-mmval)/24.771213;
+//            while(true){
+//                if(Snoring < mmval){
+//                    snoretimeput++;
+//                    snorehandler.sendEmptyMessage(0);
+//                }else{
+//                 //인터럽트로 정지
+//                    SnoreTimeCatch.interrupted();
+//                }
+//            }
         }
-    };
+    }
+
 
     //권한 묻기
     @Override
@@ -525,4 +633,50 @@ public class SleepCheckActivity extends AppCompatActivity {
         mRecorder.delete();
         super.onDestroy();
     }
+
+    //TODO 하단 메뉴설정
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        File cropFile = screenShot;
+
+        if(requestCode ==100){
+            if (resultCode == RESULT_OK) {
+                cropFile = new File(Crop.getOutput(data).getPath());
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { // API 24 이상 일경우..
+                uriFile = FileProvider.getUriForFile(getApplicationContext(),
+                        getApplicationContext().getPackageName() + ".provider", cropFile);
+            } else { // API 24 미만 일경우..
+                uriFile = Uri.fromFile(cropFile);
+            }
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uriFile);
+            shareIntent.setType("image/*");
+            startActivity(Intent.createChooser(shareIntent, "선택"));
+        }
+    }
+
+    public File ScreenShot(View view){
+        view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
+        Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
+        String filename = "screenshot.png";
+        File file = new File(Environment.getExternalStorageDirectory() + "/Pictures", filename);
+
+        System.out.println("..........." + filename);
+        //Pictures폴더 screenshot.png 파일
+        FileOutputStream os = null;
+        try{
+            os = new FileOutputStream(file);
+            screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
+            os.close();
+        }catch (Exception e){
+            System.out.println(e.toString());
+            return null;
+        }
+        view.setDrawingCacheEnabled(false);
+        return file;
+    }
+
 }

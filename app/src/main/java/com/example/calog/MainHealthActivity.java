@@ -1,7 +1,6 @@
 package com.example.calog;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -38,6 +37,7 @@ import com.soundcloud.android.crop.Crop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -65,15 +65,15 @@ public class MainHealthActivity extends AppCompatActivity {
     TextView txtSleepHours, txtSuggestedSleepHours;
     TextView txtAlcoholContent, txtAlert;
 
-    File screenShot;
-    Uri uriFile;
-
     Intent intent;
 
     HorizontalCalendar horizontalCalendar;
 
     long currentSelectedTime=0; //선택시간
 
+    //TODO 하단 Menu
+    File screenShot;
+    Uri uriFile;
     BottomNavigationView bottomNavigationView;
 
     Retrofit retrofit;
@@ -152,6 +152,14 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "식사 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, DietActivity.class);
+
+                Date longDate = new Date(currentSelectedTime);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = dateFormat.format(longDate);
+                System.out.println("선택된 날짜: " + selectedDate);
+
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("select_date", selectedDate);
                 startActivity(intent);
             }
         });
@@ -163,6 +171,15 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
+
+                Date longDate = new Date(currentSelectedTime);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = dateFormat.format(longDate);
+                System.out.println("선택된 날짜: " + selectedDate);
+
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("select_date", selectedDate);
+
                 startActivity(intent);
             }
         });
@@ -194,93 +211,6 @@ public class MainHealthActivity extends AppCompatActivity {
 
             }
         });
-
-        //TODO 하단 메뉴설정
-        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-         {
-             @Override
-             public boolean onNavigationItemSelected(@NonNull MenuItem item)
-             {
-
-                 switch (item.getItemId())
-                 {
-                     case R.id.rankingMenu: {
-//                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
-//                                 Toast.LENGTH_SHORT).show();
-
-                         Intent intent = new Intent(MainHealthActivity.this, WordCloudActivity.class);
-                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                         startActivity(intent);
-                         break;
-                     }
-                     case R.id.drinkingMenu: {
-//                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
-//                                 Toast.LENGTH_SHORT).show();
-
-                         intent = new Intent(MainHealthActivity.this, DrinkingCheckActivity.class);
-                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                         startActivity(intent);
-                         break;
-                     }
-                     case R.id.sleepMenu: {
-//                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
-//                                 Toast.LENGTH_SHORT).show();
-                         intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
-                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                         startActivity(intent);
-                         break;
-                     }
-                     case R.id.shareMenu: {
-//                         Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
-//                                 Toast.LENGTH_SHORT).show();
-
-                         View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
-                         rootView.setDrawingCacheEnabled(true);
-                         Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
-
-                         String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
-                         File dir = new File(dirPath);
-                         if (!dir.exists())
-                             dir.mkdirs();
-                         File file = new File(dirPath, "screenshot");
-                         try {
-                             FileOutputStream fOut = new FileOutputStream(file);
-                             bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-                             fOut.flush();
-                             fOut.close();
-                         } catch (Exception e) {
-                             e.printStackTrace();
-                         }
-
-                         Uri uri = FileProvider.getUriForFile(rootView.getContext(),
-                                 "com.bignerdranch.android.test.fileprovider", file);
-
-                         intent = new Intent();
-                         intent.setAction(Intent.ACTION_SEND);
-                         intent.setType("image/*");
-
-                         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-                         intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-                         intent.putExtra(Intent.EXTRA_STREAM, uri);
-                         try {
-                             startActivity(Intent.createChooser(intent, "Share Screenshot"));
-                         } catch (ActivityNotFoundException e) {
-                             Toast.makeText(MainHealthActivity.this, "No App Available",
-                                     Toast.LENGTH_SHORT).show();
-                         }
-
-                         break;
-                     }
-                 }
-                 return true;
-             }
-         });
-
-        //바텀메뉴 초기화
-        //BottomMenuClearSelection(bottomNavigationView,false);
-
 
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.YEAR, 5);
@@ -345,6 +275,8 @@ public class MainHealthActivity extends AppCompatActivity {
 
                             if(userVO.getSum_calorie() < 1500 || userVO.getSum_calorie() > 3000){
                                 imgDiet.setBackgroundResource(R.drawable.ic_bad);
+                            }else if(userVO.getSum_calorie() == 0.0){
+                                imgDiet.setBackgroundResource(R.drawable.ic_neutral);
                             }else if(userVO.getSum_calorie() >= 2000 && userVO.getSum_calorie() <= 2500){
                                 imgDiet.setBackgroundResource(R.drawable.ic_good);
                             }else{
@@ -354,6 +286,8 @@ public class MainHealthActivity extends AppCompatActivity {
                             if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) < 300
                                     || (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) > 1500){
                                 imgFitness.setBackgroundResource(R.drawable.ic_bad);
+                            }else if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) == 0.0){
+                                imgFitness.setBackgroundResource(R.drawable.ic_neutral);
                             }else if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) >= 500
                                     && (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) <= 1000){
                                 imgFitness.setBackgroundResource(R.drawable.ic_good);
@@ -363,6 +297,8 @@ public class MainHealthActivity extends AppCompatActivity {
 
                             if(userVO.getSleeping_seconds() < 18000 || userVO.getSleeping_seconds() > 36000){
                                 imgSleep.setBackgroundResource(R.drawable.ic_bad);
+                            }else if(userVO.getSleeping_seconds() == 0){
+                                imgSleep.setBackgroundResource(R.drawable.ic_neutral);
                             }else if(userVO.getSleeping_seconds() >= 25200 && userVO.getSleeping_seconds() <= 28800){
                                 imgSleep.setBackgroundResource(R.drawable.ic_good);
                             }else{
@@ -372,7 +308,10 @@ public class MainHealthActivity extends AppCompatActivity {
                             if(userVO.getAlcohol_content() > 0.07){
                                 imgDrink.setBackgroundResource(R.drawable.ic_bad);
                                 txtAlert.setText("만취 상태입니다. 음주에 유의하세요.");
-                            }else if(userVO.getSleeping_seconds() >= 0.001 && userVO.getSleeping_seconds() <= 0.02){
+                            }else if(userVO.getAlcohol_content() == 0.0 || userVO.getAlcohol_content() < 0.0){
+                                imgDrink.setBackgroundResource(R.drawable.ic_neutral);
+                                txtAlert.setText("");
+                            }else if(userVO.getAlcohol_content() >= 0.001 && userVO.getAlcohol_content() <= 0.02){
                                 imgDrink.setBackgroundResource(R.drawable.ic_good);
                                 txtAlert.setText("음주가 시작되었군요. 적당한 음주를 권합니다.");
                             }else{
@@ -397,11 +336,66 @@ public class MainHealthActivity extends AppCompatActivity {
                 currentSelectedTime=date.getTime();
                 //System.out.println("horizontalCalendar.setCalendarListener time:"+currentSelectedTime);
 
+                //TODO 하단 메뉴설정
+                bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+
+                bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+                {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item)
+                    {
+
+                        switch (item.getItemId())
+                        {
+                            case R.id.rankingMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(MainHealthActivity.this, WordCloudActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                                break;
+                            }
+                            case R.id.drinkingMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                                intent = new Intent(MainHealthActivity.this, DrinkingCheckActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                                break;
+                            }
+                            case R.id.sleepMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+                                intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                                break;
+                            }
+                            case R.id.shareMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                                View rootView = getWindow().getDecorView();
+                                screenShot = ScreenShot(rootView);
+                                uriFile = Uri.fromFile(screenShot);
+                                if(screenShot != null) {
+                                    Crop.of(uriFile, uriFile).asSquare().start(MainHealthActivity.this, 100);
+                                }
+                                break;
+                            }
+                        }
+                        return true;
+                    }
+                });
+
+                //바텀메뉴 초기화
+                //BottomMenuClearSelection(bottomNavigationView,false);
+
             }
         });
 
-
-        bottomNavigationView.setSelected(false);
     }
 
 //    public static void BottomMenuClearSelection(BottomNavigationView view,boolean checkable) {
@@ -413,6 +407,7 @@ public class MainHealthActivity extends AppCompatActivity {
 //    }
 
 
+    //TODO 하단 메뉴설정
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -485,13 +480,13 @@ public class MainHealthActivity extends AppCompatActivity {
         horizontalCalendar.selectDate(date,true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
     }
 
-
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
 
         //선택 초기화
         bottomNavigationView.setSelectedItemId(R.id.HomeMenu);
-    }
+    }*/
+
 }
 

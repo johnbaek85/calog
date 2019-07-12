@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,6 +21,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_back" />
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/btnBack"
+                android:textColor="#FFFFFF"
+                android:layout_centerVertical="true"
+                android:text="2019-07-01"/>
             <ImageView
                 android:id="@+id/btnMAinShortcut"
                 android:layout_width="wrap_content"
@@ -34,50 +42,30 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
+        android:id="@+id/fitnessType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="선택된 운동종류"
         android:textSize="50sp"
-        android:textColor="#000000"/>
+        android:textColor="#000000"
+        android:layout_below="@id/toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exerciseList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/fitnessType"
        >
 
     </androidx.recyclerview.widget.RecyclerView>
-    <TextView
-        android:id="@+id/walking"
-        android:text="걷기"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
 
-    <TextView
-        android:id="@+id/run"
-        android:text="달리기"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
-
-    <TextView
-        android:id="@+id/jogging"
-        android:text="조깅"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
-
-    <TextView
-        android:id="@+id/bycicle"
-        android:text="자전거"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
-
-    <Button
-        android:id="@+id/temporaryBtn"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="(임의)운동선택"/>
-</LinearLayout>
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_bottom"/>
+
+</RelativeLayout>

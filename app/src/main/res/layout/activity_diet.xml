@@ -33,8 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/btnBack"
                 android:textColor="#FFFFFF"
-                android:layout_centerVertical="true"
-                android:text="2019-07-01"/>
+                android:layout_centerVertical="true"/>
 
             <ImageView
                 android:id="@+id/btnHome"
@@ -53,13 +52,66 @@
         android:id="@+id/barChartFrag"
         android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="200sp" />
+        android:layout_height="0px"
+        android:layout_weight="1"/>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="0.5"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/txtMorningMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="아침 : kcal"
+            android:textSize="17sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/txtAfternoonMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="점심 : kcal"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_below="@id/txtMorningMeal"/>
+
+        <TextView
+            android:id="@+id/txtEveningMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="저녁 : kcal"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_below="@id/txtAfternoonMeal"/>
+
+        <TextView
+            android:id="@+id/txtSideMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="간식 : kcal"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_below="@id/txtEveningMeal"/>
+
+        <Button
+            android:id="@+id/btnDetailView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상세보기"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
 
     <SlidingDrawer
         android:id="@+id/dietDrawer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="1.5"
         android:topOffset="0sp"
         android:handle="@+id/handle"
         android:content="@+id/content">
@@ -73,19 +125,19 @@
         <RelativeLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
             <RelativeLayout
                 android:id="@+id/btnBreakfast"
-                android:layout_width="150sp"
-                android:layout_height="150sp"
-                android:layout_alignParentLeft="true"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:onClick="mClick">
 
                 <ImageView
                     android:id="@+id/imgBreakfast"
-                    android:layout_width="120sp"
-                    android:layout_height="120sp"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/breakfast"/>
 
@@ -101,15 +153,16 @@
 
             <RelativeLayout
                 android:id="@+id/btnLunch"
-                android:layout_width="150sp"
-                android:layout_height="150sp"
-                android:layout_alignParentRight="true"
+                android:layout_width="120sp"
+                android:layout_height="120sp"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/btnBreakfast"
                 android:onClick="mClick">
 
                 <ImageView
                     android:id="@+id/imgLunch"
-                    android:layout_width="120sp"
-                    android:layout_height="120sp"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/lunch"/>
 
@@ -125,16 +178,15 @@
 
             <RelativeLayout
                 android:id="@+id/btnDinner"
-                android:layout_width="150sp"
-                android:layout_height="150sp"
-                android:layout_alignParentLeft="true"
+                android:layout_width="120sp"
+                android:layout_height="120sp"
                 android:layout_below="@+id/btnBreakfast"
                 android:onClick="mClick">
 
                 <ImageView
                     android:id="@+id/imgDinner"
-                    android:layout_width="120sp"
-                    android:layout_height="120sp"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/dinner"/>
 
@@ -150,16 +202,17 @@
 
             <RelativeLayout
                 android:id="@+id/btnSnack"
-                android:layout_width="150sp"
-                android:layout_height="150sp"
-                android:layout_alignParentRight="true"
+                android:layout_width="120sp"
+                android:layout_height="120sp"
+                android:layout_toRightOf="@id/btnDinner"
                 android:layout_below="@+id/btnBreakfast"
+                android:layout_marginLeft="15dp"
                 android:onClick="mClick">
 
                 <ImageView
                     android:id="@+id/imgSnack"
-                    android:layout_width="120sp"
-                    android:layout_height="120sp"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/snack"/>
 
@@ -176,5 +229,14 @@
         </RelativeLayout>
 
     </SlidingDrawer>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_bottom"/>
 
 </LinearLayout>

@@ -22,7 +22,12 @@
             android:focusableInTouchMode="true"
             android:maxLines="1"
             android:padding="1dp"
-            android:text="Title : " />
+            android:text="Title : "
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 
 

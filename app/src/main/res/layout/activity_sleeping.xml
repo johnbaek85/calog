@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Sleeping.SleepingActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -15,36 +14,36 @@
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/monthName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="35sp"
-            android:text="수면관리"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/monthName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="35sp"
+                android:text="수면관리"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_back"
-            android:layout_alignParentLeft="true"/>
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/icon_back" />
 
-        <ImageView
-            android:id="@+id/btnHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_home"
-            android:layout_alignParentRight="true"/>
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_home" />
 
-    </RelativeLayout>
+        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <!-- TODO 그래프 프래그먼트 -->
@@ -52,33 +51,44 @@
         android:id="@+id/barChartFrag"
         android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
-        android:layout_height="200sp" />
+        android:layout_height="200sp"
+        android:layout_below="@id/toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:background="@android:mipmap/sym_def_app_icon"
         android:gravity="center"
-        android:background="@android:mipmap/sym_def_app_icon">
+        android:orientation="horizontal"
+        android:layout_below="@id/barChartFrag">
 
         <TimePicker
             android:id="@+id/timepicker"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="200sp"
+            android:layout_centerInParent="true"
             android:timePickerMode="spinner" />
 
         <Button
             android:id="@+id/btnSleepStart"
-            android:text="버튼"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/timepicker"
-            android:layout_marginTop="30sp"
             android:layout_centerInParent="true"
-            android:onClick="mClick"/>
+            android:layout_marginTop="30sp"
+            android:onClick="mClick"
+            android:text="버튼" />
 
 
     </RelativeLayout>
 
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_bottom"/>
+
+</RelativeLayout>

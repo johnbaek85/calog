@@ -1,61 +1,87 @@
-package com.example.calog.Sleeping;
+package com.example.calog.Fitness;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TimePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.example.calog.Common.GraphPagerFragment;
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
 import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
+import com.example.calog.VO.FitnessVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Calendar;
+import java.util.List;
 
-public class SleepingActivity extends AppCompatActivity {
-    AlarmManager alarmManager;
-    TimePicker alarmPicker;
-    Context context;
-    PendingIntent pendingIntent;
-    ImageView btnBack, btnHome;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.calog.RemoteService.BASE_URL;
+
+public class MyFitnessList extends AppCompatActivity {
+    TextView myListTitle, txtDate;
+    ImageView btnBack, btnMAinShortcut;
+    RecyclerView list;
+    List<FitnessVO> array;
+    MyFitnessListAdapter adapter;
+
+    int fitnessTypeId;          //운동타입, fitnessActivity에서 넘겨받음 1 = 유산소, 2 = 무산소
     Intent intent;
+    Retrofit retrofit;
+    RemoteService rs;
+    String user_id;
+    String fitness_date;
 
     //TODO 하단 Menu
     File screenShot;
     Uri uriFile;
     BottomNavigationView bottomNavigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sleeping);
+        setContentView(R.layout.activity_my_fitness_list);
+
+
+        myListTitle = findViewById(R.id.myListTitle);
+        intent = getIntent();
+        fitnessTypeId = intent.getIntExtra("운동타입", 0);
+        user_id = intent.getStringExtra("user_id");
+
+
+        fitness_date = intent.getStringExtra("select_date");
+        txtDate = findViewById(R.id.txtDate);
+        txtDate.setText(fitness_date);
+
+        list = findViewById(R.id.OnedayFitnessList);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        list.setLayoutManager(manager);
+
+
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,21 +90,34 @@ public class SleepingActivity extends AppCompatActivity {
             }
         });
 
-        btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
+
+        btnMAinShortcut = findViewById(R.id.btnHome);
+        btnMAinShortcut.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SleepingActivity.this, MainHealthActivity.class);
+            public void onClick(View v) {
+                Toast.makeText(MyFitnessList.this, "메인 페이지로 이동합니다.", Toast.LENGTH_SHORT).show();
+                intent = new Intent(MyFitnessList.this, MainHealthActivity.class);
                 startActivity(intent);
+
+
             }
         });
 
-        //TODO 그래프 BarChart Fragment 장착
-        FragmentManager fm=getSupportFragmentManager();
-        FragmentTransaction tr=fm.beginTransaction();
-        GraphPagerFragment graphFragment = new GraphPagerFragment();
-        tr.replace(R.id.barChartFrag,graphFragment);
-        //////////////////////////////
+
+        switch (fitnessTypeId) {
+            case 1:
+                myListTitle.setText("오늘 실행한 유산소 운동입니다.");
+                connect(fitnessTypeId);
+
+
+                break;
+            case 2:
+                myListTitle.setText("오늘 실행한 근력 운동입니다.");
+                connect(fitnessTypeId);
+
+                break;
+
+        }
 
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
@@ -95,7 +134,7 @@ public class SleepingActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(SleepingActivity.this, WordCloudActivity.class);
+                        intent = new Intent(MyFitnessList.this, WordCloudActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -104,13 +143,13 @@ public class SleepingActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(SleepingActivity.this, DrinkingCheckActivity.class);
+                        intent = new Intent(MyFitnessList.this, DrinkingCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
-                        intent = new Intent(SleepingActivity.this, MainHealthActivity.class);
+                        intent = new Intent(MyFitnessList.this, MainHealthActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -118,7 +157,7 @@ public class SleepingActivity extends AppCompatActivity {
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
-                        intent = new Intent(SleepingActivity.this, SleepCheckActivity.class);
+                        intent = new Intent(MyFitnessList.this, SleepCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -131,7 +170,7 @@ public class SleepingActivity extends AppCompatActivity {
                         screenShot = ScreenShot(rootView);
                         uriFile = Uri.fromFile(screenShot);
                         if(screenShot != null) {
-                            Crop.of(uriFile, uriFile).asSquare().start(SleepingActivity.this, 100);
+                            Crop.of(uriFile, uriFile).asSquare().start(MyFitnessList.this, 100);
                         }
                         break;
                     }
@@ -139,67 +178,57 @@ public class SleepingActivity extends AppCompatActivity {
                 return true;
             }
         });
+
     }
 
-    public void mClick(View v){
-        this.context = getApplicationContext();
-        //알람매니저 설정
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        //타임피커 설정
-        alarmPicker = findViewById(R.id.timepicker);
-        //Calendar 객체 설정
-        final Calendar calendar = Calendar.getInstance();
-        //알림 리시버 설정
-        final Intent intent = new Intent(this.context,Alarm_Reciver.class);
+    public void connect(final int type) {
+        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(RemoteService.class);
 
-        //알람 시작 버튼
-        Button alarm_on = findViewById(R.id.btnSleepStart);
-        alarm_on.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                //calendar에 시간 셋팅
-                calendar.set(Calendar.HOUR_OF_DAY, alarmPicker.getHour());
-                calendar.set(Calendar.MINUTE, alarmPicker.getMinute());
 
-                // 시간 가져옴
-                int hour = alarmPicker.getHour();
-                int minute = alarmPicker.getMinute();
-                Toast.makeText(SleepingActivity.this,"기상시간 " + hour + "시 " + minute + "분",Toast.LENGTH_SHORT).show();
+        switch (type) {
+            case 1:
+                Call<List<FitnessVO>> cardiCall = rs.OneDayCardioList(user_id, fitness_date);
+                cardiCall.enqueue(new Callback<List<FitnessVO>>() {
+                    @Override
+                    public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
+                        array = response.body();
+                        adapter =new MyFitnessListAdapter(MyFitnessList.this, array, type);
+                        list.setAdapter(adapter);
+                    }
 
-                // reveiver에 string 값 넘겨주기
-                intent.putExtra("state","alarm on");
+                    @Override
+                    public void onFailure(Call<List<FitnessVO>> call, Throwable t) {
+                        System.out.println("당일 유산소 운동 목록 호출 오류 : "+t.toString());
 
-                pendingIntent = PendingIntent.getBroadcast(SleepingActivity.this, 0, intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
 
-                // 알람셋팅
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                        pendingIntent);
-                //오류 가능
-            }
-        });
-        // 알람 정지 버튼
-        LayoutInflater inflater = getLayoutInflater();
-        View view=inflater.inflate(R.layout.activity_sleep_check,null);
+                    }
+                });
 
-        Button alarm_off = view.findViewById(R.id.btnSleepFinish);
-        alarm_off.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(SleepingActivity.this,"Alarm 종료",Toast.LENGTH_SHORT).show();
-                // 알람매니저 취소
-                alarmManager.cancel(pendingIntent);
+                break;
+            case 2:
+                Call<List<FitnessVO>> weightCall = rs.OneDayWeightList(user_id, fitness_date);
+                weightCall.enqueue(new Callback<List<FitnessVO>>() {
+                    @Override
+                    public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
+                        array = response.body();
+                        adapter =new MyFitnessListAdapter(MyFitnessList.this, array, type);
+                        list.setAdapter(adapter);
 
-                intent.putExtra("state","alarm off");
+                    }
 
-                // 알람취소
-                sendBroadcast(intent);
-            }
-        });
+                    @Override
+                    public void onFailure(Call<List<FitnessVO>> call, Throwable t) {
+                        System.out.println("당일 근력 운동 목록 호출 오류 : "+t.toString());
 
-        Intent gointent = new Intent(SleepingActivity.this, SleepCheckActivity.class);
-        startActivity(gointent);
+                    }
+                });
+                break;
+
+
+        }
     }
 
     //TODO 하단 메뉴설정
@@ -248,4 +277,3 @@ public class SleepingActivity extends AppCompatActivity {
     }
 
 }
-

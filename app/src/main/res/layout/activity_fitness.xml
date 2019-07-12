@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fitness.FitnessActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Fitness.FitnessActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -23,6 +24,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_back" />
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/btnBack"
+                android:text="2019-07-01"
+                android:textColor="#FFFFFF" />
+
             <ImageView
                 android:id="@+id/btnHome"
                 android:layout_width="wrap_content"
@@ -41,101 +52,167 @@
         android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10sp">
+
         <RelativeLayout
             android:id="@+id/btnCardioActivity"
             android:layout_width="match_parent"
             android:layout_height="0px"
+            android:layout_marginBottom="10sp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:background="@drawable/rounded"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
             <TextView
                 android:id="@+id/CardioName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="유산소 운동"
-                android:textSize="50sp"
-                android:textAlignment="center"/>
-                <TextView
-                    android:id="@+id/CardioCal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="소모칼로리"
-                    android:textSize="20sp"
-                    android:layout_below="@id/CardioName"
-                    android:layout_alignParentLeft="true"/>
-                <TextView
-                    android:id="@+id/CardioTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="운동시간"
-                    android:textSize="20sp"
-                    android:layout_below="@id/CardioName"
-                    android:layout_centerHorizontal="true"/>
-                <TextView
-                    android:id="@+id/CardioDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="이동거리"
-                    android:textSize="20sp"
-                    android:layout_below="@id/CardioName"
-                    android:layout_alignParentRight="true" />
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/CardioCal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/CardioName"
+                android:layout_alignParentLeft="true"
+                android:text="0.0kcal"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/CardioStep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/CardioCal"
+                android:layout_centerInParent="true"
+                android:text="걸음"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/CardioTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/CardioCal"
+                android:text="00시간 00분 00초"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/CardioDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/CardioTime"
+                android:layout_centerInParent="true"
+                android:text="0.0km"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/cardioList"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_format_list_bulleted_black_24dp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/btnWeightTrainingActivity"
             android:layout_width="match_parent"
             android:layout_height="0px"
+            android:layout_marginBottom="10sp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:background="@drawable/rounded"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+
+            >
+
             <TextView
                 android:id="@+id/WeightName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="무산소 운동"
-                android:textSize="50sp"
-                android:textAlignment="center"/>
+                android:text="근력 운동"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <TextView
-                android:id="@+id/WeigtCal"
+                android:id="@+id/WeightCal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="소모칼로리"
-                android:textSize="20sp"
                 android:layout_below="@id/WeightName"
-                android:layout_alignParentLeft="true"/>
+                android:text="0.0kcal"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/WeightTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="운동시간"
-                android:textSize="20sp"
-                android:layout_below="@id/WeightName"
-                android:layout_centerHorizontal="true"/>
+                android:layout_below="@id/WeightCal"
+                android:text="00시간 00분 00초"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/weightList"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_format_list_bulleted_black_24dp" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/btnStretchingActivity"
             android:layout_width="match_parent"
             android:layout_height="0px"
+            android:layout_marginBottom="10sp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:background="@drawable/rounded"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
             <TextView
                 android:id="@+id/StretchingName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="스트레칭"
-                android:textSize="50sp"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="40sp" />
 
 
         </RelativeLayout>
 
 
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/menu_bottom" />
 
 </LinearLayout>
