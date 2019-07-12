@@ -1,18 +1,15 @@
 package com.example.calog.signUp;
 
-import android.content.ClipData;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,68 +19,68 @@ import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.example.calog.VO.UserVO;
 
-import java.util.List;
-
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.JoinRemoteService.BASE_URL;
 
 
 public class JoinActivity extends AppCompatActivity {
 
-    Retrofit retrofit;
     JoinRemoteService rs;
-    List<UserVO> user;
+    UserVO user;
+    Retrofit retrofit;
 
     //Button btnSave, btnReset 추가
-    Button btnSave, btnReset, btnPost;
+    Button btnSave, btnReset;
 
     //ImageView back, home 추가
     ImageView back, home;
 
-    //Spinner 추가
-    Spinner spin;
-
-    //item 값의 nameID 추가
-    ClipData.Item nameID;
 
     EditText user_Id, password, checkPassword,
-             emailId, name,
-             phone1, phone2, phone3,
-             height, weight,
-             post, address, detailAddress;
-    Spinner  email, year, month, day;
-    CheckBox man, girl;
+             email, name,
+             phone, gender, birthday,
+             height, weight, address;
+
+    String strId, strPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
+        retrofit = new Retrofit.Builder()                           // Retrofit 빌더 생성
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(JoinRemoteService.class);              // API 인터페이스 생성
+
         user_Id = findViewById(R.id.user_Id);
         password = findViewById(R.id.password);
         checkPassword = findViewById(R.id.checkPassword);
-        emailId = findViewById(R.id.emailId);
+        email = findViewById(R.id.email);
         name = findViewById(R.id.name);
-        phone1 = findViewById(R.id.phone1);
-        phone2 = findViewById(R.id.phone2);
-        phone3 = findViewById(R.id.phone3);
+        phone = findViewById(R.id.phone);
+        birthday = findViewById(R.id.birthday);
         height = findViewById(R.id.height);
         weight = findViewById(R.id.weight);
-        post = findViewById(R.id.post);
         address = findViewById(R.id.address);
-        detailAddress = findViewById(R.id.detailAddress);
-        email = findViewById(R.id.email);
-        year = findViewById(R.id.year);
-        month = findViewById(R.id.month);
-        day = findViewById(R.id.day);
-        man = findViewById(R.id.man);
-        girl = findViewById(R.id.girl);
-        btnPost = findViewById(R.id.btnPost);
+        gender = (EditText)findViewById(R.id.gender);
         btnSave = findViewById(R.id.btnSave);
         btnReset = findViewById(R.id.btnReset);
 
-        String E_mail = emailId;
-        +=  "@"+email;
+        // 프레퍼런스
+        SharedPreferences pref = getSharedPreferences("prefTest", 0);
+
+        strId = pref.getString("Id", "아이디");
+        user_Id.setText(strId);
+        strPassword = pref.getString("password", "비밀번호");
+        password.setText(""+strPassword);
 
         // '아이디' 설정 ( 조건에 따른 색상 변경및 안내메세지 )
         user_Id.addTextChangedListener(new TextWatcher() {
@@ -168,7 +165,7 @@ public class JoinActivity extends AppCompatActivity {
         });
 
         // '이메일아이디' 설정( 조건에 따른 색상 변경및 안내메세지 )
-        emailId.addTextChangedListener(new TextWatcher() {
+        email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -176,10 +173,10 @@ public class JoinActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(emailId.getText().toString().length() <= 20){
-                    emailId.setTextColor(Color.GREEN);
+                if(email.getText().toString().length() <= 20){
+                    email.setTextColor(Color.GREEN);
                 }else{
-                    emailId.setTextColor(Color.RED);
+                    email.setTextColor(Color.RED);
                 }
             }
 
@@ -190,7 +187,7 @@ public class JoinActivity extends AppCompatActivity {
         });
 
         // '번호1' 설정( 조건에 따른 색상 변경및 안내메세지 )
-        phone1.addTextChangedListener(new TextWatcher() {
+        phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -199,31 +196,10 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // phone1이 3자리수면 연두색 아니면 빨강색
-                if(phone1.getText().toString().length() == 3){
-                    phone1.setTextColor(Color.GREEN);
+                if(phone.getText().toString().length() == 11){
+                    phone.setTextColor(Color.GREEN);
                 }else{
-                    phone1.setTextColor(Color.RED);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        // '번호2' 설정( 조건에 따른 색상 변경및 안내메세지 )
-        phone2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(phone2.getText().toString().length() == 4){
-                    phone2.setTextColor(Color.GREEN);
-                }else{
-                    phone2.setTextColor(Color.RED);
+                    phone.setTextColor(Color.RED);
                 }
             }
 
@@ -233,25 +209,22 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
 
-        // '번호3' 설정( 조건에 따른 색상 변경및 안내메세지 )
-        phone3.addTextChangedListener(new TextWatcher() {
+        birthday.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(phone3.getText().toString().length() ==4){
-                    phone3.setTextColor(Color.GREEN);
+                if(phone.getText().toString().length() == 8){
+                    phone.setTextColor(Color.GREEN);
                 }else{
-                    phone3.setTextColor(Color.RED);
+                    phone.setTextColor(Color.RED);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -267,52 +240,18 @@ public class JoinActivity extends AppCompatActivity {
 
         // EditText 'checkPassword'에서 다른곳으로 이동할때, 'checkPassword'를 클릭할 때 발생하는 이벤트
 
-            checkPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (checkPassword.getText().toString().length() < 8 && checkPassword.getText().toString().length() > 0) {
-                        Toast.makeText(JoinActivity.this, "8자리 이상 입력하여주세요", Toast.LENGTH_SHORT).show();
-                    } else if (checkPassword.getText().toString().length() >= 8 && password.getText().toString().equals(checkPassword.getText().toString())) {
-                        Toast.makeText(JoinActivity.this, "비밀번호가 일치합니다", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(JoinActivity.this, "비밀번호가 일치하지않습니다", Toast.LENGTH_SHORT).show();
-                    }
+        checkPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (checkPassword.getText().toString().length() < 8 && checkPassword.getText().toString().length() > 0) {
+                    Toast.makeText(JoinActivity.this, "8자리 이상 입력하여주세요", Toast.LENGTH_SHORT).show();
+                } else if (checkPassword.getText().toString().length() >= 8 && password.getText().toString().equals(checkPassword.getText().toString())) {
+                    Toast.makeText(JoinActivity.this, "비밀번호가 일치합니다", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(JoinActivity.this, "비밀번호가 일치하지않습니다", Toast.LENGTH_SHORT).show();
                 }
-            });
-
-
-        // E-mail Spinner 시작
-        spin = findViewById(R.id.email);
-
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.email, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spin.setAdapter(adapter);
-        // E-mail Spinner 끝
-
-        // Year Spinner 시작
-        spin = findViewById(R.id.year);
-
-        ArrayAdapter adapter4 = ArrayAdapter.createFromResource(this, R.array.year, android.R.layout.simple_spinner_item);
-        adapter4.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spin.setAdapter(adapter4);
-        // Year Spinner 끝
-
-        // Month Spinner 시작
-        spin = findViewById(R.id.month);
-
-        ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this, R.array.month, android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spin.setAdapter(adapter1);
-        // Month Spinner 끝
-
-        // Day Spinner 시작
-        spin = findViewById(R.id.day);
-        spin.setPrompt("월을 골라주세요");
-
-        ArrayAdapter adapter2 = ArrayAdapter.createFromResource(this, R.array.day, android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spin.setAdapter(adapter2);
-        // Day Spinner 끝
+            }
+        });
 
         // back 클릭했을때 MainJoinActivity로 이동
         back = findViewById(R.id.back);
@@ -337,8 +276,40 @@ public class JoinActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
+                user = new UserVO();
+
+                user.setUser_id(user_Id.getText().toString());
+                user.setPassword(password.getText().toString());
+                user.setName(name.getText().toString());
+                user.setEmail(email.getText().toString());
+                user.setPhone(phone.getText().toString());
+                user.setAddress(address.getText().toString());
+                user.setBirthday(birthday.getText().toString());
+                user.setGender(gender.getText().toString());
+                user.setHeight(Double.parseDouble(height.getText().toString()));
+                user.setWeight(Double.parseDouble(weight.getText().toString()));
+                user.setBmi((Double.parseDouble(weight.getText().toString())/(Double.parseDouble(height.getText().toString()))/(Double.parseDouble(height.getText().toString())))*10000);
+
+                Call<Void> call = rs.insertUser(user);
+                call.enqueue(new Callback<Void>() {
+
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(JoinActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(JoinActivity.this, MainJoinActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+
                 // 빈값일 때 Toast띄우고 입력하게 하기 시작
                 if(user_Id.getText().toString().length() == 0){
                     Toast.makeText(JoinActivity.this, "아이디를 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -363,17 +334,6 @@ public class JoinActivity extends AppCompatActivity {
                     checkPassword.requestFocus();
                     return;
                 }
-                if(emailId.getText().toString().length() == 0){
-                    Toast.makeText(JoinActivity.this, "이메일아이디를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    emailId.requestFocus();
-                    return;
-                }
-
-                if(email.getSelectedItem().toString().equals("")){
-                    Toast.makeText(JoinActivity.this, "이메일을 선택해주세요", Toast.LENGTH_SHORT).show();
-                    email.requestFocus();
-                    return;
-                }
                 
                 if(name.getText().toString().length() == 0){
                     Toast.makeText(JoinActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
@@ -381,76 +341,9 @@ public class JoinActivity extends AppCompatActivity {
                     return;
                 }
                 
-                if(phone1.getText().toString().length() == 0){
+                if(phone.getText().toString().length() == 0){
                     Toast.makeText(JoinActivity.this, "번호를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    phone1.requestFocus();
-                    return;
-                }
-
-                if(phone2.getText().toString().length() == 0){
-                    Toast.makeText(JoinActivity.this, "번호를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    phone2.requestFocus();
-                    return;
-                }
-
-                if(phone3.getText().toString().length() == 0){
-                    Toast.makeText(JoinActivity.this, "번호를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    phone3.requestFocus();
-                    return;
-                }
-
-                if(year.getSelectedItem().toString().equals("")){
-                    Toast.makeText(JoinActivity.this, "년도를 선택해주세요", Toast.LENGTH_SHORT).show();
-                    year.requestFocus();
-                    return;
-                }
-
-                if(month.getSelectedItem().toString().equals("")){
-                    Toast.makeText(JoinActivity.this, "개월을 선택해주세요", Toast.LENGTH_SHORT).show();
-                    month.requestFocus();
-                    return;
-                }
-
-                if(day.getSelectedItem().toString().equals("")){
-                    Toast.makeText(JoinActivity.this, "일자를 선택해주세요", Toast.LENGTH_SHORT).show();
-                    day.requestFocus();
-                    return;
-                }
-
-                // checkbox 'man', 'girl' 둘중 하나만 선택하도록 하기
-                man.isChecked();
-                if(man.isChecked() && girl.isChecked()){
-                    Toast.makeText(JoinActivity.this, "성별을 하나만 선택해주세요", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if(height.getText().toString().length() == 0){
-                    Toast.makeText(JoinActivity.this, "키를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    height.requestFocus();
-                    return;
-                }
-
-                if(weight.getText().toString().length() == 0){
-                    Toast.makeText(JoinActivity.this, "몸무게를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    weight.requestFocus();
-                    return;
-                }
-
-                if(post.getText().toString().length() ==0){
-                    Toast.makeText(JoinActivity.this, "우편번호를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    post.requestFocus();
-                    return;
-                }
-
-                if(address.getText().toString().length() == 0){
-                    Toast.makeText(JoinActivity.this, "주소를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    address.requestFocus();
-                    return;
-                }
-
-                if(detailAddress.getText().toString().length() == 0){
-                    Toast.makeText(JoinActivity.this, "상세주소를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    detailAddress.requestFocus();
+                    phone.requestFocus();
                     return;
                 }
 
@@ -460,26 +353,12 @@ public class JoinActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(!phone1.getText().toString().equals("010") || !phone1.getText().toString().equals("011")){
-                    Toast.makeText(JoinActivity.this, "앞번호는 '010'과 011'중 하나를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    phone1.requestFocus();
-                    return;
-                }
-
-                if(phone2.getText().toString().length() != 4){
-                    Toast.makeText(JoinActivity.this, "중앙번호는 4자리만 입력해주세요", Toast.LENGTH_SHORT).show();
-                    phone2.requestFocus();
-                    return;
-                }
-                
-                if(phone3.getText().toString().length() != 4){
-                    Toast.makeText(JoinActivity.this, "마지막번호는 4자리만 입력해주세요", Toast.LENGTH_SHORT).show();
-                    phone3.requestFocus();
+                if(birthday.getText().toString().length() != 8){
+                    Toast.makeText(JoinActivity.this, "년도와 개월 일자를 8자리로 적어주세요", Toast.LENGTH_SHORT).show();
+                    birthday.requestFocus();
                     return;
                 }
                 // 빈값일 때 Toast띄우고 입력하게 하기 끝
-
-                Call<UserVO> call = rs.insertUser(user_Id.getText().toString(), password.getText().toString(), name.getText().toString(), )
 
                 // btnSave 클릭했을때 MainJoinActivity로 이동
                 Intent intent = new Intent(JoinActivity.this, MainJoinActivity.class);
@@ -499,6 +378,20 @@ public class JoinActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    // 프레퍼런스
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences pref = getSharedPreferences("prefTest",0);
+        SharedPreferences.Editor edit = pref.edit();
+        strId = user_Id.getText().toString();
+        strPassword = password.getText().toString();
+        edit.putString("Id", strId);
+        edit.putString("password", strPassword);
+        edit.commit();
+        Toast.makeText(JoinActivity.this, "onPause", Toast.LENGTH_SHORT).show();
     }
 
 }

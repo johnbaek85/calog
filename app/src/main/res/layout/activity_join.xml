@@ -27,14 +27,6 @@
             android:layout_height="wrap_content"
             android:text="회원가입" />
 
-        <ImageView
-            android:id="@+id/home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30sp"
-            android:src="@drawable/ic_home"
-            android:layout_gravity="right"
-            />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -63,7 +55,7 @@
 
             <EditText
                 android:id="@+id/user_Id"
-                android:layout_width="260dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:cursorVisible="false"
                 android:inputType="text" />
@@ -82,7 +74,7 @@
 
             <EditText
                 android:id="@+id/password"
-                android:layout_width="260dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:cursorVisible="false"
                 android:inputType="textPassword" />
@@ -100,7 +92,7 @@
 
             <EditText
                 android:id="@+id/checkPassword"
-                android:layout_width="260dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:cursorVisible="false"
                 android:inputType="textPassword" />
@@ -112,36 +104,22 @@
                 android:layout_height="wrap_content"
                 >
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="이메일 : ">
+                    android:text="이메일               : "
+                    >
+
                 </TextView>
 
                 <EditText
-                    android:id="@+id/emailId"
-                    android:inputType="text"
-                    android:layout_width="123dp"
+                    android:id="@+id/email"
+                    android:layout_width="260dp"
                     android:layout_height="wrap_content"
                     android:cursorVisible="false"
-                    >
+                    android:inputType="text">
 
                 </EditText>
-
-                <ImageView
-                    android:layout_width="35sp"
-                    android:layout_height="40sp"
-                    android:src="@mipmap/golbang"
-                    />
-
-
-                <Spinner
-                    android:id="@+id/email"
-                    android:layout_width="144dp"
-                    android:layout_height="match_parent"
-                    >
-                </Spinner>
 
             </LinearLayout>
 
@@ -157,7 +135,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="이름     : " />
+                        android:text="이름                   : " />
 
                     <EditText
                         android:id="@+id/name"
@@ -175,91 +153,33 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="번호     : " />
+                        android:text="번호                   : " />
 
                     <EditText
-                        android:id="@+id/phone1"
-                        android:inputType="number"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:cursorVisible="false"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" - " />
-
-                    <EditText
-                        android:id="@+id/phone2"
-                        android:inputType="number"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:cursorVisible="false"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" - " />
-
-                    <EditText
-                        android:id="@+id/phone3"
-                        android:layout_width="50dp"
+                        android:id="@+id/phone"
+                        android:layout_width="171dp"
                         android:layout_height="wrap_content"
                         android:cursorVisible="false"
                         android:inputType="number" />
 
                 </LinearLayout>
 
-
-
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="261dp"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="생일     : " />
+                        android:text="생일                   : "
 
-                    <Spinner
-                        android:id="@+id/year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    </Spinner>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="년"
                         />
 
-                    <Spinner
-                        android:id="@+id/month"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/birthday"
+                        android:layout_width="173dp"
+                        android:layout_height="wrap_content" />
 
-                    </Spinner>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="월"
-                        />
-
-                    <Spinner
-                        android:id="@+id/day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                    </Spinner>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="일"
-                        />
 
                 </LinearLayout>
 
@@ -270,21 +190,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="성별     :" />
+                        android:text="성별                    :" />
 
-                    <CheckBox
-                        android:id="@+id/man"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="남자"
-                        android:checked="true"
-                        />
-
-                    <CheckBox
-                        android:id="@+id/girl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="여자" />
+                    <EditText
+                        android:id="@+id/gender"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -336,49 +247,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/post"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10sp"
-                        android:hint="우편번호"
-                        />
-
-                    <Button
-                        android:id="@+id/btnPost"
-                        android:layout_width="wrap_content"
-                        android:layout_height="38dp"
-                        android:text="우편번호 찾기"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        android:text="주소     : "/>
 
                     <EditText
                         android:id="@+id/address"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="주소" />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/detailAddress"
-                        android:inputType="text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="상세주소"
-                        android:cursorVisible="false"
-                        />
-
-                </LinearLayout>
                 
             </LinearLayout>
 
@@ -386,7 +267,7 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="13sp"
             >
             <Button
