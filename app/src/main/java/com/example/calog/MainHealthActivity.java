@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
@@ -57,6 +61,9 @@ public class MainHealthActivity extends AppCompatActivity {
     String strUser_id;
     String strPassword;
 
+
+    Toolbar toolbar;
+
     File screenShot;
     Uri uriFile;
 
@@ -67,11 +74,45 @@ public class MainHealthActivity extends AppCompatActivity {
     long currentSelectedTime=0; //선택시간
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.loginmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.logout:
+                Toast.makeText(this, "로그아웃이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                btnUser.setVisibility(View.VISIBLE);
+                return true;
+
+            case R.id.adjust:
+                Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.withdraw:
+                Toast.makeText(this, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                return true;
+
+        }
+
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
 
         permissionCheck();
+
+        btnUser = findViewById(R.id.btnUser);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         //프레퍼런스에서 로그인 정보 가지고오기
         SharedPreferences pref = getSharedPreferences("pjLogin", 0);
@@ -79,9 +120,15 @@ public class MainHealthActivity extends AppCompatActivity {
 
         strUser_id = pref.getString("user_Id", "");
         user_Id.setText(strUser_id);
+        //로그인 화면 설정 / 버튼, 로그아웃,회원정보수정
 
-        Toast.makeText(this, "..........." +strUser_id, Toast.LENGTH_LONG).show();
-
+        if(strUser_id == null || strUser_id.equals("")){
+            btnUser.setVisibility(View.VISIBLE);
+            strUser_id = pref.getString("","");
+            user_Id.setText(strUser_id);
+        }else{
+            btnUser.setVisibility(View.GONE);
+        }
         monthName = findViewById(R.id.monthName);
 
         intent = getIntent();
@@ -100,7 +147,7 @@ public class MainHealthActivity extends AppCompatActivity {
             }
         });
 
-        btnUser = findViewById(R.id.btnUser);
+
         btnUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -314,5 +361,6 @@ public class MainHealthActivity extends AppCompatActivity {
         monthName.setText(DateFormat.getDateInstance().format(date));
         horizontalCalendar.selectDate(date,true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
     }
+
 }
 
