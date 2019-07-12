@@ -2,6 +2,7 @@ package com.example.calog.signUp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -52,6 +53,8 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
     Button btnLogin, btnJoin, btnNaverLogin;
     ImageView back, home;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,14 +62,17 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
         init();
         init_View();
 
+        user_id = findViewById(R.id.user_Id);
+        password = findViewById(R.id.password);
+
+
+
         // RemoteServcie, Retrofit
         retrofit = new Retrofit.Builder()                           // Retrofit 빌더 생성
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         rs = retrofit.create(JoinRemoteService.class);              // API 인터페이스 생성
-
-
 
         //back 클릭했을때
         back = findViewById(R.id.back);
@@ -79,21 +85,8 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        //home 클릭했을때
-        home = findViewById(R.id.home);
-
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
-
         //btnLogin 클릭했을때
         btnLogin = findViewById(R.id.btnLogin);
-        user_id = findViewById(R.id.user_Id);
-        password = findViewById(R.id.password);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,10 +95,24 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
                 call.enqueue(new Callback<UserVO>() {
                     @Override
                     public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+
                         user = response.body();
+
+                        // 프레퍼런스
+                        SharedPreferences pref = getSharedPreferences("pjLogin", 0);
+                        // edit 만들기
+                        SharedPreferences.Editor edit = pref.edit();
+
+                        edit.putString("user_Id", user.getUser_id().toString());
+                        edit.putString("password", user.getPassword().toString());
+                        edit.commit();
+
+                        //Toast.makeText(MainJoinActivity.this ,user.getUser_id().toString(), Toast.LENGTH_SHORT).show();
+
+
                         Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
-                        intent.putExtra("userID", user.getUser_id());
                         startActivity(intent);
+
                     }
 
                     @Override
@@ -113,6 +120,7 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(MainJoinActivity.this, "아이디와 비밀번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show();
                     }
                 });
+
 
 
             }
@@ -205,4 +213,18 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
             }
         }
     }
+
+    // 프레퍼런스// 액티비티가 끝날떄 저장하는 용도
+   /* @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences pref = getSharedPreferences("prefTest",0 );
+        SharedPreferences.Editor edit = pref.edit();
+        strId = user_id.getText().toString();
+        strPassword = password.getText().toString();
+        edit.putString("Id", strId);
+        edit.putString("password", strPassword);
+        edit.commit();
+    }*/
+
 }

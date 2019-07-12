@@ -2,6 +2,7 @@ package com.example.calog;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -53,6 +54,8 @@ public class MainHealthActivity extends AppCompatActivity {
     TextView txtSleepHours, txtSuggestedSleepHours;
     TextView txtAlcoholContent, txtAlert;
     TextView user_Id;
+    String strUser_id;
+    String strPassword;
 
     File screenShot;
     Uri uriFile;
@@ -70,12 +73,14 @@ public class MainHealthActivity extends AppCompatActivity {
 
         permissionCheck();
 
-        //login한 UserID 출력
-        Intent loginIntent=getIntent();
+        //프레퍼런스에서 로그인 정보 가지고오기
+        SharedPreferences pref = getSharedPreferences("pjLogin", 0);
         user_Id = findViewById(R.id.user_Id);
-        user_Id.setText(loginIntent.getStringExtra("userID"));
 
+        strUser_id = pref.getString("user_Id", "");
+        user_Id.setText(strUser_id);
 
+        Toast.makeText(this, "..........." +strUser_id, Toast.LENGTH_LONG).show();
 
         monthName = findViewById(R.id.monthName);
 

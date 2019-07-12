@@ -1,7 +1,6 @@
 package com.example.calog.signUp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.calog.JoinRemoteService;
-import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.example.calog.VO.UserVO;
 
@@ -46,9 +44,6 @@ public class JoinActivity extends AppCompatActivity {
              phone, gender, birthday,
              height, weight, address;
 
-    String strId, strPassword;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +55,8 @@ public class JoinActivity extends AppCompatActivity {
                 .build();
         rs = retrofit.create(JoinRemoteService.class);              // API 인터페이스 생성
 
-        user_Id = findViewById(R.id.user_Id);
-        password = findViewById(R.id.password);
+        user_Id = (EditText)findViewById(R.id.user_Id);
+        password = (EditText)findViewById(R.id.password);
         checkPassword = findViewById(R.id.checkPassword);
         email = findViewById(R.id.email);
         name = findViewById(R.id.name);
@@ -73,14 +68,6 @@ public class JoinActivity extends AppCompatActivity {
         gender = (EditText)findViewById(R.id.gender);
         btnSave = findViewById(R.id.btnSave);
         btnReset = findViewById(R.id.btnReset);
-
-        // 프레퍼런스
-        SharedPreferences pref = getSharedPreferences("prefTest", 0);
-
-        strId = pref.getString("Id", "아이디");
-        user_Id.setText(strId);
-        strPassword = pref.getString("password", "비밀번호");
-        password.setText(""+strPassword);
 
         // '아이디' 설정 ( 조건에 따른 색상 변경및 안내메세지 )
         user_Id.addTextChangedListener(new TextWatcher() {
@@ -265,20 +252,13 @@ public class JoinActivity extends AppCompatActivity {
         });
 
         // home 클릭했을때 MainHealthActivity로 이동
-        home = findViewById(R.id.home);
 
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(JoinActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
 
                 user = new UserVO();
 
@@ -380,18 +360,6 @@ public class JoinActivity extends AppCompatActivity {
 
     }
 
-    // 프레퍼런스
-    @Override
-    public void onPause() {
-        super.onPause();
-        SharedPreferences pref = getSharedPreferences("prefTest",0);
-        SharedPreferences.Editor edit = pref.edit();
-        strId = user_Id.getText().toString();
-        strPassword = password.getText().toString();
-        edit.putString("Id", strId);
-        edit.putString("password", strPassword);
-        edit.commit();
-        Toast.makeText(JoinActivity.this, "onPause", Toast.LENGTH_SHORT).show();
-    }
+
 
 }
