@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.calog">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Diet.DietDailyDetailActivity"></activity>
         <activity android:name=".Fitness.ExerciseActivity" />
         <activity android:name=".Fitness.SearchFitnessActivity" />
         <activity android:name=".Fitness.FitnessActivity" />
@@ -30,19 +31,20 @@
         <activity android:name=".Sleeping.SleepCheckActivity" />
         <activity android:name=".WordCloud.WordCloudActivity" />
         <activity android:name=".WordCloud.WordCloudWebViewActivity" />
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity"
+        <activity
+            android:name="com.soundcloud.android.crop.CropImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
+
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />

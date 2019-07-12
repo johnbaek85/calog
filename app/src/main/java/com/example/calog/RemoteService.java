@@ -1,7 +1,9 @@
 package com.example.calog;
 
+import com.example.calog.VO.DietFourMealTotalVO;
 import com.example.calog.VO.FitnessVO;
 import com.example.calog.VO.MainHealthVO;
+import com.example.calog.VO.UserDietViewVO;
 import com.example.calog.VO.UserVO;
 
 import java.util.List;
@@ -38,6 +40,11 @@ public interface RemoteService {
     @GET("MainHealthVO")
     Call<MainHealthVO> userMainHealth(@Query("user_id") String user_id, @Query("select_date") String date);
 
+    @GET("DietFourMealTotalVO")
+    Call<List<DietFourMealTotalVO>> userDietDailyCalorie(@Query("user_id") String user_id, @Query("diet_date") String date);
+
+    @GET("UserDietViewVO")
+    Call<List<UserDietViewVO>> userDietDailyMenu(@Query("user_id") String user_id, @Query("diet_date") String date);
 
     /*//FitnessCardio
     @GET("fitnessCardio/list.jsp")

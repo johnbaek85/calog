@@ -1,14 +1,12 @@
-package com.example.calog.Drinking;
+package com.example.calog.Diet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,18 +15,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import com.example.calog.CalendarActivity;
-import com.example.calog.Common.GraphPagerFragment;
+import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
 import com.example.calog.Sleeping.SleepCheckActivity;
+import com.example.calog.VO.UserDietViewVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
@@ -36,11 +32,28 @@ import com.soundcloud.android.crop.Crop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
-public class DrinkingActivity extends AppCompatActivity
-{
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
+
+public class DietDailyDetailActivity extends AppCompatActivity {
+
+    RecyclerView userDietDailyMenuList;
 
     Intent intent;
+
+    Retrofit retrofit;
+    RemoteService rs;
+    DietDailyMenuAdapter adapter;
+    List<UserDietViewVO> userDietDailyMenuArray;
+
+    ImageView btnBack, btnHome;
 
     //TODO 하단 Menu
     File screenShot;
@@ -48,107 +61,56 @@ public class DrinkingActivity extends AppCompatActivity
     BottomNavigationView bottomNavigationView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drinking);
+        setContentView(R.layout.activity_diet_daily_detail);
 
-        //뒤로가기 이벤트
-        ImageView btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener()
-        {
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
+            public void onClick(View view)
             {
                 finish();
             }
         });
 
-        ImageView btnHome = findViewById(R.id.btnHome);
+        btnHome = findViewById(R.id.btnHome);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent=new Intent(DrinkingActivity.this, MainHealthActivity.class);
+                intent = new Intent(DietDailyDetailActivity.this, MainHealthActivity.class);
                 startActivity(intent);
             }
         });
 
-        //알콜check Activity 이동
-        TextView alcoholCheck=findViewById(R.id.alcoholCheck);
-        alcoholCheck.setOnClickListener(new View.OnClickListener()
-        {
+        userDietDailyMenuList = findViewById(R.id.userDietDailyMenuList);
+
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+        userDietDailyMenuList.setLayoutManager(manager);
+
+        intent = getIntent();
+
+        retrofit = new Retrofit.Builder() //Retrofit 빌더생성
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
+
+        Call<List<UserDietViewVO>> call = rs.userDietDailyMenu(intent.getStringExtra("user_id"), intent.getStringExtra("select_date"));
+        call.enqueue(new Callback<List<UserDietViewVO>>() {
             @Override
-            public void onClick(View v)
-            {
-                intent=new Intent(DrinkingActivity.this,DrinkingCheckActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+            public void onResponse(Call<List<UserDietViewVO>> call, Response<List<UserDietViewVO>> response) {
+                userDietDailyMenuArray = response.body();
+                System.out.println("<<<<<<<<<<<<<<<<<< Error :" + userDietDailyMenuArray.size());
+                adapter = new DietDailyMenuAdapter(DietDailyDetailActivity.this, userDietDailyMenuArray);
+                userDietDailyMenuList.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<UserDietViewVO>> call, Throwable t) {
+                System.out.println("<<<<<<<<<<<<<<<<<< Error : "+ t.toString());
             }
         });
-
-        //주량 설정 버튼
-        final ImageView liquorSetiing=findViewById(R.id.liquorSetiing);
-        liquorSetiing.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(final View v)
-            {
-                View view = getLayoutInflater().inflate(R.layout.custom_dialog,null);
-
-                //spinner 설정
-                final ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add("1병");
-                arrayList.add("2병");
-                arrayList.add("3병");
-                arrayList.add("기타");
-
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        arrayList);
-
-                final Spinner spinner = view.findViewById(R.id.spinner);
-                spinner.setAdapter(arrayAdapter);
-
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getApplicationContext(),arrayList.get(i)+"이(가) 선택되었습니다.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                    }
-                });
-
-                //주량설정 다이얼로그창
-                AlertDialog.Builder box=new AlertDialog.Builder(DrinkingActivity.this);
-
-                box.setTitle("주량설정");
-                box.setView(view);
-                box.setPositiveButton("저장", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        String txt=spinner.getSelectedItem().toString();
-                        TextView liquorTxt=findViewById(R.id.liquorTxt);
-                        liquorTxt.setText("현재 주량 설정:" +txt);
-
-                        Toast.makeText(DrinkingActivity.this, "저장되었습니다", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                box.setNegativeButton("취소",null);
-                box.show();
-            }
-        });
-
-        //그래프 BarChart Fragment
-        FragmentManager fm=getSupportFragmentManager();
-        FragmentTransaction tr=fm.beginTransaction();
-
-        GraphPagerFragment graphFragment = new GraphPagerFragment();
-        tr.replace(R.id.barChartFrag,graphFragment);
 
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
@@ -165,7 +127,7 @@ public class DrinkingActivity extends AppCompatActivity
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(DrinkingActivity.this, WordCloudActivity.class);
+                        Intent intent = new Intent(DietDailyDetailActivity.this, WordCloudActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -174,13 +136,13 @@ public class DrinkingActivity extends AppCompatActivity
 //                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(DrinkingActivity.this, DrinkingCheckActivity.class);
+                        intent = new Intent(DietDailyDetailActivity.this, DrinkingCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
-                        intent = new Intent(DrinkingActivity.this, MainHealthActivity.class);
+                        intent = new Intent(DietDailyDetailActivity.this, MainHealthActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -188,7 +150,7 @@ public class DrinkingActivity extends AppCompatActivity
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
-                        intent = new Intent(DrinkingActivity.this, SleepCheckActivity.class);
+                        intent = new Intent(DietDailyDetailActivity.this, SleepCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -201,7 +163,7 @@ public class DrinkingActivity extends AppCompatActivity
                         screenShot = ScreenShot(rootView);
                         uriFile = Uri.fromFile(screenShot);
                         if(screenShot != null) {
-                            Crop.of(uriFile, uriFile).asSquare().start(DrinkingActivity.this, 100);
+                            Crop.of(uriFile, uriFile).asSquare().start(DietDailyDetailActivity.this, 100);
                         }
                         break;
                     }
@@ -209,6 +171,7 @@ public class DrinkingActivity extends AppCompatActivity
                 return true;
             }
         });
+
     }
 
     //TODO 하단 메뉴설정
@@ -255,6 +218,4 @@ public class DrinkingActivity extends AppCompatActivity
         view.setDrawingCacheEnabled(false);
         return file;
     }
-
-
 }

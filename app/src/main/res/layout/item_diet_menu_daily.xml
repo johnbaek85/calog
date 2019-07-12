@@ -11,21 +11,18 @@
         android:text="짜장면"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"/>
 
     <TextView
         android:id="@+id/txtCalorie"
         android:text="400kcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:layout_marginBottom="10sp"
-        android:layout_below="@id/txtMenuName"/>
-
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"/>
+        android:textSize="15sp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"/>
 
 </RelativeLayout>
