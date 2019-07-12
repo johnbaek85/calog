@@ -10,19 +10,15 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.github.mikephil.charting.charts.LineChart;
@@ -34,7 +30,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -57,6 +52,11 @@ public class SleepCheckActivity extends Activity {
     long currentTime = 0;
     long savedTime = 0;
     boolean isChart = false;
+
+    //시간설정
+    TextView timeset;
+    int timeput = 0;
+
     /* Decibel */
     private boolean bListener = true;
     private boolean isThreadRun = true;
@@ -64,7 +64,6 @@ public class SleepCheckActivity extends Activity {
     float volume = 10000;
     int refresh = 0;
     private MyMediaRecorder mRecorder;
-
 
     final Handler handler = new Handler() {
         @Override
@@ -98,16 +97,19 @@ public class SleepCheckActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_check);
-        //시간 측정
-        final Chronometer chronometer = (np.Chronometer) findViewById(R.id.chronometer);
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.start();
 
+        //수면 시작 하기
+        timeset = (TextView) findViewById(R.id.Timer);
+        TimeCatch timecatch = new TimeCatch();
+        timecatch.setDaemon(true);
+        timecatch.start();
+
+        //수면 종료
         Button btnSleepFinish = (Button) findViewById(R.id.btnSleepFinish);
         btnSleepFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chronometer.stop();
+                //수면 종료 시키기
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(SleepCheckActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
@@ -116,7 +118,7 @@ public class SleepCheckActivity extends Activity {
                 builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(SleepCheckActivity.this,MainHealthActivity.class);
+                        Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -124,20 +126,37 @@ public class SleepCheckActivity extends Activity {
                 builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(SleepCheckActivity.this,MainHealthActivity.class);
+                        Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
                         startActivity(intent);
                     }
                 });
                 builder.setView(view);
 
+                //총 수면 시간
                 final TextView TotalSleep = (TextView) view.findViewById(R.id.TotalSleep);
-                long elapsedMillis = (SystemClock.elapsedRealtime() - chronometer.getBase())/1000;
-                TotalSleep.setText("총 수면 시간: "+String.valueOf(elapsedMillis));
+                long time = timeput;
+                int h = (int) (time / 3600000);
+                int m = (int) (time - h * 3600000) / 60000;
+                int s = (int) (time - h * 3600000 - m * 60000) / 1000;
+                TotalSleep.setText("총 수면 시간: " + String.valueOf(h + "시간" + m + "분" + s + "초"));
 
-                final TextView SleepSnoring = (TextView) view.findViewById(R.id.SleepSnoring);
+                //평균소음
                 final TextView SleepDecibel = (TextView) view.findViewById(R.id.SleepDecibel);
-                SleepDecibel.setText("평균 소음 : "+mmVal.getText().toString());
+                SleepDecibel.setText("평균 소음 : " + mmVal.getText().toString() + "db");
+                double mmval = Double.parseDouble(mmVal.getText().toString());
+
                 final TextView SleepQuality = (TextView) view.findViewById(R.id.SleepQuality);
+                if (mmval >= 0 && mmval <= 40) {
+                    SleepQuality.setText("수면의 질 : 좋음");
+                } else if (mmval >= 40 && mmval <= 52.5) {
+                    SleepQuality.setText("수면의 질 : 좋음");
+                } else if (mmval > 52.5 && mmval <= 60) {
+                    SleepQuality.setText("수면의 질 : 보통");
+                } else if (mmval > 60 && mmval <= 80) {
+                    SleepQuality.setText("수면의 질 : 나쁨");
+                } else {
+                    SleepQuality.setText("수면의 질 : 나쁨");
+                }
                 builder.show();
             }
         });
@@ -210,6 +229,30 @@ public class SleepCheckActivity extends Activity {
         }
     }
 
+    class TimeCatch extends Thread {
+        public void run() {
+            while (true) {
+                timeput++;
+                timehandler.sendEmptyMessage(0);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    ;
+                }
+            }
+        }
+    }
+
+    Handler timehandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                timeset.setText("수면 시간 : " + timeput);
+            }
+        }
+    };
+
+    //권한 묻기
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -222,7 +265,7 @@ public class SleepCheckActivity extends Activity {
                     Toast.makeText(this, "승인이 허가되어 있습니다.", Toast.LENGTH_LONG).show();
 
                 } else {
-                    Toast.makeText(this, "아직 승인받지 않았습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "아직 승인을 받지 않았습니다.", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
@@ -242,6 +285,7 @@ public class SleepCheckActivity extends Activity {
         }
     }
 
+    //소음 측정 갱신
     private void updateData(float val, long time) {
         if (mChart == null) {
             return;
@@ -348,7 +392,7 @@ public class SleepCheckActivity extends Activity {
         }
     }
 
-    /* Sub-chant analysis */
+    //녹음 시작
     private void startListenAudio() {
         thread = new Thread(new Runnable() {
             @Override
@@ -382,7 +426,7 @@ public class SleepCheckActivity extends Activity {
     }
 
     /**
-     * Start recording
+     * 녹음 파일 생성
      *
      * @param fFile
      */
@@ -413,7 +457,7 @@ public class SleepCheckActivity extends Activity {
     }
 
     /**
-     * Stop recording
+     * 녹음 정지
      */
     @Override
     protected void onPause() {
@@ -424,6 +468,7 @@ public class SleepCheckActivity extends Activity {
         isChart = false;
     }
 
+    //생성된 파일 삭제
     @Override
     protected void onDestroy() {
         if (thread != null) {

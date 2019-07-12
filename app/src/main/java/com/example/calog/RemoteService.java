@@ -1,11 +1,10 @@
 package com.example.calog;
 
-import com.example.calog.VO.FitnessVO;
+import com.example.calog.VO.MainHealthVO;
 import com.example.calog.VO.UserVO;
 
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -32,7 +31,12 @@ public interface RemoteService {
     @POST("user/update.jsp")
     Call<Void> updateUser(@Body UserVO vo);
 
-    //FitnessCardio
+    //User Diet Total calories
+    @GET("MainHealthVO")
+    Call<MainHealthVO> userMainHealth(@Query("user_id") String user_id, @Query("select_date") String date);
+
+
+    /*//FitnessCardio
     @GET("fitnessCardio/list.jsp")
     Call<List<FitnessVO>> listFitness();
 
@@ -40,5 +44,6 @@ public interface RemoteService {
     Call<ResponseBody> insertFitnessCardio(@Body FitnessVO vo);
 
     @POST("fitnessCardio/delete.jsp")
-    Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);
+    Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);*/
+
 }

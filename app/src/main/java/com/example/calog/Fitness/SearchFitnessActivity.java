@@ -1,14 +1,14 @@
 package com.example.calog.Fitness;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
@@ -23,7 +23,8 @@ public class SearchFitnessActivity extends AppCompatActivity {
     RecyclerView list;
     List<FitnessVO> array;
     SearchFitnessAdapter adapter;
-    int fitnessType;
+    int fitnessTypeId;          //운동타입, fitnessActivity에서 넘겨받음 1 = 유산소, 2 = 무산소
+    int fitnessMenuId=1;        //임시 1= 팔굽혀펴기
     Intent intent;
 
     @Override
@@ -32,7 +33,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_fitness);
 
         intent = getIntent();
-        fitnessType = intent.getIntExtra("운동타입", 0);
+        fitnessTypeId = intent.getIntExtra("운동타입", 0);
 
 
         btnBack=findViewById(R.id.btnBack);
@@ -67,8 +68,9 @@ public class SearchFitnessActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 intent = new Intent(SearchFitnessActivity.this, ExerciseActivity.class);
-                intent.putExtra("운동타입", fitnessType);
-                System.out.println("SearchFitness Activity = "+fitnessType);
+                intent.putExtra("운동타입", fitnessTypeId);
+                intent.putExtra("운동명", fitnessMenuId);          //임시 운동명, 1 = 팔굽혀펴기
+                System.out.println("SearchFitness Activity = "+fitnessTypeId);
                 startActivity(intent);
             }
         });

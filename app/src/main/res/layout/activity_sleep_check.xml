@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/transparent"
-    tools:context=".Sleeping.DecibelCheck.StopWatchActivity">
+    tools:context=".Sleeping.DecibelCheck.SleepCheckActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -52,7 +52,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/castelmezzano">
 
-
         <Button
             android:id="@+id/btnSleepFinish"
             android:text="중지"
@@ -75,7 +74,8 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:visibility="gone">
 
                     <np.TextView
                         style="@style/Uy"
@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="23 Db"
+                        android:text="23"
                         android:textSize="36dp"
                         android:id="@+id/minval"
                         android:textColor="#ffffff"
@@ -100,7 +100,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent">
+                    android:background="@android:color/transparent"
+                    android:visibility="gone">
 
                     <np.TextView
                         style="@style/Uy"
@@ -113,7 +114,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="23 Db"
+                        android:text="23"
                         android:textSize="36dp"
                         android:id="@+id/mmval"
                         android:textColor="#ffffff"/>
@@ -137,7 +138,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="23 Db"
+                        android:text="23"
                         android:id="@+id/maxval"
                         android:textSize="36dp"
                         android:textColor="#ffffff"/>
@@ -161,7 +162,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="23 Db"
+                        android:text="23"
                         android:id="@+id/curval"
                         android:textSize="36dp"
                         android:textColor="#ffffff" />
@@ -181,10 +182,35 @@
                         android:id="@+id/setTime"
                         android:textColor="@color/external_progress2" />
 
-                    <np.Chronometer
+                    <np.TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/chronometer"
+                        android:id="@+id/Timer"
+                        android:text="0"
+                        android:textSize="26dp"
+                        android:textColor="#ffffff" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent">
+
+                    <np.TextView
+                        style="@style/Uy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="코골이 시간"
+                        android:id="@+id/SnoreTime"
+                        android:textColor="@color/external_progress2" />
+
+                    <np.TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/snoreTimer"
+                        android:text="0"
                         android:textSize="36dp"
                         android:textColor="#ffffff" />
                 </LinearLayout>

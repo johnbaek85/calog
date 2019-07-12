@@ -41,6 +41,10 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1.5">
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
     </FrameLayout>
@@ -50,15 +54,22 @@
         android:layout_width="fill_parent"
         android:gravity="center"
         android:layout_height="0px"
-        android:layout_weight="1"
+        android:layout_weight="0.7"
         android:layout_gravity="center_horizontal"
-        android:textSize="40sp"
+        android:textSize="50sp"
         android:textStyle="bold"/>
-    <Button
-        android:id="@+id/stopBtn"
+    <TextView
+        android:id="@+id/usedCalorie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="중지"
-        android:layout_margin="20dp"/>
+        android:text="40cal"
+        android:textSize="30sp"
+        android:textAlignment="center"/>
 
+
+    <FrameLayout
+        android:id="@+id/btnFrame"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.5"></FrameLayout>
 </LinearLayout>

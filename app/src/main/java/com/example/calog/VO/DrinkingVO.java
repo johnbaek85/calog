@@ -7,7 +7,7 @@ public class DrinkingVO {
     private String user_id;
     private Date drinking_date;
     private double alcohol_content;
-    
+
 	public String getUser_id() {
 		return user_id;
 	}

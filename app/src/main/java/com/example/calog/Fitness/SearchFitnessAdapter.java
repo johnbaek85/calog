@@ -33,6 +33,8 @@ public class SearchFitnessAdapter extends RecyclerView.Adapter<SearchFitnessAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         holder.exerciseName.setText(array.get(i).getFitness_menu_name());
+        //holder.consumCal.setText(array.get(i).getUsed_calorie());
+        holder.exerciseName.setText(array.get(i).getFitness_menu_name());
         holder.consumCal.setText((int) array.get(i).getUsed_calorie());
 
     }

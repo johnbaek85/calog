@@ -23,6 +23,8 @@ public class FitnessVO {
 	private int sum_cardio_distance;
 	private int sum_cardio_number_steps;
 	private double sum_cardio_used_calorie;
+	private int sum_weight_seconds;
+	private double sum_weight_used_calorie;
 
 	public String getUser_id() {
 		return user_id;
@@ -123,7 +125,6 @@ public class FitnessVO {
 	public int getDistance() {
 		return distance;
 	}
-
 	public void setDistance(int distance) {
 		this.distance = distance;
 	}
@@ -176,6 +177,22 @@ public class FitnessVO {
 		this.sum_cardio_used_calorie = sum_cardio_used_calorie;
 	}
 
+	public int getSum_weight_seconds() {
+		return sum_weight_seconds;
+	}
+
+	public void setSum_weight_seconds(int sum_weight_seconds) {
+		this.sum_weight_seconds = sum_weight_seconds;
+	}
+
+	public double getSum_weight_used_calorie() {
+		return sum_weight_used_calorie;
+	}
+
+	public void setSum_weight_used_calorie(double sum_weight_used_calorie) {
+		this.sum_weight_used_calorie = sum_weight_used_calorie;
+	}
+
 	@Override
 	public String toString() {
 		return "FitnessVO{" +
@@ -198,6 +215,8 @@ public class FitnessVO {
 				", sum_cardio_distance=" + sum_cardio_distance +
 				", sum_cardio_number_steps=" + sum_cardio_number_steps +
 				", sum_cardio_used_calorie=" + sum_cardio_used_calorie +
+				", sum_weight_seconds=" + sum_weight_seconds +
+				", sum_weight_used_calorie=" + sum_weight_used_calorie +
 				'}';
 	}
 }

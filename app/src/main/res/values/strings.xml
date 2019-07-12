@@ -9,10 +9,10 @@
     <string name="activity_recBusyErr">레코더가 사용 중이거나 기록 할 수 있는 권한이 없습니다.</string>
     <string name="activity_recFileErr">파일을 생성할 수 없습니다.</string>
     <!-- activity_main.xml -->
-    <string name="activity_minlabel">Minimum</string>
-    <string name="activity_avglabel">Average</string>
-    <string name="activity_maxlabel">Maximum</string>
-    <string name="activity_curlabel">Real Time</string>
+    <string name="activity_minlabel">최소 소음</string>
+    <string name="activity_avglabel">평균 소음</string>
+    <string name="activity_maxlabel">최대 소음</string>
+    <string name="activity_curlabel">현재 소음</string>
     <!-- dialog_info.xml -->
     <!--<string name="info_0db">0dB : Most people just hear a low noise.</string>-->
     <!--<string name="info_30db">30dB～40dB it\'s the ideal calm.</string>-->
