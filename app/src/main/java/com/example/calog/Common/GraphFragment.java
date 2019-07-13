@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -33,7 +34,13 @@ public class GraphFragment extends Fragment
 {
     String[] labels;
 
-    GraphFragment(){}
+    public GraphFragment(){}
+
+    ArrayList<Float> sum_calorieList;
+
+    public static ArrayList<Float> sum_calorieList2;
+
+    ArrayList<BarEntry> entries;
 
     public GraphFragment(String unitDate)
     {
@@ -54,6 +61,8 @@ public class GraphFragment extends Fragment
        {
            this.labels = new String[]{"2016","2017","2018","2019"};
        }
+
+       System.out.println("===========================그래프 프래그먼트 sum CalorieLis"+sum_calorieList2);
     }
 
 //    public static GraphFragment newInstance() {
@@ -65,9 +74,16 @@ public class GraphFragment extends Fragment
 //        return fragment;
 //    }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         View view=inflater.inflate(R.layout.fragment_graph, container, false);
 
@@ -80,13 +96,27 @@ public class GraphFragment extends Fragment
         ArrayList<BarEntry> entries = new ArrayList<>();
 
         //x축에 String을 넣으려면 String리스트를 던져야함 대신에 BarEntry의 X값은 리스트에 position값이여야한다.
-        entries.add(new BarEntry(0, 10)); //x의 0은 String 배열의 0번째 값을 말한다
-        entries.add(new BarEntry(1, 20));
-        entries.add(new BarEntry(2, 30));
-        entries.add(new BarEntry(3, 40));
-        entries.add(new BarEntry(4, 50));
-        entries.add(new BarEntry(5, 60));
-        entries.add(new BarEntry(6, 70));
+
+
+        if(sum_calorieList2!=null)
+        {
+            System.out.println("entries for입성=================");
+            for(int x=0; x<sum_calorieList2.size(); x++)
+            {
+                entries.add(new BarEntry(x,sum_calorieList2.get(x)));
+                System.out.println("entries for실행================="+entries);
+            }
+        }
+        else {
+            //entries.add(new BarEntry(0, sum_calorieList2.get(0))); //x의 0은 String 배열의 0번째 값을 말한다
+            entries.add(new BarEntry(0, 10));
+            entries.add(new BarEntry(1, 20));
+            entries.add(new BarEntry(2, 30));
+            entries.add(new BarEntry(3, 40));
+            entries.add(new BarEntry(4, 50));
+            entries.add(new BarEntry(5, 60));
+            entries.add(new BarEntry(6, 70));
+        }
 
         //bar데이터 폭설정
         //BarData data = new BarData(set1, set2);
@@ -128,4 +158,6 @@ public class GraphFragment extends Fragment
 
         return view;
     }
+
+
 }
