@@ -50,7 +50,6 @@ public interface RemoteService {
     @POST("fitnessCardio/delete.jsp")
     Call<Void> deleteFitnessCardio(@Query("fitnessCardioId") int fitnessCardioId);*/
 
-
     @GET("UserTotalCaloriesViewVOList")
     Call<List<UserTotalCaloriesViewVO>> UserTotalCaloriesViewVO(@Query("user_id") String user_id);
 

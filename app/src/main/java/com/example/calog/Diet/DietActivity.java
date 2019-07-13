@@ -39,7 +39,6 @@ public class DietActivity extends AppCompatActivity {
     Retrofit retrofit;
     RemoteService rs;
 
-    List<UserTotalCaloriesViewVO> userTotalCaloriesViewVOList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,16 +94,17 @@ public class DietActivity extends AppCompatActivity {
     private class GraphBackThread extends AsyncTask<Integer,Integer, ArrayList<GraphFragment>>
     {
 
-        ArrayList<Float> sum_calorieList;
+        ArrayList<Float> daySumList=new ArrayList<>();
+        ArrayList<Float> weekSumList=new ArrayList<>();
+        ArrayList<Float> monthSumList=new ArrayList<>();
+        ArrayList<Float> yearSumList=new ArrayList<>();
 
-
+        List<UserTotalCaloriesViewVO> userTotalCaloriesViewVOList=new ArrayList<>();
 
         @Override
         protected void onPreExecute()
         {
             super.onPreExecute();
-
-            sum_calorieList=new ArrayList<Float>();
 
             Call<List<UserTotalCaloriesViewVO>> call = rs.UserTotalCaloriesViewVO("spider");
             call.enqueue(new Callback<List<UserTotalCaloriesViewVO>>() {
@@ -118,31 +118,18 @@ public class DietActivity extends AppCompatActivity {
                     {
                         UserTotalCaloriesViewVO vo = userTotalCaloriesViewVOList.get(i);
 
-                        sum_calorieList.add((float)vo.getSum_calorie());
+                        daySumList.add((float)vo.getSum_calorie());
                     }
 
-                    GraphFragment.sum_calorieList2=sum_calorieList;
+                    weekSumList.add(10.0f);
 
 
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //TODO 그래프 BarChart Fragment 장착
-                            FragmentManager fm=getSupportFragmentManager();
-                            FragmentTransaction tr=fm.beginTransaction();
+                    //FIXME 기타 잡다한 오류로 bundle및 생성자로 데이터를 못던졌음. 연구 필요. 임시방편으로 static으로 하면 데이터 전송가능.
+                    GraphFragment.sum_calorieListDay=daySumList; //일에 대한 데이터
+                   // GraphFragment.sum_calorieListWeek=daySumList; //주에 대한 데이터
+                   // GraphFragment.sum_calorieListMonth=daySumList; //달에 대한 데이터
+                   // GraphFragment.sum_calorieListYear=daySumList; //년에 대한 데이터
 
-                            GraphPagerFragment graphFragment = new GraphPagerFragment();
-                            tr.replace(R.id.barChartFrag,graphFragment);
-                            ////////////////////////
-                        }
-                    }, 3000 );
-
-
-
-
-                    //System.out.print("===DietAcitivity GraphFragment.sum_calorieList2"+GraphFragment.sum_calorieList2);
-                    //System.out.println("userTotalCaloriesViewVOList==================="+userTotalCaloriesViewVOList.toString());
                 }
 
                 @Override
@@ -150,41 +137,35 @@ public class DietActivity extends AppCompatActivity {
                     System.out.println("error >>>>>>>>>>>>>>>>>>>>>>>>>>>"+t.toString());
                 }
             });
-
-
         }
 
+        //Thread
         @Override
         protected ArrayList<GraphFragment> doInBackground(Integer... integers)
         {
 
-//
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-
-            System.out.println("===================================================="+GraphFragment.sum_calorieList2);
-
-
-
-            ArrayList<GraphFragment> graphFragmentList=new ArrayList<>();
-            //GraphFragment.sum_calorieList2=sum_calorieList;
-//            graphFragmentList.add(new GraphFragment("day",sum_calorieList));
-//            graphFragmentList.add(new GraphFragment("day",sum_calorieList));
-//            graphFragmentList.add(new GraphFragment("day",sum_calorieList));
-//            graphFragmentList.add(new GraphFragment("day",sum_calorieList));
-
-
-            return graphFragmentList;
+            while(true)
+            {
+                //TODO 데이터가 들어오기 전까지 무한루프를 빠져나가지못함.
+                if(userTotalCaloriesViewVOList.size()!=0)
+                {
+                    break;
+                }
+            }
+            return null;
         }
 
+        //doinback이 끝났을때
         @Override
         protected void onPostExecute(ArrayList<GraphFragment> graphFragments)
         {
             super.onPostExecute(graphFragments);
+            //TODO 그래프 BarChart Fragment 장착
+            FragmentManager fm=getSupportFragmentManager();
+            FragmentTransaction tr=fm.beginTransaction();
 
+            GraphPagerFragment graphFragment = new GraphPagerFragment();
+            tr.replace(R.id.barChartFrag,graphFragment);
 
 
         }

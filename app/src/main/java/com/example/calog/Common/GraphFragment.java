@@ -38,12 +38,18 @@ public class GraphFragment extends Fragment
 
     ArrayList<Float> sum_calorieList;
 
-    public static ArrayList<Float> sum_calorieList2;
+    public static ArrayList<Float> sum_calorieListDay; //일에 대한 데이터
+    public static ArrayList<Float> sum_calorieListWeek= new ArrayList<Float>(Arrays.asList(10.0f, 20.0f, 30.0f,40.0f,50.0f));; //주에 대한 데이터
+    public static ArrayList<Float> sum_calorieListMonth= new ArrayList<Float>(Arrays.asList(100f,200f,130f,160f,300f,400f,500f,450f,330f,220f,180f,270f)); //달에 대한 데이터
+    public static ArrayList<Float> sum_calorieListYear=new ArrayList<Float>(Arrays.asList(300f,100f,230f,60f,190f)); //년에 대한 데이터
 
     ArrayList<BarEntry> entries;
 
+    String unitDate;
+
     public GraphFragment(String unitDate)
     {
+        this.unitDate=unitDate;
         //라벨 작업
        if(unitDate.equals("day"))
        {
@@ -51,7 +57,7 @@ public class GraphFragment extends Fragment
        }
        else if(unitDate.equals("week"))
        {
-           this.labels = new String[]{"1~7", "8~14", "15~21", "22~26", "26~end", "Sat", "Sun"};
+           this.labels = new String[]{"1~7", "8~14", "15~21", "22~26", "26~end"};
        }
        else if(unitDate.equals("month"))
        {
@@ -59,21 +65,11 @@ public class GraphFragment extends Fragment
        }
        else if(unitDate.equals("year"))
        {
-           this.labels = new String[]{"2016","2017","2018","2019"};
+           this.labels = new String[]{"2015","2016","2017","2018","2019"};
        }
 
-       System.out.println("===========================그래프 프래그먼트 sum CalorieLis"+sum_calorieList2);
+       System.out.println("===========================그래프 프래그먼트 sum CalorieLis"+sum_calorieListDay);
     }
-
-//    public static GraphFragment newInstance() {
-//
-//        Bundle args = new Bundle();
-//
-//        GraphFragment fragment = new GraphFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,16 +94,44 @@ public class GraphFragment extends Fragment
         //x축에 String을 넣으려면 String리스트를 던져야함 대신에 BarEntry의 X값은 리스트에 position값이여야한다.
 
 
-        if(sum_calorieList2!=null)
+        if(unitDate.equals("day"))
         {
-            System.out.println("entries for입성=================");
-            for(int x=0; x<sum_calorieList2.size(); x++)
+            System.out.println("entries for 일=================");
+            for(int x=0; x<sum_calorieListDay.size(); x++)
             {
-                entries.add(new BarEntry(x,sum_calorieList2.get(x)));
-                System.out.println("entries for실행================="+entries);
+                entries.add(new BarEntry(x,sum_calorieListDay.get(x)));
+                //System.out.println("entries for실행================="+entries);
             }
         }
-        else {
+        else if(unitDate.equals("week"))
+        {
+            System.out.println("entries for 주=================");
+            for(int x=0; x<sum_calorieListWeek.size(); x++)
+            {
+                entries.add(new BarEntry(x,sum_calorieListWeek.get(x)));
+                //System.out.println("entries for실행================="+entries);
+            }
+        }
+        else if(unitDate.equals("month"))
+        {
+            System.out.println("entries for 월=================");
+            for(int x=0; x<sum_calorieListMonth.size(); x++)
+            {
+                entries.add(new BarEntry(x,sum_calorieListMonth.get(x)));
+                //System.out.println("entries for실행================="+entries);
+            }
+        }
+        else if(unitDate.equals("year"))
+        {
+            System.out.println("entries for 년=================");
+            for(int x=0; x<sum_calorieListYear.size(); x++)
+            {
+                entries.add(new BarEntry(x,sum_calorieListYear.get(x)));
+                //System.out.println("entries for실행================="+entries);
+            }
+        }
+        else
+        {
             //entries.add(new BarEntry(0, sum_calorieList2.get(0))); //x의 0은 String 배열의 0번째 값을 말한다
             entries.add(new BarEntry(0, 10));
             entries.add(new BarEntry(1, 20));
@@ -129,8 +153,9 @@ public class GraphFragment extends Fragment
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
         //각 X축 데이터 간의 거리를 수동으로 설정해줄수있음
-//        XAxis xAxis = barChart.getXAxis();
-//        xAxis.setGranularity(3f);
+        //TODO 1f로 맞춰줘야 제대로 나옴
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setGranularity(1f);
 //        xAxis.setGranularityEnabled(true);
 
         //할당된 리스트 데이터셋에 넣기(자동으로 바차트에 넣을수 있는 데이터로 변경해주는 코드인듯

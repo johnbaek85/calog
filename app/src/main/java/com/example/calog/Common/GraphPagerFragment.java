@@ -76,7 +76,7 @@ public class GraphPagerFragment extends Fragment {
                 //tablayout과 pager연결
                 tabLayout.setupWithViewPager(viewPager);
             }
-        }, 3000 );
+        }, 2000 );
 
 
 
