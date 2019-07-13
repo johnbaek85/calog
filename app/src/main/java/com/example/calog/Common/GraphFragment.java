@@ -38,8 +38,9 @@ public class GraphFragment extends Fragment
 
     ArrayList<Float> sum_calorieList;
 
-    public static ArrayList<Float> sum_calorieListDay; //일에 대한 데이터
-    public static ArrayList<Float> sum_calorieListWeek= new ArrayList<Float>(Arrays.asList(10.0f, 20.0f, 30.0f,40.0f,50.0f));; //주에 대한 데이터
+    //값이없을때 에러나지 않게 초기값을 준다.
+    public static ArrayList<Float> sum_calorieListDay=new ArrayList<Float>(Arrays.asList(10.0f,20.0f,30.0f,40.0f,50.0f,60f,70f)); //일에 대한 데이터
+    public static ArrayList<Float> sum_calorieListWeek= new ArrayList<Float>(Arrays.asList(10.0f, 20.0f, 30.0f,40.0f,50.0f)); //주에 대한 데이터
     public static ArrayList<Float> sum_calorieListMonth= new ArrayList<Float>(Arrays.asList(100f,200f,130f,160f,300f,400f,500f,450f,330f,220f,180f,270f)); //달에 대한 데이터
     public static ArrayList<Float> sum_calorieListYear=new ArrayList<Float>(Arrays.asList(300f,100f,230f,60f,190f)); //년에 대한 데이터
 
@@ -65,7 +66,7 @@ public class GraphFragment extends Fragment
        }
        else if(unitDate.equals("year"))
        {
-           this.labels = new String[]{"2015","2016","2017","2018","2019"};
+           this.labels = new String[]{"2019","2020","2021","2022","2023"};
        }
 
        System.out.println("===========================그래프 프래그먼트 sum CalorieLis"+sum_calorieListDay);

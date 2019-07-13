@@ -8,6 +8,12 @@
     android:orientation="vertical"
     tools:context=".Common.GraphPagerFragment">
 
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_gravity="center"
+        android:layout_width="200sp"
+        android:layout_height="match_parent" /> <!-- match여야 덮음 -->
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"

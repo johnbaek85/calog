@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.SlidingDrawer;
 import android.widget.Toast;
 
@@ -39,11 +40,12 @@ public class DietActivity extends AppCompatActivity {
     Retrofit retrofit;
     RemoteService rs;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet);
+
+
 
         retrofit = new Retrofit.Builder() //Retrofit 빌더생성
                 .baseUrl(BASE_URL)
@@ -114,6 +116,7 @@ public class DietActivity extends AppCompatActivity {
                 {
                     userTotalCaloriesViewVOList=response.body();
 
+                    //일 데이터 생성
                     for(int i=0; i<userTotalCaloriesViewVOList.size(); i++)
                     {
                         UserTotalCaloriesViewVO vo = userTotalCaloriesViewVOList.get(i);
@@ -121,14 +124,70 @@ public class DietActivity extends AppCompatActivity {
                         daySumList.add((float)vo.getSum_calorie());
                     }
 
-                    weekSumList.add(10.0f);
+                    //일주일 데이터 뽑아내기
+                    float sum=0f;
+                    int div=0;
 
+                    for(int i=0; i<daySumList.size(); i++)
+                    {
+                        div++; //평균내기위한 카운트
+
+                        sum+=daySumList.get(i);
+
+                        if((div>=7 && div%7==0) || daySumList.size()-1==i) //TODO 카운트(div)가 7보다 크거나같고 7로 나누어떨어질때 또는 마지막 for문일때 그동한 더한 sum을 div로 나누어서 평균을 내어 주단위 데이터에 담는다. 그리고 sum 초기화
+                        {
+
+                            float avg=sum/div; //평균내기 - i가 0 일때는 나눌수없으므로 +1을해준다.
+                            weekSumList.add(avg);
+
+                            sum=0f;
+                            div=0; //카운트 초기화
+                        }
+
+                    }
+//
+                    //월단위 데이터 뽑아내기
+                    for(int i=0; i<weekSumList.size(); i++)
+                    {
+                        div++;
+
+                        sum+=weekSumList.get(i);
+
+                        if(div>=5 && div%5==0 || weekSumList.size()-1==i) //한달이 4.3주 이니까 5로 카운트한다. 계산방식은 위와 동일
+                        {
+                            float avg=sum/div;
+                            monthSumList.add(avg);
+                            sum=0f;
+                            div=0;
+                        }
+
+                    }
+
+                    //년단위 데이터 뽑아내기
+                    for(int i=0; i<monthSumList.size(); i++)
+                    {
+                        div++;
+
+                        sum+=monthSumList.get(i);
+
+                        if(div>=12 && div%12==0 || weekSumList.size()-1==i) //1년은 12개월이므로 12로 카운트 계산방식은 위와 동일
+                        {
+                            float avg=sum/div;
+                            yearSumList.add(avg);
+                            sum=0f;
+                            div=0;
+                        }
+                    }
+
+                    //System.out.println("0으로 나누기 test"+test);
+
+                    System.out.println("weekSumList"+weekSumList);
 
                     //FIXME 기타 잡다한 오류로 bundle및 생성자로 데이터를 못던졌음. 연구 필요. 임시방편으로 static으로 하면 데이터 전송가능.
                     GraphFragment.sum_calorieListDay=daySumList; //일에 대한 데이터
-                   // GraphFragment.sum_calorieListWeek=daySumList; //주에 대한 데이터
-                   // GraphFragment.sum_calorieListMonth=daySumList; //달에 대한 데이터
-                   // GraphFragment.sum_calorieListYear=daySumList; //년에 대한 데이터
+                    GraphFragment.sum_calorieListWeek=weekSumList; //주에 대한 데이터
+                    GraphFragment.sum_calorieListMonth=monthSumList; //달에 대한 데이터
+                    GraphFragment.sum_calorieListYear=yearSumList; //년에 대한 데이터
 
                 }
 
@@ -167,9 +226,7 @@ public class DietActivity extends AppCompatActivity {
             GraphPagerFragment graphFragment = new GraphPagerFragment();
             tr.replace(R.id.barChartFrag,graphFragment);
 
-
         }
 
     }
-
 }

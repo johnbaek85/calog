@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.calog.R;
 import com.google.android.material.tabs.TabLayout;
@@ -75,10 +76,12 @@ public class GraphPagerFragment extends Fragment {
 
                 //tablayout과 pager연결
                 tabLayout.setupWithViewPager(viewPager);
+
+                //progressBar 숨기기
+                ProgressBar circleProgress=view.findViewById(R.id.progress_circular);
+                circleProgress.setVisibility(View.GONE);
             }
-        }, 2000 );
-
-
+        }, 3000 ); //안전하게 데이터를 가져오려면 3초가 충분
 
         return view;
     }
@@ -115,11 +118,5 @@ public class GraphPagerFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return tabTitle[position]; //탭레이아웃 타이틀설정
         }
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
     }
 }
