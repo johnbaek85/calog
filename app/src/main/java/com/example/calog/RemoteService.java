@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 
 public interface RemoteService {
 
-    public static final String BASE_URL = "http://192.168.0.56:8088/calog/";
+    public static final String BASE_URL = "http://192.168.0.9:8088/calog/";
 
     /*//User
     @GET("user/list.jsp")
