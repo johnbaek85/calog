@@ -56,4 +56,26 @@ public interface RemoteService {
     @POST("UserDrinkInsert")
     Call<Void> UserDrinkInsert(@Body DrinkingVO vo);
 
+
+    ////////////////// TODO 그래프용 restAPI ////////////////////////////////
+
+    ///////////////////// 식단 ////////////////////////////////
+    @GET("LastWeekTotalCalorie") //최근 일주일간 데이터 //일
+    Call<List<UserTotalCaloriesViewVO>> LastWeekTotalCalorie(@Query("user_id") String user_id);
+
+    @GET("LastMonthTotalCalorie") //최근 한달간 데이터 //주
+    Call<List<UserTotalCaloriesViewVO>> LastMonthTotalCalorie(@Query("user_id") String user_id);
+
+    @GET("LastYearTotalCalorie") //최근 1년간 데이터 //월
+    Call<List<UserTotalCaloriesViewVO>> LastYearTotalCalorie(@Query("user_id") String user_id);
+
+    @GET("LastAllTotalCalorie") //최근 5년간 데이터 //년
+    Call<List<UserTotalCaloriesViewVO>> LastAllTotalCalorie(@Query("user_id") String user_id);
+
+    ///////////////////// 운동 ////////////////////////////////
+
+    ///////////////////// 음주 ////////////////////////////////
+
+    ///////////////////// 수면 ////////////////////////////////
+
 }

@@ -26,6 +26,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.tabs.TabLayout;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,10 +40,14 @@ public class GraphFragment extends Fragment
     ArrayList<Float> sum_calorieList;
 
     //값이없을때 에러나지 않게 초기값을 준다.
-    public static ArrayList<Float> sum_calorieListDay=new ArrayList<Float>(Arrays.asList(10.0f,20.0f,30.0f,40.0f,50.0f,60f,70f)); //일에 대한 데이터
-    public static ArrayList<Float> sum_calorieListWeek= new ArrayList<Float>(Arrays.asList(10.0f, 20.0f, 30.0f,40.0f,50.0f)); //주에 대한 데이터
-    public static ArrayList<Float> sum_calorieListMonth= new ArrayList<Float>(Arrays.asList(100f,200f,130f,160f,300f,400f,500f,450f,330f,220f,180f,270f)); //달에 대한 데이터
-    public static ArrayList<Float> sum_calorieListYear=new ArrayList<Float>(Arrays.asList(300f,100f,230f,60f,190f)); //년에 대한 데이터
+    public static ArrayList<GraphVO> sum_calorieListDay=
+            new ArrayList<GraphVO>(Arrays.asList(new GraphVO(0, "Today"))); //일에 대한 데이터
+    public static ArrayList<GraphVO> sum_calorieListWeek=
+            new ArrayList<GraphVO>(Arrays.asList(new GraphVO(0, "Today"))); //주에 대한 데이터
+    public static ArrayList<GraphVO> sum_calorieListMonth=
+            new ArrayList<GraphVO>(Arrays.asList(new GraphVO(0, "Today"))); //달에 대한 데이터
+    public static ArrayList<GraphVO> sum_calorieListYear=
+            new ArrayList<GraphVO>(Arrays.asList(new GraphVO(0, "Today"))); //년에 대한 데이터
 
     ArrayList<BarEntry> entries;
 
@@ -54,19 +59,46 @@ public class GraphFragment extends Fragment
         //라벨 작업
        if(unitDate.equals("day"))
        {
-           this.labels = new String[]{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+           //this.labels = new String[]{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+
+           //TODO x축 라벨 작업 날짜가 들어간다.
+           ArrayList<String> arrayList=new ArrayList<>();
+           for(int i=0; i<sum_calorieListDay.size(); i++)
+           {
+               arrayList.add(sum_calorieListDay.get(i).getData_date());
+           }
+           labels=arrayList.toArray(new String[arrayList.size()]);
        }
        else if(unitDate.equals("week"))
        {
-           this.labels = new String[]{"1~7", "8~14", "15~21", "22~26", "26~end"};
+           ArrayList<String> arrayList=new ArrayList<>();
+           for(int i=0; i<sum_calorieListWeek.size(); i++)
+           {
+               arrayList.add(sum_calorieListWeek.get(i).getData_date());
+           }
+           labels=arrayList.toArray(new String[arrayList.size()]);
        }
        else if(unitDate.equals("month"))
        {
-           this.labels = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+           //this.labels = new String[]{"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+
+           ArrayList<String> arrayList=new ArrayList<>();
+           for(int i=0; i<sum_calorieListMonth.size(); i++)
+           {
+               arrayList.add(sum_calorieListMonth.get(i).getData_date());
+           }
+           labels=arrayList.toArray(new String[arrayList.size()]);
        }
        else if(unitDate.equals("year"))
        {
-           this.labels = new String[]{"2019","2020","2021","2022","2023"};
+          // this.labels = new String[]{"2019","2020","2021","2022","2023"};
+
+           ArrayList<String> arrayList=new ArrayList<>();
+           for(int i=0; i<sum_calorieListYear.size(); i++)
+           {
+               arrayList.add(sum_calorieListYear.get(i).getData_date());
+           }
+           labels=arrayList.toArray(new String[arrayList.size()]);
        }
 
        System.out.println("===========================그래프 프래그먼트 sum CalorieLis"+sum_calorieListDay);
@@ -100,7 +132,7 @@ public class GraphFragment extends Fragment
             System.out.println("entries for 일=================");
             for(int x=0; x<sum_calorieListDay.size(); x++)
             {
-                entries.add(new BarEntry(x,sum_calorieListDay.get(x)));
+                entries.add(new BarEntry(x,sum_calorieListDay.get(x).getData_float()));
                 //System.out.println("entries for실행================="+entries);
             }
         }
@@ -109,7 +141,7 @@ public class GraphFragment extends Fragment
             System.out.println("entries for 주=================");
             for(int x=0; x<sum_calorieListWeek.size(); x++)
             {
-                entries.add(new BarEntry(x,sum_calorieListWeek.get(x)));
+                entries.add(new BarEntry(x,sum_calorieListWeek.get(x).getData_float()));
                 //System.out.println("entries for실행================="+entries);
             }
         }
@@ -118,7 +150,7 @@ public class GraphFragment extends Fragment
             System.out.println("entries for 월=================");
             for(int x=0; x<sum_calorieListMonth.size(); x++)
             {
-                entries.add(new BarEntry(x,sum_calorieListMonth.get(x)));
+                entries.add(new BarEntry(x,sum_calorieListMonth.get(x).getData_float()));
                 //System.out.println("entries for실행================="+entries);
             }
         }
@@ -127,7 +159,7 @@ public class GraphFragment extends Fragment
             System.out.println("entries for 년=================");
             for(int x=0; x<sum_calorieListYear.size(); x++)
             {
-                entries.add(new BarEntry(x,sum_calorieListYear.get(x)));
+                entries.add(new BarEntry(x,sum_calorieListYear.get(x).getData_float()));
                 //System.out.println("entries for실행================="+entries);
             }
         }

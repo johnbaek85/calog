@@ -32,9 +32,6 @@ public class GraphPagerFragment extends Fragment {
 //
   //  GraphFragment[] graphFragments;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     ArrayList<GraphFragment> fragments;
 
     ArrayList<Float> sum_calorieList=null;
@@ -61,7 +58,6 @@ public class GraphPagerFragment extends Fragment {
         //TODO
         // 컴파일이 될때 자바 클래
         // thread.sleep 은 안드로이드에서 UI를 변경할때 먹히지 않는다. UI를 틈을주고 변경하려면 Handler라는 것을 사용해야한다
-        //
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -86,10 +82,10 @@ public class GraphPagerFragment extends Fragment {
         return view;
     }
 
-    private class PagerAdapter extends FragmentStatePagerAdapter  //FragmentStatePagerAdapter는 화면변환시 메모리 삭제 후 기존 데이터로 다시만듬
+    private class PagerAdapter extends FragmentPagerAdapter  //FragmentStatePagerAdapter는 화면변환시 메모리 삭제 후 기존 데이터로 다시만듬
     {
         ArrayList<Fragment> fragments=new ArrayList<>();
-        String[] tabTitle={"일","주","월","년"};
+        String[] tabTitle={"일주일간","한달간","올해","5년"};
 
         //생성자로 데이터를 던져서 바차트를 다르게 표현해야함.
         public PagerAdapter(FragmentManager fm)
