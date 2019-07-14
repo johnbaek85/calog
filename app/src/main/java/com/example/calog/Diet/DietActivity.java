@@ -179,9 +179,6 @@ public class DietActivity extends AppCompatActivity {
                     Log.i("weekSumList사이즈:",weekSumList.size()+"");
                     for(int i=0; i<weekSumList.size(); i++)
                     {
-                        div++; //평균내기위한 카운트
-                        sum+=weekSumList.get(i).getData_float(); //데이터를 하나하나 꺼내서 다더함
-
                         if((div >=7 && div%7==0) || weekSumList.size()-1==i) //TODO 카운트(div)가 7보다 크거나같고 7로 나누어떨어질때 또는 마지막 for문일때 그동한 더한 sum을 div로 나누어서 평균을 내어 주단위 데이터에 담는다. 그리고 sum 초기화
                         {
                             Log.i("div:","========================================="+div+""); //Thread(백그라운드) 에서는 Log로 찍고 Logcat으로 확인해야함. 스레드는 print로하면 터미널에선 안보임
@@ -191,11 +188,20 @@ public class DietActivity extends AppCompatActivity {
 
                             weekSumListRes.add(new GraphVO(avg,str)); //TODO 위에서 생성한 GraphVO를 add하면 같은것이 담긴다 필드값이 변경되도 말이다. 왜냐하면 vo의 주소값이 같기떄문에 값이 변경되면 같이변경됨 ,따라서 new를 통해 새로 생성해야함.
 
-                            begindate=weekSumList.get(i).getData_date();
+
+                            if(weekSumList.size()!=i+1) //다음 값이 있는지 없는지 확인후 다음값이 있다면 날짜를 변경한다.
+                            {
+                                begindate = weekSumList.get(i+1).getData_date();
+                            }
 
                             sum=0f;
                             div=0; //카운트 초기화
+
+                            continue;
                         }
+
+                        sum+=weekSumList.get(i).getData_float(); //데이터를 하나하나 꺼내서 다더함
+                        div++; //평균내기위한 카운트
                     }
 
                     if(weekSumListRes.size()!=0)
@@ -246,10 +252,6 @@ public class DietActivity extends AppCompatActivity {
                     //월단위 데이터 뽑아내기 TODO 주의! 월을 넣어주지 말 것 월넣으면 equals에서 달만 읽기때문
                     for(int i=0; i<monthSumList.size(); i++)
                     {
-                        div++;
-
-                        sum+=monthSumList.get(i).getData_float();
-
                         if(!currentMonth.equals(monthSumList.get(i).getData_date()) || monthSumList.size()-1==i) //TODO 리스트의 마지막이거나 달이 바뀔경우에 실행
                         {
                             float avg=sum/div;
@@ -261,7 +263,12 @@ public class DietActivity extends AppCompatActivity {
                             div=0;
 
                             currentMonth=monthSumList.get(i).getData_date(); //달을 바꿔줌
+
+                            continue; //아래코드는 실행되면 안되니 continue하여 처음부터 실행
                         }
+
+                        sum+=monthSumList.get(i).getData_float();
+                        div++;
                     }
 
                     if(monthSumListRes.size()!=0)
@@ -309,9 +316,6 @@ public class DietActivity extends AppCompatActivity {
                     //년단위 데이터 뽑아내기
                     for(int i=0; i<yearSumList.size(); i++)
                     {
-                        div++;
-
-                        sum+=yearSumList.get(i).getData_float();
 
                         if(!currentYear.equals(yearSumList.get(i).getData_date()) || yearSumList.size()-1==i) //TODO 리스트의 마지막이거나 년이 바뀔경우에 실행
                         {
@@ -323,7 +327,12 @@ public class DietActivity extends AppCompatActivity {
                             div=0;
 
                             currentYear=yearSumList.get(i).getData_date(); //달을 바꿔줌
+
+                            continue;
                         }
+
+                        sum+=yearSumList.get(i).getData_float();
+                        div++;
                     }
 
                     if(yearSumListRes.size()!=0)

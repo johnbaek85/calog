@@ -82,10 +82,10 @@ public class GraphPagerFragment extends Fragment {
         return view;
     }
 
-    private class PagerAdapter extends FragmentPagerAdapter  //FragmentStatePagerAdapter는 화면변환시 메모리 삭제 후 기존 데이터로 다시만듬
+    private class PagerAdapter extends FragmentPagerAdapter  //FragmentStatePagerAdapter는 화면변환시 메모리 삭제 후 기존 데이터로 다시만듬,계속유지하기위해 변경함
     {
         ArrayList<Fragment> fragments=new ArrayList<>();
-        String[] tabTitle={"일주일간","한달간","올해","5년"};
+        String[] tabTitle={"일주일","한달","올해","5년"};
 
         //생성자로 데이터를 던져서 바차트를 다르게 표현해야함.
         public PagerAdapter(FragmentManager fm)
