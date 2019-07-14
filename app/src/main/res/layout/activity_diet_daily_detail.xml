@@ -49,7 +49,7 @@
             android:id="@+id/morning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFCC"
+            android:background="#3499FFCC"
             android:layout_marginRight="10dp">
 
             <TextView
@@ -64,7 +64,7 @@
             android:id="@+id/afternoon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#CCFFCC"
+            android:background="#FFFFFF"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/morning">
 
@@ -80,7 +80,7 @@
             android:id="@+id/evening"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#CCFFFF"
+            android:background="#3499FFCC"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/afternoon">
 
@@ -96,7 +96,7 @@
             android:id="@+id/side"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFCCFF"
+            android:background="#FFFFFF"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/evening">
 
