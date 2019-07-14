@@ -181,6 +181,10 @@ public class DietActivity extends AppCompatActivity {
                     {
                         if((div >=7 && div%7==0) || weekSumList.size()-1==i) //TODO 카운트(div)가 7보다 크거나같고 7로 나누어떨어질때 또는 마지막 for문일때 그동한 더한 sum을 div로 나누어서 평균을 내어 주단위 데이터에 담는다. 그리고 sum 초기화
                         {
+
+                            sum+=weekSumList.get(i).getData_float();
+                            div++;
+
                             Log.i("div:","========================================="+div+""); //Thread(백그라운드) 에서는 Log로 찍고 Logcat으로 확인해야함. 스레드는 print로하면 터미널에선 안보임
                             float avg=sum/div; //평균내기 - i가 0 일때는 나눌수없으므로 +1을해준다.
                             //vo.setData_float(avg);
@@ -188,13 +192,12 @@ public class DietActivity extends AppCompatActivity {
 
                             weekSumListRes.add(new GraphVO(avg,str)); //TODO 위에서 생성한 GraphVO를 add하면 같은것이 담긴다 필드값이 변경되도 말이다. 왜냐하면 vo의 주소값이 같기떄문에 값이 변경되면 같이변경됨 ,따라서 new를 통해 새로 생성해야함.
 
-
                             if(weekSumList.size()!=i+1) //다음 값이 있는지 없는지 확인후 다음값이 있다면 날짜를 변경한다.
                             {
                                 begindate = weekSumList.get(i+1).getData_date();
                             }
 
-                            sum=0f;
+                            sum=0;
                             div=0; //카운트 초기화
 
                             continue;
@@ -259,8 +262,8 @@ public class DietActivity extends AppCompatActivity {
 
                             monthSumListRes.add(new GraphVO(avg,currentMonth+"월"));
 
-                            sum=0f;
-                            div=0;
+                            sum=monthSumList.get(i).getData_float();
+                            div=1;
 
                             currentMonth=monthSumList.get(i).getData_date(); //달을 바꿔줌
 
@@ -319,12 +322,13 @@ public class DietActivity extends AppCompatActivity {
 
                         if(!currentYear.equals(yearSumList.get(i).getData_date()) || yearSumList.size()-1==i) //TODO 리스트의 마지막이거나 년이 바뀔경우에 실행
                         {
+                            //sum+=yearSumList.get(i).getData_float();
                             float avg=sum/div;
 
                             yearSumListRes.add(new GraphVO(avg,currentYear));
 
-                            sum=0f;
-                            div=0;
+                            sum=yearSumList.get(i).getData_float();
+                            div=1;
 
                             currentYear=yearSumList.get(i).getData_date(); //달을 바꿔줌
 
@@ -356,8 +360,8 @@ public class DietActivity extends AppCompatActivity {
 
             while(true)
             {
-                //TODO 데이터가 들어오기 전까지 무한루프를 빠져나가지못함.
-                if(userTotalCaloriesViewVOList.size()!=0)
+                //TODO 마지막 데이터가 들어오기 전까지 무한루프를 빠져나가지못함.
+                if(yearSumList.size()!=0)
                 {
                     break;
                 }

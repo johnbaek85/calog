@@ -5,7 +5,7 @@ import java.sql.Date;
 public class DrinkingVO {
 
     private String user_id;
-    private Date drinking_date;
+    private String drinking_date;
     private double alcohol_content;
 
 	public String getUser_id() {
@@ -14,10 +14,10 @@ public class DrinkingVO {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-	public Date getDrinking_date() {
+	public String getDrinking_date() {
 		return drinking_date;
 	}
-	public void setDrinking_date(Date drinking_date) {
+	public void setDrinking_date(String drinking_date) {
 		this.drinking_date = drinking_date;
 	}
 	public double getAlcohol_content() {

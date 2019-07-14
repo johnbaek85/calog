@@ -3,6 +3,7 @@ package com.example.calog;
 import com.example.calog.VO.DrinkingVO;
 import com.example.calog.VO.FitnessVO;
 import com.example.calog.VO.MainHealthVO;
+import com.example.calog.VO.SleepingVO;
 import com.example.calog.VO.UserTotalCaloriesViewVO;
 import com.example.calog.VO.UserVO;
 
@@ -75,7 +76,28 @@ public interface RemoteService {
     ///////////////////// 운동 ////////////////////////////////
 
     ///////////////////// 음주 ////////////////////////////////
+    @GET("LastWeekTotalBac")
+    Call<List<DrinkingVO>> LastWeekTotalBac(@Query("user_id") String user_id);
+
+    @GET("LastMonthTotalBac")
+    Call<List<DrinkingVO>> LastMonthTotalBac(@Query("user_id") String user_id);
+
+    @GET("LastYearTotalBac")
+    Call<List<DrinkingVO>> LastYearTotalBac(@Query("user_id") String user_id);
+
+    @GET("LastAllTotalBac")
+    Call<List<DrinkingVO>> LastAllTotalBac(@Query("user_id") String user_id);
 
     ///////////////////// 수면 ////////////////////////////////
+    @GET("LastWeekTotalSnoring")
+    Call<List<SleepingVO>> LastWeekTotalSnoring(@Query("user_id") String user_id);
 
+    @GET("LastMonthTotalSnoring")
+    Call<List<SleepingVO>> LastMonthTotalSnoring(@Query("user_id") String user_id);
+
+    @GET("LastYearTotalSnoring")
+    Call<List<SleepingVO>> LastYearTotalSnoring(@Query("user_id") String user_id);
+
+    @GET("LastAllTotalSnoring")
+    Call<List<SleepingVO>> LastAllTotalSnoring(@Query("user_id") String user_id);
 }
