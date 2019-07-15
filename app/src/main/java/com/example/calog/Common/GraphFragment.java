@@ -59,7 +59,7 @@ public class GraphFragment extends Fragment
         //라벨 작업
        if(unitDate.equals("day"))
        {
-           //this.labels = new String[]{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+           this.labels = new String[]{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 
            //TODO x축 라벨 작업 날짜가 들어간다.
            ArrayList<String> arrayList=new ArrayList<>();
