@@ -487,6 +487,24 @@ public class MainHealthActivity extends AppCompatActivity {
         horizontalCalendar.selectDate(date,true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
     }
 
+   /* @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(userVO.getSum_calorie() == 0.0 || userVO == null){
+            imgDiet.setBackgroundResource(R.drawable.ic_neutral);
+        }
+        if((userVO.getSum_cardio_used_calorie() + userVO.getSum_weight_used_calorie()) == 0.0 || userVO == null){
+            imgFitness.setBackgroundResource(R.drawable.ic_neutral);
+        }
+        if(userVO.getSleeping_seconds() == 0 || userVO == null){
+            imgSleep.setBackgroundResource(R.drawable.ic_neutral);
+        }
+        if(userVO.getAlcohol_content() == 0.0 || userVO == null){
+            imgDrink.setBackgroundResource(R.drawable.ic_neutral);
+        }
+    }*/
+
     /*@Override
     protected void onPostResume() {
         super.onPostResume();
