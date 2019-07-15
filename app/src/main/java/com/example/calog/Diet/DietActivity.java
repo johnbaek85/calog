@@ -137,6 +137,9 @@ public class DietActivity extends AppCompatActivity {
                         daySumList.add(new GraphVO((float) vo.getSum_calorie(), vo.getDiet_date())); //날짜중 년도를 짤라냄
                     }
 
+                    //TODO 혹시나 모를 데이터 초기화 (다른액티비에서 데이터가없으면 저장된 데이터를 보여주기떄문)
+                    GraphFragment.sum_calorieListWeek=new ArrayList<>();
+
                     if (daySumList.size() != 0)
                     {
                         GraphFragment.sum_calorieListWeek = daySumList;
@@ -171,6 +174,8 @@ public class DietActivity extends AppCompatActivity {
 
                         weekSumList.add(new GraphVO((float) vo.getSum_calorie(), vo.getDiet_date()));
                     }
+
+                    GraphFragment.sum_calorieListMonth=new ArrayList<>();
 
                     if (weekSumList.size() != 0) {
                         GraphFragment.sum_calorieListMonth = weekSumList;
@@ -244,6 +249,8 @@ public class DietActivity extends AppCompatActivity {
                         sum += monthSumList.get(i).getData_float();
                         div++;
                     }
+
+                    GraphFragment.sum_calorieListYear=new ArrayList<>();
 
                     if (monthSumListRes.size() != 0) {
                         GraphFragment.sum_calorieListYear = monthSumListRes;

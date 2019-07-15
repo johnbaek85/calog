@@ -92,6 +92,11 @@ public interface RemoteService {
     Call<List<FitnessVO>> LastAllTotalBurnCal(@Query("user_id") String user_id);
 
     ///////////////////// 음주 ////////////////////////////////
+    // New Version Graph
+    @GET("GraphDrinkingData")
+    Call<List<DrinkingVO>> GraphDrinkingData(@Query("user_id") String user_id, @Query("start_date") String start_date, @Query("unit_date") String unit_date);
+    ////////////////////////////////
+
     @GET("LastWeekTotalBac")
     Call<List<DrinkingVO>> LastWeekTotalBac(@Query("user_id") String user_id);
 
