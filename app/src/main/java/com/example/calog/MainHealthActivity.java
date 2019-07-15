@@ -87,6 +87,7 @@ public class MainHealthActivity extends AppCompatActivity {
             case R.id.logout:
                 Toast.makeText(this, "로그아웃이 완료되었습니다", Toast.LENGTH_SHORT).show();
                 btnUser.setVisibility(View.VISIBLE);
+
                 return true;
 
             case R.id.adjust:
@@ -129,6 +130,7 @@ public class MainHealthActivity extends AppCompatActivity {
         }else{
             btnUser.setVisibility(View.GONE);
         }
+
         monthName = findViewById(R.id.monthName);
 
         intent = getIntent();

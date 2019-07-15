@@ -159,6 +159,8 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
             public void run(boolean success) {
                 if (success) {//로그인 성공
                     Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
+                    startActivity(intent);
                 } else {//로그인 실패
                     String errorCode = naverLoginInstance.getLastErrorCode(context).getCode();
                     String errorDesc = naverLoginInstance.getLastErrorDesc(context);
