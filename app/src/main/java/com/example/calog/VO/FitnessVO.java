@@ -8,7 +8,7 @@ public class FitnessVO {
 	private String name;
 	private int fitness_cardio_id;
 	private int fitness_weight_id;
-	private Date fitness_date;
+	private String fitness_date;
 	private int fitness_menu_id;
 	private String fitness_menu_name;
 	private String fitness_menu_image;
@@ -58,11 +58,11 @@ public class FitnessVO {
 		this.fitness_weight_id = fitness_weight_id;
 	}
 
-	public Date getFitness_date() {
+	public String getFitness_date() {
 		return fitness_date;
 	}
 
-	public void setFitness_date(Date fitness_date) {
+	public void setFitness_date(String fitness_date) {
 		this.fitness_date = fitness_date;
 	}
 

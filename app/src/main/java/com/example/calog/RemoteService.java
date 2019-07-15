@@ -74,6 +74,17 @@ public interface RemoteService {
     Call<List<UserTotalCaloriesViewVO>> LastAllTotalCalorie(@Query("user_id") String user_id);
 
     ///////////////////// 운동 ////////////////////////////////
+    @GET("LastWeekTotalBurnCal")
+    Call<List<FitnessVO>> LastWeekTotalBurnCal(@Query("user_id") String user_id);
+
+    @GET("LastMonthTotalBurnCal")
+    Call<List<FitnessVO>> LastMonthTotalBurnCal(@Query("user_id") String user_id);
+
+    @GET("LastYearTotalBurnCal")
+    Call<List<FitnessVO>> LastYearTotalBurnCal(@Query("user_id") String user_id);
+
+    @GET("LastAllTotalBurnCal")
+    Call<List<FitnessVO>> LastAllTotalBurnCal(@Query("user_id") String user_id);
 
     ///////////////////// 음주 ////////////////////////////////
     @GET("LastWeekTotalBac")
