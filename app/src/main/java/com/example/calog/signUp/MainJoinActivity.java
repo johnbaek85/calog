@@ -52,7 +52,7 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 
     //추가
     Button btnLogin, btnJoin, btnNaverLogin;
-    ImageView back, home;
+    ImageView back;
 
     Intent intent;
 
@@ -72,17 +72,6 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
         back = findViewById(R.id.back);
 
         back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //home 클릭했을때
-        home = findViewById(R.id.home);
-
-        home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);

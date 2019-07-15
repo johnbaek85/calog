@@ -212,10 +212,6 @@ public class DietActivity extends AppCompatActivity {
             case R.id.btnBack:
                 finish();
                 break;
-            case R.id.btnHome:
-                intent = new Intent(DietActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-                break;
         }
     }
 

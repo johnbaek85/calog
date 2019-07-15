@@ -66,7 +66,7 @@ public class SleepCheckActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 1002;
     private Thread timeThread = null;
     private Boolean isRunning = true;
-    ImageView btnBack, btnHome;
+    ImageView btnBack;
     ArrayList<Entry> yVals;
     boolean refreshed = false;
     public static Typeface tf;
@@ -171,9 +171,6 @@ public class SleepCheckActivity extends AppCompatActivity {
 
         timecatch.setDaemon(true);
         timecatch.start();
-
-        snoretimecatch.setDaemon(true);
-        snoretimecatch.start();
 
         //수면 종료
         Button btnSleepFinish = (Button) findViewById(R.id.btnSleepFinish);
@@ -309,6 +306,7 @@ public class SleepCheckActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_STORAGE);
                 Toast.makeText(this, "수면 품질 체크를 위해 저장 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+
             }
         }
 
@@ -386,7 +384,7 @@ public class SleepCheckActivity extends AppCompatActivity {
             }
         }
     }
-
+//한 핸들러에 코고는값이랑 안코고는값 더해서 총시간 나타내는 방법
     class SnoreTimeCatch extends Thread{
         public void run(){
             mmVal = (TextView) findViewById(R.id.mmval);

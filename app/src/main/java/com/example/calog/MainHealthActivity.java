@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -65,6 +66,8 @@ public class MainHealthActivity extends AppCompatActivity {
     TextView txtSleepHours, txtSuggestedSleepHours;
     TextView txtAlcoholContent, txtAlert;
 
+    MainHealthVO userVO;
+
     Intent intent;
 
     HorizontalCalendar horizontalCalendar;
@@ -102,13 +105,16 @@ public class MainHealthActivity extends AppCompatActivity {
         txtAlert.setText("");
 
         imgDiet = findViewById(R.id.imgDiet);
-        imgDiet.setBackgroundResource(R.drawable.ic_neutral);
         imgFitness = findViewById(R.id.imgFitness);
-        imgFitness.setBackgroundResource(R.drawable.ic_neutral);
         imgSleep = findViewById(R.id.imgSleep);
-        imgSleep.setBackgroundResource(R.drawable.ic_neutral);
         imgDrink = findViewById(R.id.imgDrink);
-        imgDrink.setBackgroundResource(R.drawable.ic_neutral);
+
+        if(userVO == null){
+            imgDiet.setBackgroundResource(R.drawable.ic_neutral);
+            imgFitness.setBackgroundResource(R.drawable.ic_neutral);
+            imgSleep.setBackgroundResource(R.drawable.ic_neutral);
+            imgDrink.setBackgroundResource(R.drawable.ic_neutral);
+        }
 
         retrofit = new Retrofit.Builder() //Retrofit 빌더생성
                 .baseUrl(BASE_URL)
@@ -254,7 +260,7 @@ public class MainHealthActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<MainHealthVO> call, Response<MainHealthVO> response) {
                         System.out.println("섭취칼로리 ..............................." + currentSelectedTime);
-                        MainHealthVO userVO = response.body();
+                        userVO = response.body();
 
                         if(userVO == null){
                             txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
@@ -264,18 +270,19 @@ public class MainHealthActivity extends AppCompatActivity {
                         }else{
                             int hour = userVO.getSleeping_seconds() / 3600;
                             int minute = userVO.getSleeping_seconds() % 3600 / 60;
+                            int second = userVO.getSleeping_seconds() % 3600 % 60;
 
                             int dietSum = (int)(userVO.getSum_calorie());
                             int fitnessSum = (int)(userVO.getSum_cardio_used_calorie() + userVO.getSum_weight_used_calorie());
 
                             txtEatCalorie.setText("섭취칼로리 : " + dietSum + "kcal");
                             txtUsedCalorie.setText("소모 칼로리 : " + fitnessSum + "kcal");
-                            txtSleepHours.setText("수면시간 : " + hour + "시간 " + minute + "분 ");
+                            txtSleepHours.setText("수면시간 : " + hour + "시간 " + minute + "분 " + second + "초");
                             txtAlcoholContent.setText("알코올 수치 : " + userVO.getAlcohol_content() + "%");
 
                             if(userVO.getSum_calorie() < 1500 || userVO.getSum_calorie() > 3000){
                                 imgDiet.setBackgroundResource(R.drawable.ic_bad);
-                            }else if(userVO.getSum_calorie() == 0.0){
+                            }else if(userVO.getSum_calorie() == 0.0  || userVO == null){
                                 imgDiet.setBackgroundResource(R.drawable.ic_neutral);
                             }else if(userVO.getSum_calorie() >= 2000 && userVO.getSum_calorie() <= 2500){
                                 imgDiet.setBackgroundResource(R.drawable.ic_good);
@@ -286,7 +293,7 @@ public class MainHealthActivity extends AppCompatActivity {
                             if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) < 300
                                     || (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) > 1500){
                                 imgFitness.setBackgroundResource(R.drawable.ic_bad);
-                            }else if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) == 0.0){
+                            }else if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) == 0.0  || userVO == null){
                                 imgFitness.setBackgroundResource(R.drawable.ic_neutral);
                             }else if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) >= 500
                                     && (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) <= 1000){
@@ -297,7 +304,7 @@ public class MainHealthActivity extends AppCompatActivity {
 
                             if(userVO.getSleeping_seconds() < 18000 || userVO.getSleeping_seconds() > 36000){
                                 imgSleep.setBackgroundResource(R.drawable.ic_bad);
-                            }else if(userVO.getSleeping_seconds() == 0){
+                            }else if(userVO.getSleeping_seconds() == 0 || userVO == null){
                                 imgSleep.setBackgroundResource(R.drawable.ic_neutral);
                             }else if(userVO.getSleeping_seconds() >= 25200 && userVO.getSleeping_seconds() <= 28800){
                                 imgSleep.setBackgroundResource(R.drawable.ic_good);
@@ -398,13 +405,13 @@ public class MainHealthActivity extends AppCompatActivity {
 
     }
 
-//    public static void BottomMenuClearSelection(BottomNavigationView view,boolean checkable) {
-//        final Menu menu = view.getMenu();
-//        for(int i = 0; i < menu.size(); i++) {
-//            menu.getItem(i).setCheckable(checkable);
-//
-//        }
-//    }
+/*    public static void BottomMenuClearSelection(BottomNavigationView view,boolean checkable) {
+        final Menu menu = view.getMenu();
+        for(int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setCheckable(checkable);
+
+        }
+    }*/
 
 
     //TODO 하단 메뉴설정
@@ -479,6 +486,23 @@ public class MainHealthActivity extends AppCompatActivity {
         monthName.setText(DateFormat.getDateInstance().format(date));
         horizontalCalendar.selectDate(date,true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
     }
+
+    /*@Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(userVO.getSum_calorie() == 0.0){
+            imgDiet.setBackgroundResource(R.drawable.ic_neutral);
+        }
+        if((userVO.getSum_cardio_used_calorie() + userVO.getSum_weight_used_calorie()) == 0.0){
+            imgFitness.setBackgroundResource(R.drawable.ic_neutral);
+        }
+        if(userVO.getSleeping_seconds() == 0){
+            imgSleep.setBackgroundResource(R.drawable.ic_neutral);
+        }
+        if(userVO.getAlcohol_content() == 0.0){
+            imgDrink.setBackgroundResource(R.drawable.ic_neutral);
+        }
+    }*/
 
     /*@Override
     protected void onResume() {

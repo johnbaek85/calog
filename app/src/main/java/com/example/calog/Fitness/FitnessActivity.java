@@ -53,7 +53,7 @@ import static com.example.calog.RemoteService.BASE_URL;
 
 public class FitnessActivity extends AppCompatActivity {
     RelativeLayout btnCardioActivity, btnWeightTrainingActivity, btnStretchingActivity;
-    ImageView btnBack, btnHome;
+    ImageView btnBack;
     Intent intent;
     TextView txtDate, txtCardioCal, txtCardioTime, txtCardioDistance, txtWeightCal, txtWeightTime, txtCardioStep;
     Retrofit retrofit;
@@ -101,16 +101,6 @@ public class FitnessActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(FitnessActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
 //유산소운동 목록 출력
         btnCardioActivity=findViewById(R.id.btnCardioActivity);
