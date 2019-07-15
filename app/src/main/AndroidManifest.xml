@@ -39,7 +39,7 @@
             ></activity>
         <activity android:name=".Fitness.MyFitnessList" />
         <activity android:name=".Fitness.ExerciseActivity"
-            android:label="@string/title_activity_my_location"/>
+            android:label="@string/title_activity_exercise_activity"/>
         <activity android:name=".Fitness.SearchFitnessActivity" />
         <activity android:name=".Fitness.FitnessActivity" />
         <activity android:name=".CalendarActivity" />
