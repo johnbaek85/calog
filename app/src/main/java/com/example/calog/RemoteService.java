@@ -61,6 +61,11 @@ public interface RemoteService {
     ////////////////// TODO 그래프용 restAPI ////////////////////////////////
 
     ///////////////////// 식단 ////////////////////////////////
+    // New Version Graph
+    @GET("GraphDietData")
+    Call<List<UserTotalCaloriesViewVO>> GraphDietData(@Query("user_id") String user_id, @Query("start_date") String start_date, @Query("unit_date") String unit_date);
+    /////////////////////
+
     @GET("LastWeekTotalCalorie") //최근 일주일간 데이터 //일
     Call<List<UserTotalCaloriesViewVO>> LastWeekTotalCalorie(@Query("user_id") String user_id);
 

@@ -133,20 +133,6 @@ public class FitnessActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //그래프 백스레드
     private class GraphBackThread extends AsyncTask<Integer,Integer, ArrayList<GraphFragment>>
     {
@@ -192,7 +178,7 @@ public class FitnessActivity extends AppCompatActivity {
 
                     if(daySumList.size()!=0)
                     {
-                        GraphFragment.sum_calorieListDay = daySumList;
+                        GraphFragment.sum_calorieListWeek = daySumList;
                     }
                 }
 

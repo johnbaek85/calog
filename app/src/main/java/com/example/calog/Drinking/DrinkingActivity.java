@@ -208,7 +208,7 @@ public class DrinkingActivity extends AppCompatActivity
                     }
 
                     if(daySumList.size()!=0) {
-                        GraphFragment.sum_calorieListDay = daySumList;
+                        GraphFragment.sum_calorieListWeek = daySumList;
                     }
                 }
 
@@ -281,7 +281,7 @@ public class DrinkingActivity extends AppCompatActivity
 
                     if(weekSumListRes.size()!=0)
                     {
-                        GraphFragment.sum_calorieListWeek = weekSumListRes;
+                        GraphFragment.sum_calorieListMonth = weekSumListRes;
                     }
                 }
 
@@ -351,7 +351,7 @@ public class DrinkingActivity extends AppCompatActivity
 
                     if(monthSumListRes.size()!=0)
                     {
-                        GraphFragment.sum_calorieListMonth=monthSumListRes;
+                        GraphFragment.sum_calorieListYear=monthSumListRes;
                     }
                 }
 
@@ -362,73 +362,6 @@ public class DrinkingActivity extends AppCompatActivity
                 }
             });
 
-            //TODO 최근 5년간의 데이터 가져오기 - 그래프에서 년에 해당함
-            Call<List<DrinkingVO>> callAll = rs.LastAllTotalBac("spider");
-            callAll.enqueue(new Callback<List<DrinkingVO>>()
-            {
-
-                @Override
-                public void onResponse(Call<List<DrinkingVO>> call, Response<List<DrinkingVO>> response)
-                {
-                    userDrinkingVOList=response.body();
-
-                    for(int i=0; i<userDrinkingVOList.size(); i++)
-                    {
-                        DrinkingVO vo=userDrinkingVOList.get(i);
-
-                        String date=vo.getDrinking_date().substring(0,4); //년도 가져오기
-                        yearSumList.add(new GraphVO((float)vo.getAlcohol_content(), date));
-                    }
-
-                    float sum=0f;
-                    int div=0;
-
-                    ArrayList<GraphVO> yearSumListRes=new ArrayList<>(); //결과값이 담길곳
-
-                    //기록상 첫번째에 위치한 년을 가져옴
-                    String currentYear="";
-                    if(yearSumList.size()!=0)
-                    {
-                        currentYear = yearSumList.get(0).getData_date();
-                    }
-
-                    //년단위 데이터 뽑아내기
-                    for(int i=0; i<yearSumList.size(); i++)
-                    {
-
-                        if(!currentYear.equals(yearSumList.get(i).getData_date()) || yearSumList.size()-1==i) //TODO 리스트의 마지막이거나 년이 바뀔경우에 실행
-                        {
-                            //sum+=yearSumList.get(i).getData_float();
-                            //div++;
-
-                            float avg=sum/div;
-
-                            yearSumListRes.add(new GraphVO(avg,currentYear));
-
-                            sum=yearSumList.get(i).getData_float();
-                            div=1;
-
-                            currentYear=yearSumList.get(i).getData_date(); //달을 바꿔줌
-
-                            continue;
-                        }
-
-                        sum+=yearSumList.get(i).getData_float();
-                        div++;
-                    }
-
-                    if(yearSumListRes.size()!=0)
-                    {
-                        GraphFragment.sum_calorieListYear=yearSumListRes;
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<DrinkingVO>> call, Throwable t)
-                {
-                    System.out.println("LastAllTotalBac error>>>>>>>>>>>>>>>>>>"+t.toString());
-                }
-            });
         }
 
         //Thread
