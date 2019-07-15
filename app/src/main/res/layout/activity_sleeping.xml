@@ -69,7 +69,6 @@
             android:layout_below="@+id/timepicker"
             android:layout_centerInParent="true"
             android:layout_marginTop="30sp"
-            android:onClick="mClick"
             android:text="버튼" />
 
 

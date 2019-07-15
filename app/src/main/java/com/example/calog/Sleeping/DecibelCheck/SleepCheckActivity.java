@@ -64,6 +64,7 @@ import static com.example.calog.RemoteService.BASE_URL;
 public class SleepCheckActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_AUDIO = 1001;
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 1002;
+    private static final int MY_PERMISSIONS_REQUEST_RINGSTONE = 1003;
     private Thread timeThread = null;
     private Boolean isRunning = true;
     ImageView btnBack;
@@ -279,6 +280,7 @@ public class SleepCheckActivity extends AppCompatActivity {
         //권한 주기
         int permssionCheckAudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int permssionCheckStorage = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permssionCheckRingstone = ContextCompat.checkSelfPermission(this,Manifest.permission.WAKE_LOCK);
 
         if (permssionCheckAudio != PackageManager.PERMISSION_GRANTED) {
 
@@ -306,6 +308,21 @@ public class SleepCheckActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_STORAGE);
                 Toast.makeText(this, "수면 품질 체크를 위해 저장 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+
+            }
+        }
+        if (permssionCheckRingstone != PackageManager.PERMISSION_GRANTED) {
+
+            Toast.makeText(this, "권한 승인이 필요합니다", Toast.LENGTH_LONG).show();
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WAKE_LOCK)) {
+                Toast.makeText(this, "알람을 위해 저장 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WAKE_LOCK},
+                        MY_PERMISSIONS_REQUEST_RINGSTONE);
+                Toast.makeText(this, "알람을 위해 저장 권한이 필요합니다.", Toast.LENGTH_LONG).show();
 
             }
         }
@@ -404,7 +421,6 @@ public class SleepCheckActivity extends AppCompatActivity {
         }
     }
 
-
     //권한 묻기
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -434,7 +450,18 @@ public class SleepCheckActivity extends AppCompatActivity {
                 }
                 return;
             }
+            case MY_PERMISSIONS_REQUEST_RINGSTONE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    Toast.makeText(this, "승인이 허가되어 있습니다.", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(this, "아직 승인받지 않았습니다.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
         }
     }
 

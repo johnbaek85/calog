@@ -43,6 +43,8 @@ public class SleepingActivity extends AppCompatActivity {
     TimePicker alarmPicker;
     Context context;
     PendingIntent pendingIntent;
+    Button btnSleepStart;
+    Button btnSleepFinish;
     ImageView btnBack;
 
     Intent intent;
@@ -63,13 +65,68 @@ public class SleepingActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        btnSleepStart = findViewById(R.id.btnSleepStart);
         //TODO 그래프 BarChart Fragment 장착
         FragmentManager fm=getSupportFragmentManager();
         FragmentTransaction tr=fm.beginTransaction();
         GraphPagerFragment graphFragment = new GraphPagerFragment();
         tr.replace(R.id.barChartFrag,graphFragment);
         //////////////////////////////
+
+        this.context = getApplicationContext();
+        //알람매니저 설정
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //타임피커 설정
+        alarmPicker = findViewById(R.id.timepicker);
+        //Calendar 객체 설정
+        final Calendar calendar = Calendar.getInstance();
+        //알림 리시버 설정
+        final Intent alarmintent = new Intent(this.context,Alarm_Reciver.class);
+
+        btnSleepStart.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                //calendar에 시간 셋팅
+                calendar.set(Calendar.HOUR_OF_DAY, alarmPicker.getHour());
+                calendar.set(Calendar.MINUTE, alarmPicker.getMinute());
+
+                // 시간 가져옴
+                int hour = alarmPicker.getHour();
+                int minute = alarmPicker.getMinute();
+                Toast.makeText(SleepingActivity.this,"기상시간 " + hour + "시 " + minute + "분",Toast.LENGTH_SHORT).show();
+
+                // reveiver에 string 값 넘겨주기
+                alarmintent.putExtra("state","alarm on");
+                pendingIntent = PendingIntent.getBroadcast(SleepingActivity.this, 0, alarmintent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+                // 알람셋팅
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        pendingIntent);
+                //오류 가능
+                Intent gointent = new Intent(SleepingActivity.this, SleepCheckActivity.class);
+                startActivity(gointent);
+            }
+
+        });
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view=inflater.inflate(R.layout.activity_sleep_check,null);
+        btnSleepFinish = view.findViewById(R.id.btnSleepFinish);
+        btnSleepFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SleepingActivity.this,"Alarm 종료",Toast.LENGTH_SHORT).show();
+                // 알람매니저 취소
+                alarmManager.cancel(pendingIntent);
+
+                alarmintent.putExtra("state","alarm off");
+
+                // 알람취소
+                sendBroadcast(alarmintent);
+            }
+        });
 
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
@@ -131,68 +188,6 @@ public class SleepingActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void mClick(View v){
-        this.context = getApplicationContext();
-        //알람매니저 설정
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        //타임피커 설정
-        alarmPicker = findViewById(R.id.timepicker);
-        //Calendar 객체 설정
-        final Calendar calendar = Calendar.getInstance();
-        //알림 리시버 설정
-        final Intent intent = new Intent(this.context,Alarm_Reciver.class);
-
-        //알람 시작 버튼
-        Button alarm_on = findViewById(R.id.btnSleepStart);
-        alarm_on.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                //calendar에 시간 셋팅
-                calendar.set(Calendar.HOUR_OF_DAY, alarmPicker.getHour());
-                calendar.set(Calendar.MINUTE, alarmPicker.getMinute());
-
-                // 시간 가져옴
-                int hour = alarmPicker.getHour();
-                int minute = alarmPicker.getMinute();
-                Toast.makeText(SleepingActivity.this,"기상시간 " + hour + "시 " + minute + "분",Toast.LENGTH_SHORT).show();
-
-                // reveiver에 string 값 넘겨주기
-                intent.putExtra("state","alarm on");
-
-                pendingIntent = PendingIntent.getBroadcast(SleepingActivity.this, 0, intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-
-                // 알람셋팅
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                        pendingIntent);
-                //오류 가능
-            }
-        });
-        // 알람 정지 버튼
-        LayoutInflater inflater = getLayoutInflater();
-        View view=inflater.inflate(R.layout.activity_sleep_check,null);
-
-        Button alarm_off = view.findViewById(R.id.btnSleepFinish);
-        alarm_off.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(SleepingActivity.this,"Alarm 종료",Toast.LENGTH_SHORT).show();
-                // 알람매니저 취소
-                alarmManager.cancel(pendingIntent);
-
-                intent.putExtra("state","alarm off");
-
-                // 알람취소
-                sendBroadcast(intent);
-            }
-        });
-
-        Intent gointent = new Intent(SleepingActivity.this, SleepCheckActivity.class);
-        startActivity(gointent);
-    }
-
     //TODO 하단 메뉴설정
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

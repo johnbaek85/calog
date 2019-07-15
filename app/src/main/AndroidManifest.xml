@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -32,24 +33,33 @@
         <activity android:name=".Sleeping.DecibelCheck.SleepCheckActivity" />
         <activity android:name=".WordCloud.WordCloudActivity" />
         <activity android:name=".WordCloud.WordCloudWebViewActivity" />
+
         <activity
             android:name="com.soundcloud.android.crop.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity android:name=".MainHealthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
+
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
+
         </activity>
+
+        <receiver android:name=".Sleeping.Alarm_Reciver" />
+
+        <service
+            android:name=".Sleeping.RingtonePlayingService"
+            android:enabled="true"></service>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -60,6 +70,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
         </provider>
+
     </application>
 
 </manifest>
