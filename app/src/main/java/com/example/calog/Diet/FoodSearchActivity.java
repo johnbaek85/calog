@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -36,10 +37,17 @@ import com.soundcloud.android.crop.Crop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FoodRegisterActivity extends AppCompatActivity {
+import static com.example.calog.RemoteService.BASE_URL;
+
+public class FoodSearchActivity extends AppCompatActivity {
 
     RecyclerView dietList;
     Button btnSave, btnSearch;
@@ -48,12 +56,10 @@ public class FoodRegisterActivity extends AppCompatActivity {
     Intent intent;
     Retrofit retrofit;
     RemoteService rs;
-    ArrayList<DietMenuVO> myList;
+    List<DietMenuVO> array;
     TabLayout tabLayout;
-    ViewPager foodListPager;
-    PagerAdapter pagerAdapter;
-    BundleAdapter bundleAdapter;
-    Bundle bundle;
+    ViewPager viewPager;
+    List<DietMenuVO> dietMenuArray;
 
     //TODO 하단 Menu
     File screenShot;
@@ -63,58 +69,74 @@ public class FoodRegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_register);
+        setContentView(R.layout.activity_food_search);
+
+        View view = getLayoutInflater().inflate(R.layout.fragment_diet, null);
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.foodListPager);
+        dietList = findViewById(R.id.dietList);
+        searchEdit = findViewById(R.id.searchEdit);
+        btnSearch = findViewById(R.id.btnSearch);
+        searchEdit = view.findViewById(R.id.searchEdit);
+        btnSearch = view.findViewById(R.id.btnSearch);
 
         // 페이지 이동소스 메서드로 만드름.
         pageTrans();
 
         // 레트로핏빌더 생성 - 통신
-        //rsBuilder();
+        rsBuilder();
 
-        tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("검색"));
-        tabLayout.addTab(tabLayout.newTab().setText("자주 찾는 음식"));
-        tabLayout.addTab(tabLayout.newTab().setText("내음식"));
-        myList = new ArrayList<>();
+        //어댑터 설정 ( 데이터 VO에 넣음)
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        //tablelayout과 pager연결
+        tabLayout.setupWithViewPager(viewPager);
 
-        bundleAdapter = new BundleAdapter(this, myList);
-        bundle = new Bundle();
-        bundle.putSerializable("bundleAdapter", bundleAdapter);
-        bundle.putParcelableArrayList("myList", myList);
+        // 검색 버튼 클릭시
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dietMenuArray = new ArrayList<DietMenuVO>();
+                String keyword = searchEdit.getText().toString();
+                System.out.println(" <<<<<<<<<<<<<<<<<<<<<< keyword : " + keyword);
 
-        foodListPager = findViewById(R.id.foodListPager);
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        foodListPager.setAdapter(pagerAdapter);
-        foodListPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        foodListPager.setCurrentItem(0);
+                Call<List<DietMenuVO>> call = rs.listDiet(keyword);
+                call.enqueue(new Callback<List<DietMenuVO>>() {
+                    @Override
+                    public void onResponse(Call<List<DietMenuVO>> call, Response<List<DietMenuVO>> response) {
+                        array = response.body();
+                        //    System.out.println("<<<<<<<<<<<<<<<<<onResponse" + array.toString());
+                        for (int i = 0; i < array.size(); i++) {
+                            dietMenuArray.add(new DietMenuVO(array.get(i).getDiet_menu_name(), array.get(i).getCalorie()));
+                            i++;
+                        }
+                    }
 
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            public void onTabSelected(TabLayout.Tab tab) {
-                foodListPager.setCurrentItem(tab.getPosition());
-            }
-
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            public void onTabReselected(TabLayout.Tab tab) {
+                    @Override
+                    public void onFailure(Call<List<DietMenuVO>> call, Throwable t) {
+                        //  Log("Main 통신", "에러 "+t.getLocalizedMessage());
+                    }
+                });
             }
         });
 
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
 
-                switch (item.getItemId()) {
+                switch (item.getItemId())
+                {
                     case R.id.rankingMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(FoodRegisterActivity.this, WordCloudActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        intent = new Intent(FoodSearchActivity.this, WordCloudActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -122,22 +144,22 @@ public class FoodRegisterActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(FoodRegisterActivity.this, DrinkingCheckActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        intent = new Intent(FoodSearchActivity.this, DrinkingCheckActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
-                    case R.id.HomeMenu: {
-                        intent = new Intent(FoodRegisterActivity.this, MainHealthActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    case R.id.HomeMenu:{
+                        intent = new Intent(FoodSearchActivity.this, MainHealthActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
-                        intent = new Intent(FoodRegisterActivity.this, SleepCheckActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        intent = new Intent(FoodSearchActivity.this, SleepCheckActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -148,8 +170,8 @@ public class FoodRegisterActivity extends AppCompatActivity {
                         View rootView = getWindow().getDecorView();
                         screenShot = ScreenShot(rootView);
                         uriFile = Uri.fromFile(screenShot);
-                        if (screenShot != null) {
-                            Crop.of(uriFile, uriFile).asSquare().start(FoodRegisterActivity.this, 100);
+                        if(screenShot != null) {
+                            Crop.of(uriFile, uriFile).asSquare().start(FoodSearchActivity.this, 100);
                         }
                         break;
                     }
@@ -159,33 +181,76 @@ public class FoodRegisterActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
+
+    //검색 페이저
     private class PagerAdapter extends FragmentStatePagerAdapter {
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        String[] tabTitle = {"검색", "자주 찾는 음식", "내음식"};
+
+        //생성자로 데이터를 던져서 바차트를 다르게 표현해야함.
         public PagerAdapter(FragmentManager fm) {
             super(fm);
-        }
 
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    FoodSearchFragemt foodSearchFragemt = new FoodSearchFragemt();
-                    foodSearchFragemt.setArguments(bundle);
-                    return foodSearchFragemt;
-                case 1:
-                    MyFavoriteFoodFragment myFavoriteFoodFragment = new MyFavoriteFoodFragment();
-                    myFavoriteFoodFragment.setArguments(bundle);
-                    return myFavoriteFoodFragment;
-                case 2:
-                    MyFoodFragment myFoodFragment = new MyFoodFragment();
-                    myFoodFragment.setArguments(bundle);
-                    return myFoodFragment;
+            //가짜 데이터 집어넣기 실제 구현할때 DB와 연계할것
+            dietMenuArray = new ArrayList<DietMenuVO>();
+            try {
+                String keyword = searchEdit.getText().toString();
+                //String keyword = "달걀";
+                System.out.println(" <<<<<<<<<<<<<<<<<<<<<< keyword : " + keyword);
+
+                Call<List<DietMenuVO>> call = rs.listDiet(keyword);
+                call.enqueue(new Callback<List<DietMenuVO>>() {
+                    @Override
+                    public void onResponse(Call<List<DietMenuVO>> call, Response<List<DietMenuVO>> response) {
+                        array = response.body();
+                        //    System.out.println("<<<<<<<<<<<<<<<<<onResponse" + array.toString());
+                        for (int i = 0; i < array.size(); i++) {
+                            dietMenuArray.add(new DietMenuVO(array.get(i).getDiet_menu_name(), array.get(i).getCalorie()));
+                            i++;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<DietMenuVO>> call, Throwable t) {
+                        //  Log("Main 통신", "에러 "+t.getLocalizedMessage());
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.toString());
             }
-            return null;
+
+            //자주 찾는 음식
+            List<DietMenuVO> MyDietList = new ArrayList<DietMenuVO>();
+
+            //내 음식
+            fragments.add(new DietFragment(dietMenuArray, true)); //검색
+            fragments.add(new DietFragment(dietMenuArray, false)); //자주 찾는 음식
+            fragments.add(new DietFragment(dietMenuArray, false)); //내 음식
         }
 
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
         public int getCount() {
-            return 3;
+            return fragments.size();
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            return tabTitle[position]; //탭레이아웃 타이틀설정
         }
     }
+
 
     public void pageTrans() {
 
@@ -198,13 +263,13 @@ public class FoodRegisterActivity extends AppCompatActivity {
         });
     }
 
-    /*private void rsBuilder() {
+    private void rsBuilder() {
         retrofit = new Retrofit.Builder() //Retrofit 빌더생성
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
-    }*/
+    }
 
     //TODO 하단 메뉴설정
     @Override
@@ -212,7 +277,7 @@ public class FoodRegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         File cropFile = screenShot;
 
-        if (requestCode == 100) {
+        if(requestCode ==100){
             if (resultCode == RESULT_OK) {
                 cropFile = new File(Crop.getOutput(data).getPath());
             }
@@ -230,7 +295,7 @@ public class FoodRegisterActivity extends AppCompatActivity {
         }
     }
 
-    public File ScreenShot(View view) {
+    public File ScreenShot(View view){
         view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
         Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
         String filename = "screenshot.png";
@@ -239,11 +304,11 @@ public class FoodRegisterActivity extends AppCompatActivity {
         System.out.println("..........." + filename);
         //Pictures폴더 screenshot.png 파일
         FileOutputStream os = null;
-        try {
+        try{
             os = new FileOutputStream(file);
             screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
             os.close();
-        } catch (Exception e) {
+        }catch (Exception e){
             System.out.println(e.toString());
             return null;
         }

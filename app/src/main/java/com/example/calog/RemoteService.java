@@ -17,7 +17,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RemoteService {
@@ -52,14 +51,8 @@ public interface RemoteService {
     @GET("UserDietViewVO")
     Call<List<UserDietViewVO>> userDietDailyMenu(@Query("user_id") String user_id, @Query("diet_date") String date);
 
-    @GET("UserFavoriteMenuList")
-    Call<List<DietMenuVO>> UserFavoriteMenuList(@Query("user_id") String user_id);
-
     @GET("DietMenuVO")
     Call<List<DietMenuVO>> listDiet(@Query("keyword") String keyword);
-
-    @POST("InsertMenu/{user_id}/{diet_type_id}")
-    Call<Void> insertMenu(@Path("user_id") String user_id, @Path("diet_type_id") int diet_type_id, @Body DietMenuVO vo);
 
     //FitnessCardio
     @GET("fitnessCardio/list.jsp")

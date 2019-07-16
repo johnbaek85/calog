@@ -1,12 +1,9 @@
 package com.example.calog.Diet;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -16,19 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.calog.R;
 import com.example.calog.VO.DietMenuVO;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class DietMenuAdapter extends RecyclerView.Adapter<DietMenuAdapter.ViewHolder>  {
+public class DietMenuAdapter extends RecyclerView.Adapter<DietMenuAdapter.ViewHolder> {
 
     Context context;
     List<DietMenuVO> dietMenus;
 
-
     public DietMenuAdapter(Context context, List<DietMenuVO> dietMenus) {
         this.context = context;
         this.dietMenus = dietMenus;
-
     }
 
     @NonNull
@@ -50,8 +44,6 @@ public class DietMenuAdapter extends RecyclerView.Adapter<DietMenuAdapter.ViewHo
     {
         return dietMenus.size();
     }
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

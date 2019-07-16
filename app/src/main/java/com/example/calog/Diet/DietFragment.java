@@ -23,15 +23,13 @@ import java.util.List;
 public class DietFragment extends Fragment
 {
 
-    /*현재 사용 안하는 중*/
-
     RecyclerView dietList;
     Button btnSave;
     ImageView btnBack, btnHome;
 
     Intent intent;
     List<DietMenuVO> dietMenuArray;
-    DietFoodSearchAdapter menuAdapter;
+    DietMenuAdapter menuAdapter;
 
     boolean isSearchView;
 
@@ -53,7 +51,7 @@ public class DietFragment extends Fragment
         recyclerView.setLayoutManager(manager);
 
         //menuAdapter
-        menuAdapter=new DietFoodSearchAdapter(getContext(),dietMenuArray,null,null);
+        menuAdapter=new DietMenuAdapter(getContext(),dietMenuArray);
         recyclerView.setAdapter(menuAdapter);
 
         if(isSearchView)
