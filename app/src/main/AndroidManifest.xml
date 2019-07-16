@@ -20,7 +20,7 @@
         <activity android:name=".Fitness.SearchFitnessActivity" />
         <activity android:name=".Fitness.FitnessActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".Diet.FoodSearchActivity" />
+        <activity android:name=".Diet.FoodRegisterActivity" />
         <activity android:name=".Diet.DietActivity" />
         <activity android:name=".Diet.DietDailyDetailActivity" />
         <activity android:name=".signUp.MainJoinActivity" />

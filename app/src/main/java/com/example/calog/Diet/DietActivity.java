@@ -20,7 +20,6 @@ import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.calog.CalendarActivity;
 import com.example.calog.Common.GraphPagerFragment;
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
@@ -192,22 +191,30 @@ public class DietActivity extends AppCompatActivity {
     }
 
     public void mClick(View view) {
-        intent = new Intent(DietActivity.this, FoodSearchActivity.class);
+        intent = new Intent(DietActivity.this, FoodRegisterActivity.class);
         switch (view.getId()){
             case R.id.btnBreakfast:
                 Toast.makeText(DietActivity.this, "아침", Toast.LENGTH_SHORT).show();
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("diet_type_id", 1);
                 startActivity(intent);
                 break;
             case R.id.btnLunch:
                 Toast.makeText(DietActivity.this, "점심", Toast.LENGTH_SHORT).show();
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("diet_type_id", 2);
                 startActivity(intent);
                 break;
             case R.id.btnDinner:
                 Toast.makeText(DietActivity.this, "저녁", Toast.LENGTH_SHORT).show();
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("diet_type_id", 3);
                 startActivity(intent);
                 break;
             case R.id.btnSnack:
                 Toast.makeText(DietActivity.this, "간식", Toast.LENGTH_SHORT).show();
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("diet_type_id", 4);
                 startActivity(intent);
                 break;
             case R.id.btnBack:

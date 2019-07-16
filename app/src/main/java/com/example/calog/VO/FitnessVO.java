@@ -25,6 +25,15 @@ public class FitnessVO {
 	private double sum_cardio_used_calorie;
 	private int sum_weight_seconds;
 	private double sum_weight_used_calorie;
+	private double total_cardio_weight_calorie;
+
+	public double getTotal_cardio_weight_calorie() {
+		return total_cardio_weight_calorie;
+	}
+
+	public void setTotal_cardio_weight_calorie(double total_cardio_weight_calorie) {
+		this.total_cardio_weight_calorie = total_cardio_weight_calorie;
+	}
 
 	public String getUser_id() {
 		return user_id;

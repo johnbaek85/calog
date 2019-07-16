@@ -83,16 +83,6 @@ public class DrinkingCheckActivity extends AppCompatActivity
             }
         });
 
-        ImageView btnHome = findViewById(R.id.btnHome);
-        btnHome.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(DrinkingCheckActivity.this, MainHealthActivity.class);
-                startActivity(intent);
-            }
-        });
-
         circleProgress=findViewById(R.id.circleProgress);
         checkText=findViewById(R.id.checkText);
 
