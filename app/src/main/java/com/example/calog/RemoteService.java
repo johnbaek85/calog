@@ -105,6 +105,11 @@ public interface RemoteService {
     ////////////////// TODO 그래프용 restAPI ////////////////////////////////
 
     ///////////////////// 식단 ////////////////////////////////
+    // New Version Graph
+    @GET("GraphDietData")
+    Call<List<UserTotalCaloriesViewVO>> GraphDietData(@Query("user_id") String user_id, @Query("start_date") String start_date, @Query("unit_date") String unit_date);
+    /////////////////////
+
     @GET("LastWeekTotalCalorie") //최근 일주일간 데이터 //일
     Call<List<UserTotalCaloriesViewVO>> LastWeekTotalCalorie(@Query("user_id") String user_id);
 
@@ -118,8 +123,29 @@ public interface RemoteService {
     Call<List<UserTotalCaloriesViewVO>> LastAllTotalCalorie(@Query("user_id") String user_id);
 
     ///////////////////// 운동 ////////////////////////////////
+    // New Version Graph
+    @GET("GraphWeightCardioSumData")
+    Call<List<FitnessVO>> GraphFitnessData(@Query("user_id") String user_id, @Query("start_date") String start_date, @Query("unit_date") String unit_date);
+    ///////////////////
+
+    @GET("LastWeekTotalBurnCal")
+    Call<List<FitnessVO>> LastWeekTotalBurnCal(@Query("user_id") String user_id);
+
+    @GET("LastMonthTotalBurnCal")
+    Call<List<FitnessVO>> LastMonthTotalBurnCal(@Query("user_id") String user_id);
+
+    @GET("LastYearTotalBurnCal")
+    Call<List<FitnessVO>> LastYearTotalBurnCal(@Query("user_id") String user_id);
+
+    @GET("LastAllTotalBurnCal")
+    Call<List<FitnessVO>> LastAllTotalBurnCal(@Query("user_id") String user_id);
 
     ///////////////////// 음주 ////////////////////////////////
+    // New Version Graph
+    @GET("GraphDrinkingData")
+    Call<List<DrinkingVO>> GraphDrinkingData(@Query("user_id") String user_id, @Query("start_date") String start_date, @Query("unit_date") String unit_date);
+    ////////////////////////////////
+
     @GET("LastWeekTotalBac")
     Call<List<DrinkingVO>> LastWeekTotalBac(@Query("user_id") String user_id);
 
@@ -133,6 +159,10 @@ public interface RemoteService {
     Call<List<DrinkingVO>> LastAllTotalBac(@Query("user_id") String user_id);
 
     ///////////////////// 수면 ////////////////////////////////
+    // New Version Graph
+    @GET("GraphSleepingData")
+    Call<List<SleepingVO>> GraphSleepingData(@Query("user_id") String user_id, @Query("start_date") String start_date, @Query("unit_date") String unit_date);
+    ///////////////////
     @GET("LastWeekTotalSnoring")
     Call<List<SleepingVO>> LastWeekTotalSnoring(@Query("user_id") String user_id);
 

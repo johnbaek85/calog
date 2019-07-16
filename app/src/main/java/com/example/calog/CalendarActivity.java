@@ -88,7 +88,7 @@ public class CalendarActivity extends AppCompatActivity
                 //String date=String.valueOf(year+"-"+(month+1)+"-"+(dayOfMonth));
 
                 intent = new Intent(CalendarActivity.this, MainHealthActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP); //액티비티를 생성하지않고 위로 올리겠다. onNewIntent를 실행하기위한 작업
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP); //액티비티를 생성하지않고 위로 올리겠다. onNewIntent를 실행하기위한 작업
 
                 //달력을 선택하면 값을 유지하고 있어야한다.
                 Calendar calendar = Calendar.getInstance();
@@ -119,7 +119,7 @@ public class CalendarActivity extends AppCompatActivity
 //                                 Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(CalendarActivity.this, WordCloudActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -128,13 +128,13 @@ public class CalendarActivity extends AppCompatActivity
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(CalendarActivity.this, DrinkingCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
                         intent = new Intent(CalendarActivity.this, MainHealthActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -142,7 +142,7 @@ public class CalendarActivity extends AppCompatActivity
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(CalendarActivity.this, SleepCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }

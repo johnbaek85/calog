@@ -124,7 +124,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(SearchFitnessActivity.this, WordCloudActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -133,13 +133,13 @@ public class SearchFitnessActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(SearchFitnessActivity.this, DrinkingCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
                         intent = new Intent(SearchFitnessActivity.this, MainHealthActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -147,7 +147,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(SearchFitnessActivity.this, SleepCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }

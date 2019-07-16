@@ -27,13 +27,8 @@ public class FitnessVO {
 	private double sum_weight_used_calorie;
 	private double total_cardio_weight_calorie;
 
-	public double getTotal_cardio_weight_calorie() {
-		return total_cardio_weight_calorie;
-	}
-
-	public void setTotal_cardio_weight_calorie(double total_cardio_weight_calorie) {
-		this.total_cardio_weight_calorie = total_cardio_weight_calorie;
-	}
+	private String cardio_fitness_date;
+	private String weight_fitness_date;
 
 	public String getUser_id() {
 		return user_id;
@@ -203,6 +198,31 @@ public class FitnessVO {
 		this.sum_weight_used_calorie = sum_weight_used_calorie;
 	}
 
+
+	public double getTotal_cardio_weight_calorie() {
+		return total_cardio_weight_calorie;
+	}
+
+	public void setTotal_cardio_weight_calorie(double total_cardio_weight_calorie) {
+		this.total_cardio_weight_calorie = total_cardio_weight_calorie;
+	}
+
+	public String getCardio_fitness_date() {
+		return cardio_fitness_date;
+	}
+
+	public void setCardio_fitness_date(String cardio_fitness_date) {
+		this.cardio_fitness_date = cardio_fitness_date;
+	}
+
+	public String getWeight_fitness_date() {
+		return weight_fitness_date;
+	}
+
+	public void setWeight_fitness_date(String weight_fitness_date) {
+		this.weight_fitness_date = weight_fitness_date;
+	}
+
 	@Override
 	public String toString() {
 		return "FitnessVO{" +
@@ -227,6 +247,9 @@ public class FitnessVO {
 				", sum_cardio_used_calorie=" + sum_cardio_used_calorie +
 				", sum_weight_seconds=" + sum_weight_seconds +
 				", sum_weight_used_calorie=" + sum_weight_used_calorie +
+				", total_cardio_weight_calorie=" + total_cardio_weight_calorie +
+				", cardio_fitness_date='" + cardio_fitness_date + '\'' +
+				", weight_fitness_date='" + weight_fitness_date + '\'' +
 				'}';
 	}
 }

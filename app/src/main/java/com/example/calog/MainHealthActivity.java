@@ -89,6 +89,8 @@ public class MainHealthActivity extends AppCompatActivity {
 
         permissionCheck();
 
+
+
         txtEatCalorie = findViewById(R.id.txtEatCalorie);
         txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
 
@@ -133,7 +135,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainActivity.this, "달력 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 //변경된 현재 시간값을 가져가서 달력을 재구성한다.
                 intent.putExtra("currentSelectedTime",currentSelectedTime);
                 startActivity(intent);
@@ -197,7 +199,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, SleepingActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//엑티비티 생성안함
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//엑티비티 생성안함
                 startActivity(intent);
             }
         });
@@ -208,7 +210,7 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 intent = new Intent(MainHealthActivity.this, DrinkingActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
 //                  intent = new Intent(MainHealthActivity.this, TestActivity.class);
@@ -223,9 +225,6 @@ public class MainHealthActivity extends AppCompatActivity {
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.YEAR, -5);
 
-
-        //java.sql.Date date = java.sql.Date.valueOf("2019-7-17");
-
         horizontalCalendar = new HorizontalCalendar.Builder(this, R.id.calendarView)
                 .startDate(startDate.getTime())
                 .endDate(endDate.getTime())
@@ -237,8 +236,6 @@ public class MainHealthActivity extends AppCompatActivity {
                 .showDayName(true)
                 .showMonthName(true)
                 .build();
-
-
 
         //캘린더 데이터 변경
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener()
@@ -359,7 +356,7 @@ public class MainHealthActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(MainHealthActivity.this, WordCloudActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }
@@ -368,7 +365,7 @@ public class MainHealthActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                                 intent = new Intent(MainHealthActivity.this, DrinkingCheckActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }
@@ -376,7 +373,7 @@ public class MainHealthActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                                 intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }
@@ -402,10 +399,10 @@ public class MainHealthActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
-/*    public static void BottomMenuClearSelection(BottomNavigationView view,boolean checkable) {
+
+    /*    public static void BottomMenuClearSelection(BottomNavigationView view,boolean checkable) {
         final Menu menu = view.getMenu();
         for(int i = 0; i < menu.size(); i++) {
             menu.getItem(i).setCheckable(checkable);
@@ -486,31 +483,6 @@ public class MainHealthActivity extends AppCompatActivity {
         monthName.setText(DateFormat.getDateInstance().format(date));
         horizontalCalendar.selectDate(date,true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
     }
-
-    /*@Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if(userVO.getSum_calorie() == 0.0){
-            imgDiet.setBackgroundResource(R.drawable.ic_neutral);
-        }
-        if((userVO.getSum_cardio_used_calorie() + userVO.getSum_weight_used_calorie()) == 0.0){
-            imgFitness.setBackgroundResource(R.drawable.ic_neutral);
-        }
-        if(userVO.getSleeping_seconds() == 0){
-            imgSleep.setBackgroundResource(R.drawable.ic_neutral);
-        }
-        if(userVO.getAlcohol_content() == 0.0){
-            imgDrink.setBackgroundResource(R.drawable.ic_neutral);
-        }
-    }*/
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-
-        //선택 초기화
-        bottomNavigationView.setSelectedItemId(R.id.HomeMenu);
-    }*/
 
 }
 
