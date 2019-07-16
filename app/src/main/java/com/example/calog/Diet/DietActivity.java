@@ -134,6 +134,7 @@ public class DietActivity extends AppCompatActivity {
                     {
                         UserTotalCaloriesViewVO vo = userTotalCaloriesViewVOList.get(i);
 
+                        System.out.println("UserTotalCaloriesViewVO vo"+vo.getDiet_date());
                         daySumList.add(new GraphVO((float) vo.getSum_calorie(), vo.getDiet_date())); //날짜중 년도를 짤라냄
                     }
 

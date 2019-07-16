@@ -129,9 +129,11 @@ public class GraphFragment extends Fragment
                         e.printStackTrace();
                     }
 
-                    if(week.equals(labels[i])) //요일과같은 라벨과 매핑
-                    {
-                        entries.set(i,new BarEntry(i, vo.getData_float()));
+                    for(int j=0; j<labels.length; j++) {
+                        if (week.equals(labels[j])) //요일과같은 라벨과 매핑
+                        {
+                            entries.set(j, new BarEntry(j, vo.getData_float()));
+                        }
                     }
                 }
             }

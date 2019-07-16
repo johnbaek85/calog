@@ -79,6 +79,11 @@ public interface RemoteService {
     Call<List<UserTotalCaloriesViewVO>> LastAllTotalCalorie(@Query("user_id") String user_id);
 
     ///////////////////// 운동 ////////////////////////////////
+    // New Version Graph
+    @GET("GraphWeightCardioSumData")
+    Call<List<FitnessVO>> GraphFitnessData(@Query("user_id") String user_id, @Query("start_date") String start_date, @Query("unit_date") String unit_date);
+    ///////////////////
+
     @GET("LastWeekTotalBurnCal")
     Call<List<FitnessVO>> LastWeekTotalBurnCal(@Query("user_id") String user_id);
 
@@ -110,6 +115,10 @@ public interface RemoteService {
     Call<List<DrinkingVO>> LastAllTotalBac(@Query("user_id") String user_id);
 
     ///////////////////// 수면 ////////////////////////////////
+    // New Version Graph
+    @GET("GraphSleepingData")
+    Call<List<SleepingVO>> GraphSleepingData(@Query("user_id") String user_id, @Query("start_date") String start_date, @Query("unit_date") String unit_date);
+    ///////////////////
     @GET("LastWeekTotalSnoring")
     Call<List<SleepingVO>> LastWeekTotalSnoring(@Query("user_id") String user_id);
 
