@@ -409,11 +409,12 @@ public class MainHealthActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-
-
-                bottomNavigationView.setSelected(false);
             }
-        }
+        });
+    }
+
+
+        //bottomNavigationView.setSelected(false);
 //    public static void BottomMenuClearSelection(BottomNavigationView view,boolean checkable) {
 //        final Menu menu = view.getMenu();
 //        for(int i = 0; i < menu.size(); i++) {
@@ -423,76 +424,76 @@ public class MainHealthActivity extends AppCompatActivity {
 //      }
 
 
-            //TODO 하단 메뉴설정
-            @Override
-            protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-                super.onActivityResult(requestCode, resultCode, data);
-                File cropFile = screenShot;
+        //TODO 하단 메뉴설정
+        @Override
+        protected void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
+            super.onActivityResult(requestCode, resultCode, data);
+            File cropFile = screenShot;
 
-                if (requestCode == 100) {
-                    if (resultCode == RESULT_OK) {
-                        cropFile = new File(Crop.getOutput(data).getPath());
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { // API 24 이상 일경우..
-                        uriFile = FileProvider.getUriForFile(getApplicationContext(),
-                                getApplicationContext().getPackageName() + ".provider", cropFile);
-                    } else { // API 24 미만 일경우..
-                        uriFile = Uri.fromFile(cropFile);
-                    }
-                    Intent shareIntent = new Intent();
-                    shareIntent.setAction(Intent.ACTION_SEND);
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, uriFile);
-                    shareIntent.setType("image/*");
-                    startActivity(Intent.createChooser(shareIntent, "선택"));
+            if (requestCode == 100) {
+                if (resultCode == RESULT_OK) {
+                    cropFile = new File(Crop.getOutput(data).getPath());
                 }
-            }
-
-            public File ScreenShot(View view) {
-                view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
-                Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
-                String filename = "screenshot.png";
-                File file = new File(Environment.getExternalStorageDirectory() + "/Pictures", filename);
-
-                System.out.println("..........." + filename);
-                //Pictures폴더 screenshot.png 파일
-                FileOutputStream os = null;
-                try {
-                    os = new FileOutputStream(file);
-                    screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
-                    os.close();
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                    return null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { // API 24 이상 일경우..
+                    uriFile = FileProvider.getUriForFile(getApplicationContext(),
+                            getApplicationContext().getPackageName() + ".provider", cropFile);
+                } else { // API 24 미만 일경우..
+                    uriFile = Uri.fromFile(cropFile);
                 }
-                view.setDrawingCacheEnabled(false);
-                return file;
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uriFile);
+                shareIntent.setType("image/*");
+                startActivity(Intent.createChooser(shareIntent, "선택"));
             }
+        }
 
-            public void permissionCheck() {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-                }
+        public File ScreenShot (View view){
+            view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
+            Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
+            String filename = "screenshot.png";
+            File file = new File(Environment.getExternalStorageDirectory() + "/Pictures", filename);
+
+            System.out.println("..........." + filename);
+            //Pictures폴더 screenshot.png 파일
+            FileOutputStream os = null;
+            try {
+                os = new FileOutputStream(file);
+                screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
+                os.close();
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                return null;
             }
+            view.setDrawingCacheEnabled(false);
+            return file;
+        }
 
-            //기존액티비티가 재실행될때
-            @Override
-            protected void onNewIntent(Intent intent) {
-                super.onNewIntent(intent);
-
-                System.out.println("onNewIntent Call");
-
-                //현재 선택된 시간 가져오기
-                currentSelectedTime = intent.getLongExtra("currentSelectedTime", 0);
-
-                java.sql.Date date = new java.sql.Date(currentSelectedTime);
-
-                System.out.println("<<<<<<<<<<<<<<<현재 선택된 시간 : " + currentSelectedTime);
-
-                //date.setTime(mill);
-                //시간 재설정
-                monthName.setText(DateFormat.getDateInstance().format(date));
-                horizontalCalendar.selectDate(date, true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
+        public void permissionCheck () {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
             }
+        }
 
+        //기존액티비티가 재실행될때
+        @Override
+        protected void onNewIntent (Intent intent){
+            super.onNewIntent(intent);
 
+            System.out.println("onNewIntent Call");
+
+            //현재 선택된 시간 가져오기
+            currentSelectedTime = intent.getLongExtra("currentSelectedTime", 0);
+
+            java.sql.Date date = new java.sql.Date(currentSelectedTime);
+
+            System.out.println("<<<<<<<<<<<<<<<현재 선택된 시간 : " + currentSelectedTime);
+
+            //date.setTime(mill);
+            //시간 재설정
+            monthName.setText(DateFormat.getDateInstance().format(date));
+            horizontalCalendar.selectDate(date, true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
+        }
+
+    }

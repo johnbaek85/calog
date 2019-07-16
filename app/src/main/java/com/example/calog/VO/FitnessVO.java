@@ -26,6 +26,9 @@ public class FitnessVO {
 	private int sum_weight_seconds;
 	private double sum_weight_used_calorie;
 
+	private String cardio_fitness_date;
+	private String weight_fitness_date;
+
 	public String getUser_id() {
 		return user_id;
 	}
@@ -192,6 +195,22 @@ public class FitnessVO {
 
 	public void setSum_weight_used_calorie(double sum_weight_used_calorie) {
 		this.sum_weight_used_calorie = sum_weight_used_calorie;
+	}
+
+	public String getCardio_fitness_date() {
+		return cardio_fitness_date;
+	}
+
+	public void setCardio_fitness_date(String cardio_fitness_date) {
+		this.cardio_fitness_date = cardio_fitness_date;
+	}
+
+	public String getWeight_fitness_date() {
+		return weight_fitness_date;
+	}
+
+	public void setWeight_fitness_date(String weight_fitness_date) {
+		this.weight_fitness_date = weight_fitness_date;
 	}
 
 	@Override
