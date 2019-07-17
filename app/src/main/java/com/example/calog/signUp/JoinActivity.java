@@ -253,7 +253,6 @@ public class JoinActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(JoinActivity.this, WordCloudActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -262,13 +261,11 @@ public class JoinActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(JoinActivity.this, DrinkingCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
                         intent = new Intent(JoinActivity.this, MainHealthActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -276,7 +273,6 @@ public class JoinActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(JoinActivity.this, SleepCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }

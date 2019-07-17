@@ -87,6 +87,8 @@ public class MainHealthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_health);
 
+        Toast.makeText(this, "MainHealthActivity onCreate...........", Toast.LENGTH_SHORT).show();
+
         permissionCheck();
 
         txtEatCalorie = findViewById(R.id.txtEatCalorie);
@@ -133,7 +135,6 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainActivity.this, "달력 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 //변경된 현재 시간값을 가져가서 달력을 재구성한다.
                 intent.putExtra("currentSelectedTime",currentSelectedTime);
                 startActivity(intent);
@@ -176,7 +177,7 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /*Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
+                intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
 
                 Date longDate = new Date(currentSelectedTime);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -197,7 +198,15 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, SleepingActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//엑티비티 생성안함
+
+                Date longDate = new Date(currentSelectedTime);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = dateFormat.format(longDate);
+                System.out.println("선택된 날짜: " + selectedDate);
+
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("select_date", selectedDate);
+
                 startActivity(intent);
             }
         });
@@ -208,7 +217,6 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 intent = new Intent(MainHealthActivity.this, DrinkingActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
 //                  intent = new Intent(MainHealthActivity.this, TestActivity.class);
@@ -246,9 +254,9 @@ public class MainHealthActivity extends AppCompatActivity {
             @Override
             public void onDateSelected(Date date, int position) {
 
-                Toast.makeText(MainHealthActivity.this,
+                /*Toast.makeText(MainHealthActivity.this,
                         DateFormat.getDateInstance().format(date) + " is selected!",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();*/
 
 
                 java.sql.Date datesql = new java.sql.Date(date.getTime());
@@ -359,7 +367,6 @@ public class MainHealthActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(MainHealthActivity.this, WordCloudActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }
@@ -368,7 +375,6 @@ public class MainHealthActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                                 intent = new Intent(MainHealthActivity.this, DrinkingCheckActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }
@@ -376,7 +382,6 @@ public class MainHealthActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                                 intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }

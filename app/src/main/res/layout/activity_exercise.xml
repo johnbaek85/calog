@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fitness.ExerciseActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Fitness.ExerciseActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,14 +24,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_back" />
+
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/btnBack"
-                android:textColor="#706B6B"
                 android:layout_centerVertical="true"
-                android:text="2019-07-01"/>
+                android:layout_toRightOf="@id/btnBack"
+                android:text="2019-07-01"
+                android:textColor="#706B6B" />
 
         </RelativeLayout>
 
@@ -42,48 +43,64 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1.5">
-        <ImageView
 
+        <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
+            android:layout_height="match_parent"
+            tools:context=".Fitness.ExerciseActivity" />-->
     </FrameLayout>
 
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="fill_parent"
-        android:gravity="center"
         android:layout_height="0px"
-        android:layout_weight="0.5"
         android:layout_gravity="center_horizontal"
+        android:layout_weight="0.5"
+        android:gravity="center"
         android:textSize="60sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
+
+    <!--
+    <FrameLayout
+        android:id="@+id/fitnessInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.5">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            -->
+
     <TextView
         android:id="@+id/stepCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="0"
-        android:textSize="30sp"
         android:textAlignment="center"
-        android:visibility="invisible"/>
+        android:textSize="30sp"
+        android:visibility="invisible" />
+
     <TextView
         android:id="@+id/usedCalorie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="0kcal"
-        android:textSize="30sp"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="0km"
-        android:textSize="30sp"
         android:textAlignment="center"
-        android:visibility="invisible"/>
-
+        android:textSize="30sp"
+        android:visibility="invisible" />
 
 
     <FrameLayout
@@ -96,12 +113,12 @@
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@color/browser_actions_title_color"
-        app:labelVisibilityMode="labeled"
         app:itemTextColor="@color/browser_actions_title_color"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_bottom"/>
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_bottom" />
 
 </LinearLayout>

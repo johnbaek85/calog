@@ -117,7 +117,6 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(MainJoinActivity.this, WordCloudActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -126,13 +125,11 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(MainJoinActivity.this, DrinkingCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
                         intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -140,7 +137,6 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(MainJoinActivity.this, SleepCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }

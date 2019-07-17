@@ -47,15 +47,6 @@
         android:background="@drawable/castelmezzano"
         android:layout_below="@id/toolbar">
 
-        <Button
-            android:id="@+id/btnSleepFinish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="20sp"
-            android:text="중지" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -231,5 +222,14 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom"/>
 
+    <Button
+        android:id="@+id/btnSleepFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/bottom_navigation_view"
+        android:layout_marginBottom="30dp"
+        android:text="중지" />
 
 </RelativeLayout>
