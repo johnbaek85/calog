@@ -185,8 +185,9 @@ public class SleepingActivity extends AppCompatActivity {
                     }
                     case R.id.HomeMenu:{
                         intent = new Intent(SleepingActivity.this, MainHealthActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
+                        //finish();
                         break;
                     }
                     case R.id.sleepMenu: {

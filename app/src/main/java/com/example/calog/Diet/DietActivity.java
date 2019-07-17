@@ -161,9 +161,9 @@ public class DietActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.HomeMenu:{
-                        intent = new Intent(DietActivity.this, MainHealthActivity.class);
-                        startActivity(intent);
-                        break;
+                       intent = new Intent(DietActivity.this, MainHealthActivity.class);
+                       startActivity(intent);
+                       break;
                     }
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",

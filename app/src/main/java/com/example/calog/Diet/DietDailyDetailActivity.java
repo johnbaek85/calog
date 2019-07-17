@@ -132,6 +132,7 @@ public class DietDailyDetailActivity extends AppCompatActivity {
                     }
                     case R.id.HomeMenu:{
                         intent = new Intent(DietDailyDetailActivity.this, MainHealthActivity.class);
+                        finish();
                         startActivity(intent);
                         break;
                     }

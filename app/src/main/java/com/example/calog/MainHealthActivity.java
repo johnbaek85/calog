@@ -53,7 +53,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.calog.RemoteService.BASE_URL;
 
 public class MainHealthActivity extends AppCompatActivity {
-
+    Bundle bundle;
     RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
     ImageView btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
     ImageView btnBack;
@@ -85,8 +85,9 @@ public class MainHealthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_health);
 
+        setContentView(R.layout.activity_main_health);
+        bundle=savedInstanceState;
         Toast.makeText(this, "MainHealthActivity onCreate...........", Toast.LENGTH_SHORT).show();
 
         permissionCheck();
@@ -476,7 +477,7 @@ public class MainHealthActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent)
     {
         super.onNewIntent(intent);
-
+        onCreate(bundle);
         System.out.println("onNewIntent Call");
 
         //현재 선택된 시간 가져오기
@@ -516,6 +517,7 @@ public class MainHealthActivity extends AppCompatActivity {
         //선택 초기화
         bottomNavigationView.setSelectedItemId(R.id.HomeMenu);
     }*/
+
 
 }
 

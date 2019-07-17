@@ -107,6 +107,7 @@ public class WordCloudActivity extends AppCompatActivity {
                     }
                     case R.id.HomeMenu: {
                         intent = new Intent(WordCloudActivity.this, MainHealthActivity.class);
+                        finish();
                         startActivity(intent);
                         break;
                     }
