@@ -2,10 +2,8 @@ package com.example.calog.Fitness;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,98 +13,43 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
-import com.example.calog.RemoteService;
 import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
-import com.example.calog.VO.FitnessVO;
 import com.example.calog.WordCloud.WordCloudActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+public class MyLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
-import static com.example.calog.RemoteService.BASE_URL;
-
-
-public class SearchFitnessActivity extends AppCompatActivity {
-    TextView txtDate, fitnessType;
-    ImageView btnBack, btnMAinShortcut;
-    RecyclerView list;
-    List<FitnessVO> array;
-    SearchFitnessAdapter adapter;
-    int fitnessTypeId;          //운동타입, fitnessActivity에서 넘겨받음 1 = 유산소, 2 = 무산소
-    Intent intent;
-
-    Retrofit retrofit;
-    RemoteService rs;
-    String fitness_date;
-    String user_id;
+    private GoogleMap mMap;
 
     //TODO 하단 Menu
     File screenShot;
     Uri uriFile;
     BottomNavigationView bottomNavigationView;
 
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_fitness);
-        txtDate=findViewById(R.id.txtDate);
-        intent = getIntent();
-        fitnessTypeId = intent.getIntExtra("운동타입", 0);
-        fitness_date = intent.getStringExtra("select_date");
-        user_id = intent.getStringExtra("user_id");
-        txtDate.setText(fitness_date);
-
-        list=findViewById(R.id.exerciseList);
-        LinearLayoutManager manager =new LinearLayoutManager(this);
-        list.setLayoutManager(manager);
-
-        array= new ArrayList<>();
-
-        fitnessType = findViewById(R.id.fitnessType);
-        switch (fitnessTypeId){
-            case 1:
-                fitnessType.setText("유산소 운동");
-                connect(fitnessTypeId);
-
-
-                break;
-            case 2:
-                fitnessType.setText("근력 운동");
-                connect(fitnessTypeId);
-
-                break;
-        }
-
-        txtDate = findViewById(R.id.txtDate);
-
-
-
-        btnBack=findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setContentView(R.layout.activity_my_location);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);*/
 
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
@@ -123,7 +66,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(SearchFitnessActivity.this, WordCloudActivity.class);
+                        intent = new Intent(MyLocationActivity.this, WordCloudActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -132,13 +75,13 @@ public class SearchFitnessActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(SearchFitnessActivity.this, DrinkingCheckActivity.class);
+                        intent = new Intent(MyLocationActivity.this, DrinkingCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
-                        intent = new Intent(SearchFitnessActivity.this, MainHealthActivity.class);
+                        intent = new Intent(MyLocationActivity.this, MainHealthActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -146,7 +89,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
-                        intent = new Intent(SearchFitnessActivity.this, SleepCheckActivity.class);
+                        intent = new Intent(MyLocationActivity.this, SleepCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -159,7 +102,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
                         screenShot = ScreenShot(rootView);
                         uriFile = Uri.fromFile(screenShot);
                         if(screenShot != null) {
-                            Crop.of(uriFile, uriFile).asSquare().start(SearchFitnessActivity.this, 100);
+                            Crop.of(uriFile, uriFile).asSquare().start(MyLocationActivity.this, 100);
                         }
                         break;
                     }
@@ -167,58 +110,6 @@ public class SearchFitnessActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-    }
-
-
-    public void connect(int type) {
-        retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        rs = retrofit.create(RemoteService.class);
-
-
-        switch (type) {
-            case 1:
-                Call<List<FitnessVO>> cardiCall = rs.CardioList();
-                cardiCall.enqueue(new Callback<List<FitnessVO>>() {
-                        @Override
-                        public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
-                            array = response.body();
-                            adapter =new SearchFitnessAdapter(SearchFitnessActivity.this, array, fitness_date, user_id);
-                            list.setAdapter(adapter);
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<FitnessVO>> call, Throwable t) {
-                            System.out.println("유산소 운동 목록 호출 오류 : "+t.toString());
-
-
-                        }
-                    });
-
-                break;
-            case 2:
-                Call<List<FitnessVO>> weightCall = rs.WeightList();
-                weightCall.enqueue(new Callback<List<FitnessVO>>() {
-                        @Override
-                        public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
-                            array = response.body();
-                            adapter =new SearchFitnessAdapter(SearchFitnessActivity.this, array, fitness_date, user_id);
-                            list.setAdapter(adapter);
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<FitnessVO>> call, Throwable t) {
-                            System.out.println("무산소 운동 목록 호출 오류 : "+t.toString());
-
-                        }
-                    });
-                    break;
-
-
-        }
     }
 
     //TODO 하단 메뉴설정
@@ -266,4 +157,23 @@ public class SearchFitnessActivity extends AppCompatActivity {
         return file;
     }
 
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
 }

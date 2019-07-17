@@ -5,7 +5,7 @@ import java.sql.Date;
 public class SleepingVO {
 
     private String user_id;
-    private Date sleeping_date;
+    private String sleeping_date;
     private int sleeping_seconds;
     private int snoring_seconds;
     
@@ -15,10 +15,10 @@ public class SleepingVO {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-	public Date getSleeping_date() {
+	public String getSleeping_date() {
 		return sleeping_date;
 	}
-	public void setSleeping_date(Date sleeping_date) {
+	public void setSleeping_date(String sleeping_date) {
 		this.sleeping_date = sleeping_date;
 	}
 	public int getSleeping_seconds() {

@@ -2,6 +2,7 @@ package com.example.calog;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
@@ -53,7 +56,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.calog.RemoteService.BASE_URL;
 
 public class MainHealthActivity extends AppCompatActivity {
-
     RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
     ImageView btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
     ImageView btnBack;
@@ -66,7 +68,13 @@ public class MainHealthActivity extends AppCompatActivity {
     TextView txtSleepHours, txtSuggestedSleepHours;
     TextView txtAlcoholContent, txtAlert;
 
+    TextView user_id;
+    String strUser_id;
+    String strPassword;
+
     MainHealthVO userVO;
+
+    Toolbar toolbar;
 
     Intent intent;
 
@@ -83,11 +91,64 @@ public class MainHealthActivity extends AppCompatActivity {
     RemoteService rs;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.loginmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.logout:
+                Toast.makeText(this, "로그아웃이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                btnUser.setVisibility(View.VISIBLE);
+
+                return true;
+
+            case R.id.adjust:
+                Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.withdraw:
+                Toast.makeText(this, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                return true;
+
+        }
+
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main_health);
 
         permissionCheck();
+
+        btnUser = findViewById(R.id.btnUser);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        intent = getIntent();
+
+        //프레퍼런스에서 로그인 정보 가지고오기
+        SharedPreferences pref = getSharedPreferences("pjLogin", 0);
+        user_id = findViewById(R.id.user_id);
+
+        strUser_id = pref.getString("user_id", "");
+        user_id.setText(strUser_id);
+        //로그인 화면 설정 / 버튼, 로그아웃,회원정보수정
+
+        if(strUser_id == null || strUser_id.equals("")){
+            btnUser.setVisibility(View.VISIBLE);
+            strUser_id = pref.getString("","");
+            user_id.setText(strUser_id);
+        }else{
+            btnUser.setVisibility(View.GONE);
+        }
 
         txtEatCalorie = findViewById(R.id.txtEatCalorie);
         txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
@@ -133,9 +194,9 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainActivity.this, "달력 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 //변경된 현재 시간값을 가져가서 달력을 재구성한다.
                 intent.putExtra("currentSelectedTime",currentSelectedTime);
+
                 startActivity(intent);
             }
         });
@@ -176,7 +237,7 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /*Toast.makeText(MainHealthActivity.this, "운동 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
+                intent = new Intent(MainHealthActivity.this, FitnessActivity.class);
 
                 Date longDate = new Date(currentSelectedTime);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -197,7 +258,15 @@ public class MainHealthActivity extends AppCompatActivity {
                 /*Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, SleepingActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//엑티비티 생성안함
+
+                Date longDate = new Date(currentSelectedTime);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = dateFormat.format(longDate);
+                System.out.println("선택된 날짜: " + selectedDate);
+
+                intent.putExtra("user_id", "spider");
+                intent.putExtra("select_date", selectedDate);
+
                 startActivity(intent);
             }
         });
@@ -208,7 +277,6 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 intent = new Intent(MainHealthActivity.this, DrinkingActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
 //                  intent = new Intent(MainHealthActivity.this, TestActivity.class);
@@ -246,9 +314,9 @@ public class MainHealthActivity extends AppCompatActivity {
             @Override
             public void onDateSelected(Date date, int position) {
 
-                Toast.makeText(MainHealthActivity.this,
+                /*Toast.makeText(MainHealthActivity.this,
                         DateFormat.getDateInstance().format(date) + " is selected!",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();*/
 
 
                 java.sql.Date datesql = new java.sql.Date(date.getTime());
@@ -359,7 +427,6 @@ public class MainHealthActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(MainHealthActivity.this, WordCloudActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }
@@ -368,7 +435,6 @@ public class MainHealthActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                                 intent = new Intent(MainHealthActivity.this, DrinkingCheckActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }
@@ -376,7 +442,6 @@ public class MainHealthActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                                 intent = new Intent(MainHealthActivity.this, SleepCheckActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                                 break;
                             }
@@ -471,8 +536,7 @@ public class MainHealthActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent)
     {
         super.onNewIntent(intent);
-
-        System.out.println("onNewIntent Call");
+        System.out.println("===========================onNewIntent Call=============");
 
         //현재 선택된 시간 가져오기
         currentSelectedTime=intent.getLongExtra("currentSelectedTime",0);
@@ -511,6 +575,7 @@ public class MainHealthActivity extends AppCompatActivity {
         //선택 초기화
         bottomNavigationView.setSelectedItemId(R.id.HomeMenu);
     }*/
+
 
 }
 

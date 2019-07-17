@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
@@ -41,9 +40,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.calog.RemoteService.BASE_URL;
 
-public class MyFitnessList extends AppCompatActivity {
+public class MyFitnessListActivity extends AppCompatActivity {
     TextView myListTitle, txtDate;
-    ImageView btnBack;
+    ImageView btnBack, btnMAinShortcut;
     RecyclerView list;
     List<FitnessVO> array;
     MyFitnessListAdapter adapter;
@@ -121,7 +120,7 @@ public class MyFitnessList extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(MyFitnessList.this, WordCloudActivity.class);
+                        intent = new Intent(MyFitnessListActivity.this, WordCloudActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -130,13 +129,13 @@ public class MyFitnessList extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(MyFitnessList.this, DrinkingCheckActivity.class);
+                        intent = new Intent(MyFitnessListActivity.this, DrinkingCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
-                        intent = new Intent(MyFitnessList.this, MainHealthActivity.class);
+                        intent = new Intent(MyFitnessListActivity.this, MainHealthActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -144,7 +143,7 @@ public class MyFitnessList extends AppCompatActivity {
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
-                        intent = new Intent(MyFitnessList.this, SleepCheckActivity.class);
+                        intent = new Intent(MyFitnessListActivity.this, SleepCheckActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
@@ -157,7 +156,7 @@ public class MyFitnessList extends AppCompatActivity {
                         screenShot = ScreenShot(rootView);
                         uriFile = Uri.fromFile(screenShot);
                         if(screenShot != null) {
-                            Crop.of(uriFile, uriFile).asSquare().start(MyFitnessList.this, 100);
+                            Crop.of(uriFile, uriFile).asSquare().start(MyFitnessListActivity.this, 100);
                         }
                         break;
                     }
@@ -182,7 +181,7 @@ public class MyFitnessList extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
                         array = response.body();
-                        adapter =new MyFitnessListAdapter(MyFitnessList.this, array, type);
+                        adapter =new MyFitnessListAdapter(MyFitnessListActivity.this, array, type);
                         list.setAdapter(adapter);
                     }
 
@@ -201,7 +200,7 @@ public class MyFitnessList extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<FitnessVO>> call, Response<List<FitnessVO>> response) {
                         array = response.body();
-                        adapter =new MyFitnessListAdapter(MyFitnessList.this, array, type);
+                        adapter =new MyFitnessListAdapter(MyFitnessListActivity.this, array, type);
                         list.setAdapter(adapter);
 
                     }

@@ -48,30 +48,15 @@ public class Fitness_Fragment_Step extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.activity_exercise, container, false);
 
         txtdistance = view.findViewById(R.id.distance);
         txtStep=view.findViewById(R.id.stepCount);
         consumedCal=view.findViewById(R.id.usedCalorie);
- /*       gx=view.findViewById(R.id.gx);
-        gy=view.findViewById(R.id.gy);
-        gz=view.findViewById(R.id.gz);
-        seekBar=view.findViewById(R.id.seekBar);
-        seekBar.setProgress(10);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            //시크바로 문턱값(스레시홀드)을 지정한다.
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                threshold=seekBar.getProgress();
-                txtSensitive.setText(String.valueOf(threshold));
-            }
-        });
 
-        */
         threshold=5;
  //       txtSensitive.setText(String.valueOf(threshold));
         previousY = currentY = steps = 0;
@@ -89,7 +74,6 @@ public class Fitness_Fragment_Step extends Fragment {
                 Toast.makeText(getActivity(), "초기화 완료", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         return view;
     }

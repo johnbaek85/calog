@@ -28,6 +28,14 @@
                 android:textColor="#706B6B"
                 android:textSize="15sp" />
 
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/btnUser"
+                android:layout_alignParentRight="true"
+                android:text="user_id"/>
+
             <ImageButton
                 android:id="@+id/btnUser"
                 android:layout_width="wrap_content"

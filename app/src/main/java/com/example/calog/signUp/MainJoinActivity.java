@@ -2,6 +2,7 @@ package com.example.calog.signUp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +25,9 @@ import androidx.core.content.FileProvider;
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
 import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
+import com.example.calog.VO.UserVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nhn.android.naverlogin.OAuthLogin;
@@ -36,11 +40,24 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
+
 public class MainJoinActivity extends AppCompatActivity implements View.OnClickListener  {
 
     private OAuthLoginButton naverLogInButton;
     private static OAuthLogin naverLoginInstance;
     Button btnGetApi, btnLogout;
+
+    EditText user_id, password;
+    Retrofit retrofit;
+    RemoteService rs;
+    UserVO user;
 
     static final String CLIENT_ID = "yLznJEv7RDN1ugZEgKc8";
     static final String CLIENT_SECRET = "rFyzvuJvZN";
@@ -68,6 +85,16 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
         init();
         init_View();
 
+        user_id = findViewById(R.id.user_id);
+        password = findViewById(R.id.password);
+
+        // RemoteServcie, Retrofit
+        retrofit = new Retrofit.Builder()                           // Retrofit 빌더 생성
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(RemoteService.class);              // API 인터페이스 생성
+
         //back 클릭했을때
         back = findViewById(R.id.back);
 
@@ -81,12 +108,37 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 
         //btnLogin 클릭했을때
         btnLogin = findViewById(R.id.btnLogin);
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
-                startActivity(intent);
+
+                Call<UserVO> call = rs.readUser(user_id.getText().toString(), password.getText().toString());
+                call.enqueue(new Callback<UserVO>() {
+                    @Override
+                    public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+
+                        user = response.body();
+
+                        // 프레퍼런스
+                        SharedPreferences pref = getSharedPreferences("pjLogin", 0);
+                        // edit 만들기
+                        SharedPreferences.Editor edit = pref.edit();
+
+                        edit.putString("user_id", user.getUser_id().toString());
+                        edit.putString("password", user.getPassword().toString());
+                        edit.commit();
+
+                        //Toast.makeText(MainJoinActivity.this ,user.getUser_id().toString(), Toast.LENGTH_SHORT).show();
+
+                        intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserVO> call, Throwable t) {
+                        Toast.makeText(MainJoinActivity.this, "아이디와 비밀번호를 다시 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -117,7 +169,6 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(MainJoinActivity.this, WordCloudActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -126,13 +177,11 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(MainJoinActivity.this, DrinkingCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
                         intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -140,7 +189,6 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(MainJoinActivity.this, SleepCheckActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent);
                         break;
                     }

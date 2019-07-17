@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,45 +18,42 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.example.calog.RemoteService;
 import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
-import com.example.calog.VO.UserDietViewVO;
+import com.example.calog.VO.DietMenuVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.calog.RemoteService.BASE_URL;
+public class FoodRegisterActivity extends AppCompatActivity {
 
-public class DietDailyDetailActivity extends AppCompatActivity {
-
-    RecyclerView userDietDailyMenuList;
-
+    RecyclerView dietList;
+    Button btnSave, btnSearch;
+    ImageView btnBack;
+    EditText searchEdit;
     Intent intent;
-
     Retrofit retrofit;
     RemoteService rs;
-    DietDailyMenuAdapter adapter;
-    List<UserDietViewVO> userDietDailyMenuArray;
-
-    ImageView btnBack;
+    ArrayList<DietMenuVO> myList;
+    TabLayout tabLayout;
+    ViewPager foodListPager;
+    PagerAdapter pagerAdapter;
+    BundleAdapter bundleAdapter;
+    Bundle bundle;
 
     //TODO 하단 Menu
     File screenShot;
@@ -63,62 +63,57 @@ public class DietDailyDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diet_daily_detail);
+        setContentView(R.layout.activity_food_register);
 
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                finish();
-            }
-        });
+        // 페이지 이동소스 메서드로 만드름.
+        pageTrans();
 
-        userDietDailyMenuList = findViewById(R.id.userDietDailyMenuList);
+        // 레트로핏빌더 생성 - 통신
+        //rsBuilder();
 
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
-        userDietDailyMenuList.setLayoutManager(manager);
+        tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("검색"));
+        tabLayout.addTab(tabLayout.newTab().setText("자주 찾는 음식"));
+        tabLayout.addTab(tabLayout.newTab().setText("내음식"));
+        myList = new ArrayList<>();
 
-        intent = getIntent();
+        bundleAdapter = new BundleAdapter(this, myList);
+        bundle = new Bundle();
+        bundle.putSerializable("bundleAdapter", bundleAdapter);
+        bundle.putParcelableArrayList("myList", myList);
 
-        retrofit = new Retrofit.Builder() //Retrofit 빌더생성
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
+        foodListPager = findViewById(R.id.foodListPager);
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        foodListPager.setAdapter(pagerAdapter);
+        foodListPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        foodListPager.setCurrentItem(0);
 
-        Call<List<UserDietViewVO>> call = rs.userDietDailyMenu(intent.getStringExtra("user_id"), intent.getStringExtra("select_date"));
-        call.enqueue(new Callback<List<UserDietViewVO>>() {
-            @Override
-            public void onResponse(Call<List<UserDietViewVO>> call, Response<List<UserDietViewVO>> response) {
-                userDietDailyMenuArray = response.body();
-                System.out.println("<<<<<<<<<<<<<<<<<< Error :" + userDietDailyMenuArray.size());
-                adapter = new DietDailyMenuAdapter(DietDailyDetailActivity.this, userDietDailyMenuArray);
-                userDietDailyMenuList.setAdapter(adapter);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            public void onTabSelected(TabLayout.Tab tab) {
+                foodListPager.setCurrentItem(tab.getPosition());
             }
 
-            @Override
-            public void onFailure(Call<List<UserDietViewVO>> call, Throwable t) {
-                System.out.println("<<<<<<<<<<<<<<<<<< Error : "+ t.toString());
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
 
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-        {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                switch (item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case R.id.rankingMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(DietDailyDetailActivity.this, WordCloudActivity.class);
+                        intent = new Intent(FoodRegisterActivity.this, WordCloudActivity.class);
                         startActivity(intent);
                         break;
                     }
@@ -126,20 +121,19 @@ public class DietDailyDetailActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
 
-                        intent = new Intent(DietDailyDetailActivity.this, DrinkingCheckActivity.class);
+                        intent = new Intent(FoodRegisterActivity.this, DrinkingCheckActivity.class);
                         startActivity(intent);
                         break;
                     }
-                    case R.id.HomeMenu:{
-                        intent = new Intent(DietDailyDetailActivity.this, MainHealthActivity.class);
-                        finish();
+                    case R.id.HomeMenu: {
+                        intent = new Intent(FoodRegisterActivity.this, MainHealthActivity.class);
                         startActivity(intent);
                         break;
                     }
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
-                        intent = new Intent(DietDailyDetailActivity.this, SleepCheckActivity.class);
+                        intent = new Intent(FoodRegisterActivity.this, SleepCheckActivity.class);
                         startActivity(intent);
                         break;
                     }
@@ -150,8 +144,8 @@ public class DietDailyDetailActivity extends AppCompatActivity {
                         View rootView = getWindow().getDecorView();
                         screenShot = ScreenShot(rootView);
                         uriFile = Uri.fromFile(screenShot);
-                        if(screenShot != null) {
-                            Crop.of(uriFile, uriFile).asSquare().start(DietDailyDetailActivity.this, 100);
+                        if (screenShot != null) {
+                            Crop.of(uriFile, uriFile).asSquare().start(FoodRegisterActivity.this, 100);
                         }
                         break;
                     }
@@ -159,8 +153,54 @@ public class DietDailyDetailActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
+
+    private class PagerAdapter extends FragmentStatePagerAdapter {
+        public PagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    FoodSearchFragemt foodSearchFragemt = new FoodSearchFragemt();
+                    foodSearchFragemt.setArguments(bundle);
+                    return foodSearchFragemt;
+                case 1:
+                    MyFavoriteFoodFragment myFavoriteFoodFragment = new MyFavoriteFoodFragment();
+                    myFavoriteFoodFragment.setArguments(bundle);
+                    return myFavoriteFoodFragment;
+                case 2:
+                    MyFoodFragment myFoodFragment = new MyFoodFragment();
+                    myFoodFragment.setArguments(bundle);
+                    return myFoodFragment;
+            }
+            return null;
+        }
+
+        public int getCount() {
+            return 3;
+        }
+    }
+
+    public void pageTrans() {
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    /*private void rsBuilder() {
+        retrofit = new Retrofit.Builder() //Retrofit 빌더생성
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
+    }*/
 
     //TODO 하단 메뉴설정
     @Override
@@ -168,7 +208,7 @@ public class DietDailyDetailActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         File cropFile = screenShot;
 
-        if(requestCode ==100){
+        if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 cropFile = new File(Crop.getOutput(data).getPath());
             }
@@ -186,7 +226,7 @@ public class DietDailyDetailActivity extends AppCompatActivity {
         }
     }
 
-    public File ScreenShot(View view){
+    public File ScreenShot(View view) {
         view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
         Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
         String filename = "screenshot.png";
@@ -195,15 +235,16 @@ public class DietDailyDetailActivity extends AppCompatActivity {
         System.out.println("..........." + filename);
         //Pictures폴더 screenshot.png 파일
         FileOutputStream os = null;
-        try{
+        try {
             os = new FileOutputStream(file);
             screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
             os.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
             return null;
         }
         view.setDrawingCacheEnabled(false);
         return file;
     }
+
 }

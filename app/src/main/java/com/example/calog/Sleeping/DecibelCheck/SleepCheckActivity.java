@@ -1,7 +1,6 @@
 package com.example.calog.Sleeping.DecibelCheck;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -32,6 +32,8 @@ import androidx.core.content.FileProvider;
 import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
+import com.example.calog.VO.SleepingVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -51,9 +53,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class SleepCheckActivity extends Activity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
+
+public class SleepCheckActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_AUDIO = 1001;
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 1002;
+    private static final int MY_PERMISSIONS_REQUEST_RINGSTONE = 1003;
     private Thread timeThread = null;
     private Boolean isRunning = true;
     ImageView btnBack;
@@ -68,10 +79,14 @@ public class SleepCheckActivity extends Activity {
     long currentTime = 0;
     long savedTime = 0;
     boolean isChart = false;
+    Retrofit retrofit;
+    RemoteService rs;
 
     //시간설정
     TextView timeset;
     int timeput = 0;
+    TextView snoreTimer;
+    int snoretimeput = 0;
 
     /* Decibel */
     private boolean bListener = true;
@@ -109,6 +124,28 @@ public class SleepCheckActivity extends Activity {
         }
     };
 
+    Handler timehandler = new Handler() {
+        String stringTimer= "00:00:00";
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                stringTimer = String.format("%02d:%02d:%02d", timeput / (60 * 60) , (timeput/60)%60, (timeput % 60));
+                timeset.setText(stringTimer);
+            }
+        }
+    };
+
+    Handler snorehandler = new Handler() {
+        String stringTimer= "00:00:00";
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0) {
+                stringTimer = String.format("%02d:%02d:%02d", snoretimeput / (60 * 60) , (snoretimeput/60)%60, (snoretimeput % 60));
+                snoreTimer.setText(stringTimer);
+            }
+        }
+    };
+
     Intent intent;
 
     //TODO 하단 Menu
@@ -121,9 +158,26 @@ public class SleepCheckActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_check);
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        rs = retrofit.create(RemoteService.class);
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         //수면 시작 하기
         timeset = (TextView) findViewById(R.id.Timer);
-        TimeCatch timecatch = new TimeCatch();
+        snoreTimer = (TextView) findViewById(R.id.snoreTimer);
+        final TimeCatch timecatch = new TimeCatch();
+        final SnoreTimeCatch snoretimecatch = new SnoreTimeCatch();
+
         timecatch.setDaemon(true);
         timecatch.start();
 
@@ -133,14 +187,38 @@ public class SleepCheckActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //수면 종료 시키기
+                TimeCatch.interrupted();
 
+                //다이얼 로그 생성
                 AlertDialog.Builder builder = new AlertDialog.Builder(SleepCheckActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
-                View view = inflater.inflate(R.layout.activity_sleep_check_result, null);
+                final View view = inflater.inflate(R.layout.activity_sleep_check_result, null);
 
                 builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //값 보내기
+
+                        int SleepSeconds = timeput;
+                        SleepingVO vo = new SleepingVO();
+                        vo.setUser_id("spider");
+                        vo.setSleeping_seconds(SleepSeconds);
+                        vo.setSnoring_seconds(2000);
+
+                        RemoteService rs = retrofit.create(RemoteService.class);
+                        Call<Void> call = rs.sleepResultInsert(vo);
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(SleepCheckActivity.this,"저장되었습니다.",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(SleepCheckActivity.this,"에러발생"+t.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                         Intent intent = new Intent(SleepCheckActivity.this, MainHealthActivity.class);
                         startActivity(intent);
                     }
@@ -158,16 +236,25 @@ public class SleepCheckActivity extends Activity {
                 //총 수면 시간
                 final TextView TotalSleep = (TextView) view.findViewById(R.id.TotalSleep);
                 long time = timeput;
-                int h = (int) (time / 3600000);
-                int m = (int) (time - h * 3600000) / 60000;
-                int s = (int) (time - h * 3600000 - m * 60000) / 1000;
-                TotalSleep.setText("총 수면 시간: " + String.valueOf(h + "시간" + m + "분" + s + "초"));
+                int hour = (int) (time / 3600);
+                int minute = (int) (time % 3600 / 60);
+                int second = (int) (time % 3600 % 60);
+                TotalSleep.setText("총 수면 시간: " + String.valueOf(hour + "시간" + minute + "분" + second + "초"));
+
+                //코골이
+                final TextView SnoreTime = (TextView)view.findViewById(R.id.SleepSnoring);
+                long snoretime = snoretimeput;
+                int snorehour = (int) (snoretime / 3600);
+                int snoreminute = (int) (snoretime % 3600 / 60);
+                int snoresecond = (int) (snoretime % 3600 % 60);
+                SnoreTime.setText("총 코골이 시간: " + String.valueOf(snorehour + "시간" + snoreminute + "분" + snoresecond + "초"));
 
                 //평균소음
                 final TextView SleepDecibel = (TextView) view.findViewById(R.id.SleepDecibel);
                 SleepDecibel.setText("평균 소음 : " + mmVal.getText().toString() + "db");
                 double mmval = Double.parseDouble(mmVal.getText().toString());
 
+                //수면의 질
                 final TextView SleepQuality = (TextView) view.findViewById(R.id.SleepQuality);
                 if (mmval >= 0 && mmval <= 40) {
                     SleepQuality.setText("수면의 질 : 좋음");
@@ -181,15 +268,6 @@ public class SleepCheckActivity extends Activity {
                     SleepQuality.setText("수면의 질 : 나쁨");
                 }
                 builder.show();
-            }
-        });
-
-        //메인 화면 버튼
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
 
@@ -210,6 +288,7 @@ public class SleepCheckActivity extends Activity {
         //권한 주기
         int permssionCheckAudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int permssionCheckStorage = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permssionCheckRingstone = ContextCompat.checkSelfPermission(this,Manifest.permission.WAKE_LOCK);
 
         if (permssionCheckAudio != PackageManager.PERMISSION_GRANTED) {
 
@@ -237,6 +316,21 @@ public class SleepCheckActivity extends Activity {
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_STORAGE);
                 Toast.makeText(this, "수면 품질 체크를 위해 저장 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+
+            }
+        }
+        if (permssionCheckRingstone != PackageManager.PERMISSION_GRANTED) {
+
+            Toast.makeText(this, "권한 승인이 필요합니다", Toast.LENGTH_LONG).show();
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WAKE_LOCK)) {
+                Toast.makeText(this, "알람을 위해 저장 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WAKE_LOCK},
+                        MY_PERMISSIONS_REQUEST_RINGSTONE);
+                Toast.makeText(this, "알람을 위해 저장 권한이 필요합니다.", Toast.LENGTH_LONG).show();
 
             }
         }
@@ -310,20 +404,30 @@ public class SleepCheckActivity extends Activity {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    ;
+                    e.printStackTrace();
                 }
             }
         }
     }
-
-    Handler timehandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-                timeset.setText("수면 시간 : " + timeput);
-            }
+//한 핸들러에 코고는값이랑 안코고는값 더해서 총시간 나타내는 방법
+    class SnoreTimeCatch extends Thread{
+        public void run(){
+            mmVal = (TextView) findViewById(R.id.mmval);
+            double mmval = Double.parseDouble(mmVal.getText().toString());
+            maxVal = (TextView) findViewById(R.id.maxval);
+            double maxval = Double.parseDouble(maxVal.getText().toString());
+            double Snoring = (maxval-mmval)/24.771213;
+//            while(true){
+//                if(Snoring < mmval){
+//                    snoretimeput++;
+//                    snorehandler.sendEmptyMessage(0);
+//                }else{
+//                 //인터럽트로 정지
+//                    SnoreTimeCatch.interrupted();
+//                }
+//            }
         }
-    };
+    }
 
     //권한 묻기
     @Override
@@ -354,7 +458,18 @@ public class SleepCheckActivity extends Activity {
                 }
                 return;
             }
+            case MY_PERMISSIONS_REQUEST_RINGSTONE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    Toast.makeText(this, "승인이 허가되어 있습니다.", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(this, "아직 승인받지 않았습니다.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
         }
     }
 
