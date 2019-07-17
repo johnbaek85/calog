@@ -96,6 +96,7 @@ public class CalendarActivity extends AppCompatActivity
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 intent.putExtra("currentSelectedTime",calendar.getTimeInMillis());
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 /////////////////////////////////
 
                 finish();

@@ -164,6 +164,14 @@ public class SleepCheckActivity extends AppCompatActivity {
                 .build();
         rs = retrofit.create(RemoteService.class);
 
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         //수면 시작 하기
         timeset = (TextView) findViewById(R.id.Timer);
         snoreTimer = (TextView) findViewById(R.id.snoreTimer);

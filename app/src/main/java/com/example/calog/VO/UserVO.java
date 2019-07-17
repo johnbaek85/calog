@@ -10,7 +10,7 @@ public class UserVO {
     private String email;
     private String phone;
     private String address;
-    private Date birthday;
+    private String birthday;
     private String gender;
     private double height;
     private double weight;
@@ -53,10 +53,10 @@ public class UserVO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 	public String getGender() {

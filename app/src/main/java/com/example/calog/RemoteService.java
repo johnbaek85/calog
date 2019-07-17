@@ -24,22 +24,21 @@ public interface RemoteService {
 
     public static final String BASE_URL = "http://210.89.188.230:8080/Calog/calog/";
 
-    /*//User
+    //User
     @GET("user/list.jsp")
     Call<List<UserVO>> listUser();
 
-    @GET("user/read.jsp")
-    Call<UserVO> readUser(@Query("userId") String userId);
+    @GET("join/read")
+    Call<UserVO> readUser(@Query("user_id") String user_id, @Query("password") String password);
 
-    @POST("user/insert.jsp")
+    @POST("join/insert")
     Call<Void> insertUser(@Body UserVO vo);
 
     @POST("user/delete.jsp")
-    Call<Void> deleteUser(@Query("userId") String userId);
+    Call<Void> deleteUser(@Query("userid") String userid);
 
     @POST("user/update.jsp")
     Call<Void> updateUser(@Body UserVO vo);
-*/
 
     //User Diet Total calories
     @GET("MainHealthVO")

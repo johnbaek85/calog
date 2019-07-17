@@ -555,7 +555,7 @@ public class FitnessActivity extends AppCompatActivity {
             while(true)
             {
                 //TODO 마지막 데이터가 들어오기 전까지 무한루프를 빠져나가지못함.
-                if(yearSumList.size()!=0)
+                if(monthSumList.size()!=0)
                 {
                     break;
                 }

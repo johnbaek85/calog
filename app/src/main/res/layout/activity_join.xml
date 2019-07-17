@@ -6,348 +6,291 @@
     android:layout_height="match_parent"
     tools:context=".signUp.JoinActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="35sp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="회원가입" />
-
-    </androidx.appcompat.widget.Toolbar>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+        tools:context=".signUp.JoinActivity"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="35sp"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="회원가입" />
+
+
+        </androidx.appcompat.widget.Toolbar>
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10sp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="91dp"
-                    android:layout_height="wrap_content"
-                    android:text="아이디              : " />
-
-                <EditText
-                    android:id="@+id/user_Id"
-                    android:layout_width="123dp"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="91dp"
-                    android:layout_height="wrap_content"
-                    android:text="비밀번호          : " />
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="185dp"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="비밀번호 확인 : " />
-
-                <EditText
-                    android:id="@+id/checkPassword"
-                    android:layout_width="185dp"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="이메일 : "></TextView>
-
-                <EditText
-                    android:id="@+id/emailId"
-                    android:layout_width="123dp"
-                    android:layout_height="wrap_content">
-
-                </EditText>
-
-                <ImageView
-                    android:layout_width="35sp"
-                    android:layout_height="40sp"
-                    android:src="@mipmap/golbang" />
-
-
-                <Spinner
-                    android:id="@+id/email"
-                    android:layout_width="144dp"
-                    android:layout_height="match_parent"></Spinner>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="이름     : " />
-
-                    <EditText
-                        android:id="@+id/name"
-                        android:layout_width="119dp"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="번호     : " />
-
-                    <EditText
-                        android:id="@+id/phone1"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" - " />
-
-                    <EditText
-                        android:id="@+id/phone2"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" - " />
-
-                    <EditText
-                        android:id="@+id/phone3"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="생일     : " />
-
-                    <Spinner
-                        android:id="@+id/Year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></Spinner>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="년" />
-
-                    <Spinner
-                        android:id="@+id/Month"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                    </Spinner>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="월" />
-
-                    <Spinner
-                        android:id="@+id/Day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                    </Spinner>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="일" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="성별     :" />
-
-                    <CheckBox
-                        android:id="@+id/Man"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="남자" />
-
-                    <CheckBox
-                        android:id="@+id/Girl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="여자" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="  키       : " />
-
-                    <EditText
-                        android:id="@+id/height"
-                        android:layout_width="55dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="40sp"
-                        android:text="cm" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="몸무게  : " />
-
-                    <EditText
-                        android:id="@+id/weight"
-                        android:layout_width="55dp"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="kg" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/post"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10sp"
-                        android:hint="우편번호" />
-
-                    <Button
-                        android:id="@+id/btnpost"
-                        android:layout_width="wrap_content"
-                        android:layout_height="38dp"
-                        android:text="우편번호 찾기"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="주소" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/detailaddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="상세주소" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="13sp">
+            android:orientation="vertical"
+            >
 
-            <Button
-                android:id="@+id/btnSave"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10sp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="91dp"
+                        android:layout_height="wrap_content"
+                        android:text="아이디              : " />
+
+                    <EditText
+                        android:id="@+id/user_id"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:inputType="text" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <TextView
+                        android:layout_width="91dp"
+                        android:layout_height="wrap_content"
+                        android:text="비밀번호          : " />
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:inputType="textPassword" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="비밀번호 확인 : "/>
+
+                    <EditText
+                        android:id="@+id/checkPassword"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:inputType="textPassword" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="이메일               : "
+                        >
+
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/email"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:inputType="text">
+
+                    </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="이름                   : " />
+
+                        <EditText
+                            android:id="@+id/name"
+                            android:inputType="text"
+                            android:layout_width="119dp"
+                            android:layout_height="wrap_content"
+                            android:cursorVisible="false"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="번호                   : " />
+
+                        <EditText
+                            android:id="@+id/phone"
+                            android:layout_width="171dp"
+                            android:layout_height="wrap_content"
+                            android:cursorVisible="false"
+                            android:inputType="number" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="261dp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="생일                   : "
+
+                            />
+
+                        <EditText
+                            android:id="@+id/birthday"
+                            android:layout_width="173dp"
+                            android:layout_height="wrap_content" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="성별                    :" />
+
+                        <EditText
+                            android:id="@+id/gender"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="  키       : " />
+
+                        <EditText
+                            android:id="@+id/height"
+                            android:inputType="number"
+                            android:layout_width="55dp"
+                            android:layout_height="wrap_content"
+                            android:cursorVisible="false"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="cm"
+                            android:layout_marginRight="40sp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="몸무게  : " />
+
+                        <EditText
+                            android:id="@+id/weight"
+                            android:inputType="number"
+                            android:layout_width="55dp"
+                            android:layout_height="wrap_content"
+                            android:cursorVisible="false"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="kg" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="주소     : "/>
+
+                        <EditText
+                            android:id="@+id/address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/btnReset"
-                android:text="회원가입" />
+                android:padding="13sp"
+                >
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/btnReset"
+                    android:text="회원가입"
+                    />
 
-            <Button
-                android:id="@+id/btnReset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="취소" />
+                <Button
+                    android:id="@+id/btnReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="취소" />
 
-        </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
