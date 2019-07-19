@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sleeping.SleepingActivity">
+    tools:context=".Sleeping.SleepingActivity"
+    android:background="#000000">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -12,31 +13,43 @@
         android:layout_height="35sp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/monthName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="35sp"
-                android:text="수면관리"
-                android:textColor="#706B6B"
-                android:textSize="15sp" />
 
             <ImageView
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/icon_back" />
 
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/btnBack"
+                android:layout_centerVertical="true"
+                android:text="2019-07-01"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="7dp"
+                android:text="user_id"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
+
         </RelativeLayout>
+
     </androidx.appcompat.widget.Toolbar>
 
     <!-- TODO 그래프 프래그먼트 -->
@@ -50,7 +63,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:mipmap/sym_def_app_icon"
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_below="@id/barChartFrag">
@@ -60,7 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="200sp"
             android:layout_centerInParent="true"
-            android:timePickerMode="spinner" />
+            android:timePickerMode="spinner"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
         <Button
             android:id="@+id/btnSleepStart"
@@ -79,10 +92,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/browser_actions_title_color"
+        android:background="#111111"
+        app:itemIconTint="#6ADB2C"
         app:labelVisibilityMode="labeled"
-        app:itemTextColor="@color/browser_actions_title_color"
+        app:itemTextColor="#6ADB2C"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom"/>
 

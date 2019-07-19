@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Fitness.MyLocationActivity"></activity>
+        <activity android:name=".signUp.UpdateUserInfoActivity"></activity>
+        <activity android:name=".Fitness.MyLocationActivity" />
         <activity android:name=".Fitness.MyFitnessListActivity" />
         <activity
             android:name=".Fitness.ExerciseActivity"
@@ -48,7 +49,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
@@ -64,7 +64,7 @@
             You need a different API key for each encryption key, including the release key that is used to
             sign the APK for publishing.
             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-       -->
+            -->
             <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key" />
@@ -74,7 +74,7 @@
 
         <service
             android:name=".Sleeping.RingtonePlayingService"
-            android:enabled="true"></service>
+            android:enabled="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

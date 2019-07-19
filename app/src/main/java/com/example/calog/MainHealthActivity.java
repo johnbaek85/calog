@@ -1,14 +1,19 @@
 package com.example.calog;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +26,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -33,8 +40,10 @@ import com.example.calog.Fitness.FitnessActivity;
 import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
 import com.example.calog.Sleeping.SleepingActivity;
 import com.example.calog.VO.MainHealthVO;
+import com.example.calog.VO.UserVO;
 import com.example.calog.WordCloud.WordCloudActivity;
 import com.example.calog.signUp.MainJoinActivity;
+import com.example.calog.signUp.UpdateUserInfoActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
 
@@ -59,8 +68,7 @@ public class MainHealthActivity extends AppCompatActivity {
     RelativeLayout btnDiet, btnFitness, btnSleep, btnDrink;
     ImageView btnWordCloud, btnDrinkCheck, btnSleepStart, btnShare;
     ImageView btnBack;
-    TextView monthName;
-    ImageButton btnUser;
+    TextView txtDate;
     TextView txtDiet, txtFitness, txtSleep, txtDrink;
     ImageView imgDiet, imgFitness, imgSleep, imgDrink;
     TextView txtEatCalorie, txtSuggestedEatCalorie;
@@ -70,17 +78,17 @@ public class MainHealthActivity extends AppCompatActivity {
 
     TextView user_id;
     String strUser_id;
-    String strPassword;
+    Toolbar toolbar;
 
     MainHealthVO userVO;
 
-    Toolbar toolbar;
+    UserVO user;
 
     Intent intent;
 
     HorizontalCalendar horizontalCalendar;
 
-    long currentSelectedTime=0; //선택시간
+    long currentSelectedTime = 0; //선택시간
 
     //TODO 하단 Menu
     File screenShot;
@@ -90,65 +98,158 @@ public class MainHealthActivity extends AppCompatActivity {
     Retrofit retrofit;
     RemoteService rs;
 
+    SharedPreferences pref;
+    boolean logInStatus = false;
+
+    //=============TODO 로그인 관련
+    //옵션 메뉴 user 로그인 여부
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.loginmenu, menu);
+
         return true;
     }
 
+    //로그인 상태
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (logInStatus) { // 로그인 한 상태: 로그인은 안보이게, 로그아웃은 보이게
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+            menu.getItem(3).setVisible(true);
+        } else { // 로그 아웃 한 상태 : 로그인 보이게, 로그아웃은 안보이게
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+            menu.getItem(3).setVisible(false);
+        }
+
+        //logInStatus = !logInStatus;   // 값을 반대로 바꿈
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    //로그인, 회원정보 수정, 회원 탈퇴
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //return super.onOptionsItemSelected(item);
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
+            case R.id.login:
+                intent = new Intent(MainHealthActivity.this, MainJoinActivity.class);
+                startActivity(intent);
+                break;
+
             case R.id.logout:
                 Toast.makeText(this, "로그아웃이 완료되었습니다", Toast.LENGTH_SHORT).show();
-                btnUser.setVisibility(View.VISIBLE);
-
-                return true;
+                //로그인 정보 프레퍼런스에 로그인정보 삭제
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("user_id", "");
+                editor.commit();
+                user_id.setText("");
+                logInStatus = false;
+                break;
 
             case R.id.adjust:
-                Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                return true;
+                Call<UserVO> call = rs.readUser(strUser_id);
+                call.enqueue(new Callback<UserVO>() {
+                    @Override
+                    public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                        user = response.body();
+
+                        intent = new Intent(MainHealthActivity.this, UpdateUserInfoActivity.class);
+
+                        intent.putExtra("user_id", user.getUser_id());
+                        intent.putExtra("password", user.getPassword());
+                        intent.putExtra("email", user.getEmail());
+                        intent.putExtra("name", user.getName());
+                        intent.putExtra("phone", user.getPhone());
+                        intent.putExtra("birthday", user.getBirthday());
+                        intent.putExtra("gender", user.getGender());
+                        intent.putExtra("height", user.getHeight());
+                        intent.putExtra("weight", user.getWeight());
+                        intent.putExtra("bmi", user.getBmi());
+                        intent.putExtra("address", user.getAddress());
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserVO> call, Throwable t) {
+                        System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
+                    }
+                });
+                break;
 
             case R.id.withdraw:
-                Toast.makeText(this, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                return true;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("회원탈퇴");
+                builder.setMessage("탈퇴하시겠습니까?");
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Call<Void> call = rs.deleteUser(strUser_id);
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(MainHealthActivity.this,
+                                        "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
 
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString("user_id", "");
+                                editor.commit();
+                                user_id.setText("");
+                                logInStatus = false;
+
+                                intent = new Intent(MainHealthActivity.this, MainJoinActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainHealthActivity.this,
+                                "회원탈퇴가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
+
+                break;
         }
-
         return false;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main_health);
 
-        permissionCheck();
+        //TODO status Bar 색상변경
+        View view = getWindow().getDecorView();
 
-        btnUser = findViewById(R.id.btnUser);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (view != null) {
+                //view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#000000"));
+            }
+        }
 
+        //TODO sharedpreference에서 userid 값 받아옴
+        pref = getSharedPreferences("pjLogin", MODE_PRIVATE);
         intent = getIntent();
 
-        //프레퍼런스에서 로그인 정보 가지고오기
-        SharedPreferences pref = getSharedPreferences("pjLogin", 0);
-        user_id = findViewById(R.id.user_id);
-
-        strUser_id = pref.getString("user_id", "");
-        user_id.setText(strUser_id);
-        //로그인 화면 설정 / 버튼, 로그아웃,회원정보수정
-
-        if(strUser_id == null || strUser_id.equals("")){
-            btnUser.setVisibility(View.VISIBLE);
-            strUser_id = pref.getString("","");
-            user_id.setText(strUser_id);
-        }else{
-            btnUser.setVisibility(View.GONE);
-        }
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(false);
 
         txtEatCalorie = findViewById(R.id.txtEatCalorie);
         txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
@@ -170,7 +271,25 @@ public class MainHealthActivity extends AppCompatActivity {
         imgSleep = findViewById(R.id.imgSleep);
         imgDrink = findViewById(R.id.imgDrink);
 
-        if(userVO == null){
+        user_id = findViewById(R.id.user_id);
+
+        permissionCheck();
+        //logInStatus = intent.getBooleanExtra("loginStatus", false);
+
+        //TODO User Login
+        //로그인 정보 프레퍼런스에서 불러오기
+        strUser_id = pref.getString("user_id", "");
+        user_id.setText(strUser_id);
+
+        if (strUser_id.equals("")) {
+            user_id.setText("");
+            logInStatus = false;
+        } else {
+            user_id.setText(strUser_id + "님 환영합니다!");
+            logInStatus = true;
+        }
+
+        if (userVO == null) {
             imgDiet.setBackgroundResource(R.drawable.ic_neutral);
             imgFitness.setBackgroundResource(R.drawable.ic_neutral);
             imgSleep.setBackgroundResource(R.drawable.ic_neutral);
@@ -183,31 +302,26 @@ public class MainHealthActivity extends AppCompatActivity {
                 .build();
         rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
 
-        monthName = findViewById(R.id.monthName);
+        txtDate = findViewById(R.id.txtDate);
 
         intent = getIntent();
-        monthName.setText(intent.getStringExtra("date"));
+        txtDate.setText(intent.getStringExtra("date"));
 
-        monthName.setOnClickListener(new View.OnClickListener() {
+        txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Toast.makeText(MainActivity.this, "달력 Activity로 이동",
                         Toast.LENGTH_SHORT).show();*/
                 intent = new Intent(MainHealthActivity.this, CalendarActivity.class);
                 //변경된 현재 시간값을 가져가서 달력을 재구성한다.
-                intent.putExtra("currentSelectedTime",currentSelectedTime);
+                intent.putExtra("currentSelectedTime", currentSelectedTime);
 
-                startActivity(intent);
-            }
-        });
+                Date longDate = new Date(currentSelectedTime);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = dateFormat.format(longDate);
 
-        btnUser = findViewById(R.id.btnUser);
-        btnUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*Toast.makeText(MainHealthActivity.this, "로그인 Activity로 이동",
-                        Toast.LENGTH_SHORT).show();*/
-                Intent intent = new Intent(MainHealthActivity.this, MainJoinActivity.class);
+                intent.putExtra("select_date", selectedDate);
+
                 startActivity(intent);
             }
         });
@@ -223,10 +337,10 @@ public class MainHealthActivity extends AppCompatActivity {
                 Date longDate = new Date(currentSelectedTime);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = dateFormat.format(longDate);
-                System.out.println("선택된 날짜: " + selectedDate);
 
-                intent.putExtra("user_id", "spider");
+                intent.putExtra("user_id", user_id.getText().toString());
                 intent.putExtra("select_date", selectedDate);
+
                 startActivity(intent);
             }
         });
@@ -242,9 +356,8 @@ public class MainHealthActivity extends AppCompatActivity {
                 Date longDate = new Date(currentSelectedTime);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = dateFormat.format(longDate);
-                System.out.println("선택된 날짜: " + selectedDate);
 
-                intent.putExtra("user_id", "spider");
+                intent.putExtra("user_id", user_id.getText().toString());
                 intent.putExtra("select_date", selectedDate);
 
                 startActivity(intent);
@@ -262,9 +375,8 @@ public class MainHealthActivity extends AppCompatActivity {
                 Date longDate = new Date(currentSelectedTime);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = dateFormat.format(longDate);
-                System.out.println("선택된 날짜: " + selectedDate);
 
-                intent.putExtra("user_id", "spider");
+                intent.putExtra("user_id", user_id.getText().toString());
                 intent.putExtra("select_date", selectedDate);
 
                 startActivity(intent);
@@ -277,6 +389,14 @@ public class MainHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 intent = new Intent(MainHealthActivity.this, DrinkingActivity.class);
+
+                Date longDate = new Date(currentSelectedTime);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = dateFormat.format(longDate);
+
+                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("select_date", selectedDate);
+
                 startActivity(intent);
 
 //                  intent = new Intent(MainHealthActivity.this, TestActivity.class);
@@ -307,10 +427,8 @@ public class MainHealthActivity extends AppCompatActivity {
                 .build();
 
 
-
         //캘린더 데이터 변경
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener()
-        {
+        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Date date, int position) {
 
@@ -330,66 +448,66 @@ public class MainHealthActivity extends AppCompatActivity {
                         System.out.println("섭취칼로리 ..............................." + currentSelectedTime);
                         userVO = response.body();
 
-                        if(userVO == null){
+                        if (userVO == null) {
                             txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
                             txtUsedCalorie.setText("소모 칼로리 : " + 0 + "kcal");
                             txtSleepHours.setText("수면시간 : " + 0 + "시간");
                             txtAlcoholContent.setText("알코올 수치 : " + 0 + "%");
-                        }else{
+                        } else {
                             int hour = userVO.getSleeping_seconds() / 3600;
                             int minute = userVO.getSleeping_seconds() % 3600 / 60;
                             int second = userVO.getSleeping_seconds() % 3600 % 60;
 
-                            int dietSum = (int)(userVO.getSum_calorie());
-                            int fitnessSum = (int)(userVO.getSum_cardio_used_calorie() + userVO.getSum_weight_used_calorie());
+                            int dietSum = (int) (userVO.getSum_calorie());
+                            int fitnessSum = (int) (userVO.getSum_cardio_used_calorie() + userVO.getSum_weight_used_calorie());
 
                             txtEatCalorie.setText("섭취칼로리 : " + dietSum + "kcal");
                             txtUsedCalorie.setText("소모 칼로리 : " + fitnessSum + "kcal");
                             txtSleepHours.setText("수면시간 : " + hour + "시간 " + minute + "분 " + second + "초");
                             txtAlcoholContent.setText("알코올 수치 : " + userVO.getAlcohol_content() + "%");
 
-                            if(userVO.getSum_calorie() < 1500 || userVO.getSum_calorie() > 3000){
+                            if (userVO.getSum_calorie() < 1500 || userVO.getSum_calorie() > 3000) {
                                 imgDiet.setBackgroundResource(R.drawable.ic_bad);
-                            }else if(userVO.getSum_calorie() == 0.0  || userVO == null){
+                            } else if (userVO.getSum_calorie() == 0.0 || userVO == null) {
                                 imgDiet.setBackgroundResource(R.drawable.ic_neutral);
-                            }else if(userVO.getSum_calorie() >= 2000 && userVO.getSum_calorie() <= 2500){
+                            } else if (userVO.getSum_calorie() >= 2000 && userVO.getSum_calorie() <= 2500) {
                                 imgDiet.setBackgroundResource(R.drawable.ic_good);
-                            }else{
+                            } else {
                                 imgDiet.setBackgroundResource(R.drawable.ic_neutral);
                             }
 
-                            if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) < 300
-                                    || (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) > 1500){
+                            if ((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) < 300
+                                    || (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) > 1500) {
                                 imgFitness.setBackgroundResource(R.drawable.ic_bad);
-                            }else if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) == 0.0  || userVO == null){
+                            } else if ((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) == 0.0 || userVO == null) {
                                 imgFitness.setBackgroundResource(R.drawable.ic_neutral);
-                            }else if((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) >= 500
-                                    && (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) <= 1000){
+                            } else if ((userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) >= 500
+                                    && (userVO.getSum_weight_used_calorie() + userVO.getSum_cardio_used_calorie()) <= 1000) {
                                 imgFitness.setBackgroundResource(R.drawable.ic_good);
-                            }else{
+                            } else {
                                 imgFitness.setBackgroundResource(R.drawable.ic_neutral);
                             }
 
-                            if(userVO.getSleeping_seconds() < 18000 || userVO.getSleeping_seconds() > 36000){
+                            if (userVO.getSleeping_seconds() < 18000 || userVO.getSleeping_seconds() > 36000) {
                                 imgSleep.setBackgroundResource(R.drawable.ic_bad);
-                            }else if(userVO.getSleeping_seconds() == 0 || userVO == null){
+                            } else if (userVO.getSleeping_seconds() == 0 || userVO == null) {
                                 imgSleep.setBackgroundResource(R.drawable.ic_neutral);
-                            }else if(userVO.getSleeping_seconds() >= 25200 && userVO.getSleeping_seconds() <= 28800){
+                            } else if (userVO.getSleeping_seconds() >= 25200 && userVO.getSleeping_seconds() <= 28800) {
                                 imgSleep.setBackgroundResource(R.drawable.ic_good);
-                            }else{
+                            } else {
                                 imgSleep.setBackgroundResource(R.drawable.ic_neutral);
                             }
 
-                            if(userVO.getAlcohol_content() > 0.07){
+                            if (userVO.getAlcohol_content() > 0.07) {
                                 imgDrink.setBackgroundResource(R.drawable.ic_bad);
                                 txtAlert.setText("만취 상태입니다. 음주에 유의하세요.");
-                            }else if(userVO.getAlcohol_content() == 0.0 || userVO.getAlcohol_content() < 0.0){
+                            } else if (userVO.getAlcohol_content() == 0.0 || userVO.getAlcohol_content() < 0.0) {
                                 imgDrink.setBackgroundResource(R.drawable.ic_neutral);
                                 txtAlert.setText("");
-                            }else if(userVO.getAlcohol_content() >= 0.001 && userVO.getAlcohol_content() <= 0.02){
+                            } else if (userVO.getAlcohol_content() >= 0.001 && userVO.getAlcohol_content() <= 0.02) {
                                 imgDrink.setBackgroundResource(R.drawable.ic_good);
                                 txtAlert.setText("음주가 시작되었군요. 적당한 음주를 권합니다.");
-                            }else{
+                            } else {
                                 imgDrink.setBackgroundResource(R.drawable.ic_neutral);
                                 txtAlert.setText("적당히 마셨습니다. 그만 마시는 것을 권합니다.");
                             }
@@ -398,30 +516,27 @@ public class MainHealthActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<MainHealthVO> call, Throwable t) {
-                        System.out.println("<<<<<<<<<<<<<<<<<< Error : "+ t.toString());
+                        System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
                     }
                 });
 
                 System.out.println("horizontalCalendar.setCalendarListener : " + datesql);
                 //horizontalCalendar.date
-                monthName.setText(DateFormat.getDateInstance().format(date));
+                txtDate.setText(DateFormat.getDateInstance().format(date));
 
                 //java.sql.Date sqldate=new java.sql.Date(date.getTime());
 
-                currentSelectedTime=date.getTime();
+                currentSelectedTime = date.getTime();
                 //System.out.println("horizontalCalendar.setCalendarListener time:"+currentSelectedTime);
 
                 //TODO 하단 메뉴설정
                 bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
-                bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-                {
+                bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item)
-                    {
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                        switch (item.getItemId())
-                        {
+                        switch (item.getItemId()) {
                             case R.id.rankingMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
@@ -452,7 +567,7 @@ public class MainHealthActivity extends AppCompatActivity {
                                 View rootView = getWindow().getDecorView();
                                 screenShot = ScreenShot(rootView);
                                 uriFile = Uri.fromFile(screenShot);
-                                if(screenShot != null) {
+                                if (screenShot != null) {
                                     Crop.of(uriFile, uriFile).asSquare().start(MainHealthActivity.this, 100);
                                 }
                                 break;
@@ -485,7 +600,7 @@ public class MainHealthActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         File cropFile = screenShot;
 
-        if(requestCode ==100){
+        if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 cropFile = new File(Crop.getOutput(data).getPath());
             }
@@ -503,7 +618,7 @@ public class MainHealthActivity extends AppCompatActivity {
         }
     }
 
-    public File ScreenShot(View view){
+    public File ScreenShot(View view) {
         view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
         Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
         String filename = "screenshot.png";
@@ -512,11 +627,11 @@ public class MainHealthActivity extends AppCompatActivity {
         System.out.println("..........." + filename);
         //Pictures폴더 screenshot.png 파일
         FileOutputStream os = null;
-        try{
+        try {
             os = new FileOutputStream(file);
             screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
             os.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
             return null;
         }
@@ -524,22 +639,21 @@ public class MainHealthActivity extends AppCompatActivity {
         return file;
     }
 
-    public void permissionCheck(){
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
+    public void permissionCheck() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         }
     }
 
     //기존액티비티가 재실행될때
     @Override
-    protected void onNewIntent(Intent intent)
-    {
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         System.out.println("===========================onNewIntent Call=============");
 
         //현재 선택된 시간 가져오기
-        currentSelectedTime=intent.getLongExtra("currentSelectedTime",0);
+        currentSelectedTime = intent.getLongExtra("currentSelectedTime", 0);
 
         java.sql.Date date = new java.sql.Date(currentSelectedTime);
 
@@ -547,8 +661,8 @@ public class MainHealthActivity extends AppCompatActivity {
 
         //date.setTime(mill);
         //시간 재설정
-        monthName.setText(DateFormat.getDateInstance().format(date));
-        horizontalCalendar.selectDate(date,true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
+        txtDate.setText(DateFormat.getDateInstance().format(date));
+        horizontalCalendar.selectDate(date, true); //false는 이벤트를 주고 true는 이벤트를 주지않고 즉시 변경
     }
 
     /*@Override

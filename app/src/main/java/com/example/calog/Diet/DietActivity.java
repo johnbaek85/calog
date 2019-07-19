@@ -2,22 +2,30 @@ package com.example.calog.Diet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +41,10 @@ import com.example.calog.RemoteService;
 import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
 import com.example.calog.VO.DietFourMealTotalVO;
 import com.example.calog.VO.UserTotalCaloriesViewVO;
+import com.example.calog.VO.UserVO;
 import com.example.calog.WordCloud.WordCloudActivity;
+import com.example.calog.signUp.MainJoinActivity;
+import com.example.calog.signUp.UpdateUserInfoActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
 
@@ -63,14 +74,163 @@ public class DietActivity extends AppCompatActivity {
     RemoteService rs;
     List<DietFourMealTotalVO> dailyCalorie;
 
+    ImageView btnBack;
+
+    UserVO user;
+
     File screenShot;
     Uri uriFile;
     BottomNavigationView bottomNavigationView;
+
+    //TODO user용 toolbar 관련
+    TextView user_id;
+    String strUser_id;
+    Toolbar toolbar;
+    SharedPreferences pref;
+    boolean logInStatus = false;
+
+    //=============TODO 로그인 관련
+    //옵션 메뉴 user 로그인 여부
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.loginmenu, menu);
+        return true;
+    }
+
+    //로그인 상태
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (logInStatus) { // 로그인 한 상태: 로그인은 안보이게, 로그아웃은 보이게
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+            menu.getItem(3).setVisible(true);
+        } else { // 로그 아웃 한 상태 : 로그인 보이게, 로그아웃은 안보이게
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+            menu.getItem(3).setVisible(false);
+
+        }
+
+        //logInStatus = !logInStatus;   // 값을 반대로 바꿈
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    //로그인, 회원정보 수정, 회원 탈퇴
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.login:
+                intent = new Intent(DietActivity.this, MainJoinActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.logout:
+                Toast.makeText(this, "로그아웃이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                //로그인 정보 프레퍼런스에 로그인정보 삭제
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("user_id", "");
+                editor.commit();
+                user_id.setText("");
+                logInStatus = false;
+                break;
+
+            case R.id.adjust:
+                Call<UserVO> call = rs.readUser(strUser_id);
+                call.enqueue(new Callback<UserVO>() {
+                    @Override
+                    public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                        user = response.body();
+
+                        intent = new Intent(DietActivity.this, UpdateUserInfoActivity.class);
+
+                        intent.putExtra("user_id", user.getUser_id());
+                        intent.putExtra("password", user.getPassword());
+                        intent.putExtra("email", user.getEmail());
+                        intent.putExtra("name", user.getName());
+                        intent.putExtra("phone", user.getPhone());
+                        intent.putExtra("birthday", user.getBirthday());
+                        intent.putExtra("gender", user.getGender());
+                        intent.putExtra("height", user.getHeight());
+                        intent.putExtra("weight", user.getWeight());
+                        intent.putExtra("bmi", user.getBmi());
+                        intent.putExtra("address", user.getAddress());
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserVO> call, Throwable t) {
+                        System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
+                    }
+                });
+                break;
+
+            case R.id.withdraw:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("회원탈퇴");
+                builder.setMessage("탈퇴하시겠습니까?");
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Call<Void> call = rs.deleteUser(strUser_id);
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(DietActivity.this,
+                                        "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString("user_id", "");
+                                editor.commit();
+                                user_id.setText("");
+                                logInStatus = false;
+
+                                intent = new Intent(DietActivity.this, MainJoinActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(DietActivity.this,
+                                "회원탈퇴가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
+
+                break;
+        }
+        return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet);
+
+        //TODO status Bar 색상변경
+        View view = getWindow().getDecorView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (view != null) {
+                //view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#000000"));
+            }
+        }
+
+        intent = getIntent();
 
         retrofit = new Retrofit.Builder() //Retrofit 빌더생성
                 .baseUrl(BASE_URL)
@@ -78,11 +238,37 @@ public class DietActivity extends AppCompatActivity {
                 .build();
         rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
 
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        //TODO toolbar 적용
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        user_id = findViewById(R.id.user_id);
+        //TODO sharedpreference에서 userid 값 받아옴
+        pref = getSharedPreferences("pjLogin", MODE_PRIVATE);
+
+        //TODO User Login
+        //로그인 정보 프레퍼런스에서 불러오기
+        strUser_id = pref.getString("user_id", "");
+        user_id.setText(strUser_id);
+
+        if (strUser_id.equals("")) {
+            user_id.setText("");
+            logInStatus = false;
+        } else {
+            user_id.setText(strUser_id + "님 환영합니다!");
+            logInStatus = true;
+        }
+
         //TODO Graph backthread
         GraphBackThread graphBackThread=new GraphBackThread();
         graphBackThread.execute();
-
-        intent = getIntent();
 
         txtDate = findViewById(R.id.txtDate);
         txtDate.setText(intent.getStringExtra("select_date"));
@@ -97,7 +283,7 @@ public class DietActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(DietActivity.this, DietDailyDetailActivity.class);
-                intent.putExtra("user_id", "spider");
+                intent.putExtra("user_id", user_id.getText().toString());
                 intent.putExtra("select_date", txtDate.getText().toString());
 
                 startActivity(intent);
@@ -149,6 +335,10 @@ public class DietActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(DietActivity.this, WordCloudActivity.class);
+
+                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
                         startActivity(intent);
                         break;
                     }
@@ -157,11 +347,19 @@ public class DietActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(DietActivity.this, DrinkingCheckActivity.class);
+
+                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
                        intent = new Intent(DietActivity.this, MainHealthActivity.class);
+
+                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
                        startActivity(intent);
                        break;
                     }
@@ -169,6 +367,10 @@ public class DietActivity extends AppCompatActivity {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(DietActivity.this, SleepCheckActivity.class);
+
+                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
                         startActivity(intent);
                         break;
                     }
@@ -195,25 +397,29 @@ public class DietActivity extends AppCompatActivity {
         switch (view.getId()){
             case R.id.btnBreakfast:
                 Toast.makeText(DietActivity.this, "아침", Toast.LENGTH_SHORT).show();
-                intent.putExtra("user_id", "spider");
+                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 1);
                 startActivity(intent);
                 break;
             case R.id.btnLunch:
                 Toast.makeText(DietActivity.this, "점심", Toast.LENGTH_SHORT).show();
-                intent.putExtra("user_id", "spider");
+                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 2);
                 startActivity(intent);
                 break;
             case R.id.btnDinner:
                 Toast.makeText(DietActivity.this, "저녁", Toast.LENGTH_SHORT).show();
-                intent.putExtra("user_id", "spider");
+                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 3);
                 startActivity(intent);
                 break;
             case R.id.btnSnack:
                 Toast.makeText(DietActivity.this, "간식", Toast.LENGTH_SHORT).show();
-                intent.putExtra("user_id", "spider");
+                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 4);
                 startActivity(intent);
                 break;

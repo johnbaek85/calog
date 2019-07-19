@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".Diet.DietActivity"
     android:orientation="vertical"
-    android:padding="5sp">
+    android:padding="5sp"
+    android:background="#000000">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,7 +15,8 @@
         android:layout_height="35sp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,16 +26,29 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_back"
-                android:onClick="mClick"/>
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_back" />
 
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/btnBack"
-                android:textColor="#706B6B"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:text="2019-07-01"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="7dp"
+                android:text="user_id"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
 
         </RelativeLayout>
 
@@ -45,13 +60,15 @@
         android:name="com.example.calog.Common.GraphPagerFragment"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1"/>
+        android:layout_weight="1.5"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="0px"
-        android:layout_weight="0.5"
-        android:layout_marginTop="10dp">
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded"
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/txtMorningMeal"
@@ -59,7 +76,8 @@
             android:layout_height="wrap_content"
             android:text="아침 : kcal"
             android:textSize="17sp"
-            android:gravity="center"/>
+            android:textColor="#000000"
+            android:layout_marginLeft="20dp"/>
 
         <TextView
             android:id="@+id/txtAfternoonMeal"
@@ -67,7 +85,8 @@
             android:layout_height="wrap_content"
             android:text="점심 : kcal"
             android:textSize="17sp"
-            android:gravity="center"
+            android:textColor="#000000"
+            android:layout_marginLeft="20dp"
             android:layout_below="@id/txtMorningMeal"/>
 
         <TextView
@@ -76,7 +95,8 @@
             android:layout_height="wrap_content"
             android:text="저녁 : kcal"
             android:textSize="17sp"
-            android:gravity="center"
+            android:textColor="#000000"
+            android:layout_marginLeft="20dp"
             android:layout_below="@id/txtAfternoonMeal"/>
 
         <TextView
@@ -85,7 +105,8 @@
             android:layout_height="wrap_content"
             android:text="간식 : kcal"
             android:textSize="17sp"
-            android:gravity="center"
+            android:textColor="#000000"
+            android:layout_marginLeft="20dp"
             android:layout_below="@id/txtEveningMeal"/>
 
         <Button
@@ -94,7 +115,6 @@
             android:layout_height="wrap_content"
             android:text="상세보기"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"/>
 
     </RelativeLayout>
@@ -103,7 +123,7 @@
         android:id="@+id/dietDrawer"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:layout_weight="1.5"
+        android:layout_weight="0.5"
         android:topOffset="0sp"
         android:handle="@+id/handle"
         android:content="@+id/content">
@@ -122,14 +142,14 @@
 
             <RelativeLayout
                 android:id="@+id/btnBreakfast"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:onClick="mClick">
 
                 <ImageView
                     android:id="@+id/imgBreakfast"
-                    android:layout_width="100sp"
-                    android:layout_height="100sp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/breakfast"/>
 
@@ -138,6 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="아침"
+                    android:textColor="#FFFFFF"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/imgBreakfast"/>
 
@@ -145,16 +166,16 @@
 
             <RelativeLayout
                 android:id="@+id/btnLunch"
-                android:layout_width="120sp"
-                android:layout_height="120sp"
-                android:layout_marginLeft="15dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/btnBreakfast"
                 android:onClick="mClick">
 
                 <ImageView
                     android:id="@+id/imgLunch"
-                    android:layout_width="100sp"
-                    android:layout_height="100sp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/lunch"/>
 
@@ -163,6 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="점심"
+                    android:textColor="#FFFFFF"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/imgLunch"/>
 
@@ -170,15 +192,16 @@
 
             <RelativeLayout
                 android:id="@+id/btnDinner"
-                android:layout_width="120sp"
-                android:layout_height="120sp"
-                android:layout_below="@+id/btnBreakfast"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/btnLunch"
                 android:onClick="mClick">
 
                 <ImageView
                     android:id="@+id/imgDinner"
-                    android:layout_width="100sp"
-                    android:layout_height="100sp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/dinner"/>
 
@@ -187,6 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="저녁"
+                    android:textColor="#FFFFFF"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/imgDinner"/>
 
@@ -194,17 +218,16 @@
 
             <RelativeLayout
                 android:id="@+id/btnSnack"
-                android:layout_width="120sp"
-                android:layout_height="120sp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_toRightOf="@id/btnDinner"
-                android:layout_below="@+id/btnBreakfast"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:onClick="mClick">
 
                 <ImageView
                     android:id="@+id/imgSnack"
-                    android:layout_width="100sp"
-                    android:layout_height="100sp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/snack"/>
 
@@ -213,6 +236,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="간식"
+                    android:textColor="#FFFFFF"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/imgSnack"/>
 
@@ -227,10 +251,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/browser_actions_title_color"
+        android:background="#111111"
+        app:itemIconTint="#6ADB2C"
         app:labelVisibilityMode="labeled"
-        app:itemTextColor="@color/browser_actions_title_color"
+        app:itemTextColor="#6ADB2C"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom"/>
 

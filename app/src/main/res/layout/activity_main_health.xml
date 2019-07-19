@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainHealthActivity">
+    tools:context=".MainHealthActivity"
+    android:background="#111111">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -12,36 +13,32 @@
         android:layout_height="35sp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/monthName"
+                android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="7"
-                android:textColor="#706B6B"
+                android:textColor="#FFFFFF"
                 android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/user_id"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/btnUser"
                 android:layout_alignParentRight="true"
-                android:text="user_id"/>
-
-            <ImageButton
-                android:id="@+id/btnUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_person" />
+                android:layout_marginTop="7dp"
+                android:text="user_id"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
 
         </RelativeLayout>
 
@@ -58,12 +55,12 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="#111111"
             android:backgroundTint="@android:color/transparent"
             android:elevation="0dp"
-            app:textColorNormal="#ADACAC"
-            app:selectorColor="#009688"
-            app:textColorSelected="#6B6A6A" />
+            app:textColorNormal="#ffffff"
+            app:selectorColor="#6ADB2C"
+            app:textColorSelected="#6ADB2C" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -301,10 +298,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/browser_actions_title_color"
+        android:background="#111111"
+        app:itemIconTint="#6ADB2C"
         app:labelVisibilityMode="labeled"
-        app:itemTextColor="@color/browser_actions_title_color"
+        app:itemTextColor="#6ADB2C"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom"/>
 

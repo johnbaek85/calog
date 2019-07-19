@@ -3,11 +3,15 @@ package com.example.calog.Drinking;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.net.Uri;
@@ -18,6 +22,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -34,8 +40,13 @@ import com.example.calog.Drinking.driver.UsbSerialPort;
 import com.example.calog.Drinking.driver.UsbSerialProber;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
+import com.example.calog.RemoteService;
 import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
+import com.example.calog.VO.DrinkingVO;
+import com.example.calog.VO.UserVO;
 import com.example.calog.WordCloud.WordCloudActivity;
+import com.example.calog.signUp.MainJoinActivity;
+import com.example.calog.signUp.UpdateUserInfoActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
 
@@ -43,6 +54,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.calog.RemoteService.BASE_URL;
 
 public class DrinkingCheckActivity extends AppCompatActivity
 {
@@ -63,6 +82,7 @@ public class DrinkingCheckActivity extends AppCompatActivity
 
     //아두이노 결과값
     private String resultA;
+    private double dubResultA;
 
     Intent intent;
 
@@ -71,11 +91,161 @@ public class DrinkingCheckActivity extends AppCompatActivity
     Uri uriFile;
     BottomNavigationView bottomNavigationView;
 
+    Retrofit retrofit;
+    RemoteService rs;
+
+    UserVO user;
+
+    TextView txtDate;
+
+    //TODO user용 toolbar 관련
+    TextView user_id;
+    String strUser_id;
+    Toolbar toolbar;
+    SharedPreferences pref;
+    boolean logInStatus = false;
+
+    //=============TODO 로그인 관련
+    //옵션 메뉴 user 로그인 여부
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.loginmenu, menu);
+        return true;
+    }
+
+    //로그인 상태
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (logInStatus) { // 로그인 한 상태: 로그인은 안보이게, 로그아웃은 보이게
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+            menu.getItem(3).setVisible(true);
+        } else { // 로그 아웃 한 상태 : 로그인 보이게, 로그아웃은 안보이게
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+            menu.getItem(3).setVisible(false);
+
+        }
+
+        //logInStatus = !logInStatus;   // 값을 반대로 바꿈
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    //로그인, 회원정보 수정, 회원 탈퇴
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.login:
+                intent = new Intent(DrinkingCheckActivity.this, MainJoinActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.logout:
+                Toast.makeText(this, "로그아웃이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                //로그인 정보 프레퍼런스에 로그인정보 삭제
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("user_id", "");
+                editor.commit();
+                user_id.setText("");
+                logInStatus = false;
+                break;
+
+            case R.id.adjust:
+                Call<UserVO> call = rs.readUser(strUser_id);
+                call.enqueue(new Callback<UserVO>() {
+                    @Override
+                    public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                        user = response.body();
+
+                        intent = new Intent(DrinkingCheckActivity.this, UpdateUserInfoActivity.class);
+
+                        intent.putExtra("user_id", user.getUser_id());
+                        intent.putExtra("password", user.getPassword());
+                        intent.putExtra("email", user.getEmail());
+                        intent.putExtra("name", user.getName());
+                        intent.putExtra("phone", user.getPhone());
+                        intent.putExtra("birthday", user.getBirthday());
+                        intent.putExtra("gender", user.getGender());
+                        intent.putExtra("height", user.getHeight());
+                        intent.putExtra("weight", user.getWeight());
+                        intent.putExtra("bmi", user.getBmi());
+                        intent.putExtra("address", user.getAddress());
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserVO> call, Throwable t) {
+                        System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
+                    }
+                });
+                break;
+
+            case R.id.withdraw:
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+                builder.setTitle("회원탈퇴");
+                builder.setMessage("탈퇴하시겠습니까?");
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Call<Void> call = rs.deleteUser(strUser_id);
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(DrinkingCheckActivity.this,
+                                        "회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString("user_id", "");
+                                editor.commit();
+                                user_id.setText("");
+                                logInStatus = false;
+
+                                intent = new Intent(DrinkingCheckActivity.this, MainJoinActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(DrinkingCheckActivity.this,
+                                "회원탈퇴가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
+
+                break;
+        }
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drinkingcheck);
+
+        //TODO status Bar 색상변경
+        View view = getWindow().getDecorView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (view != null) {
+                //view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#000000"));
+            }
+        }
 
         //TODO 뒤로가기 이벤트
         ImageView btnBack= findViewById(R.id.btnBack);
@@ -88,8 +258,33 @@ public class DrinkingCheckActivity extends AppCompatActivity
             }
         });
 
+        intent = getIntent();
+
+        txtDate = findViewById(R.id.txtDate);
+        txtDate.setText(intent.getStringExtra("select_date"));
+
         circleProgress=findViewById(R.id.circleProgress);
         checkText=findViewById(R.id.checkText);
+
+        //TODO toolbar 적용
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        user_id = findViewById(R.id.user_id);
+        //TODO sharedpreference에서 userid 값 받아옴
+        pref = getSharedPreferences("pjLogin", MODE_PRIVATE);
+
+        //TODO User Login
+        //로그인 정보 프레퍼런스에서 불러오기
+        strUser_id = pref.getString("user_id", "");
+        user_id.setText(strUser_id);
+
+        if (strUser_id.equals("")) {
+            user_id.setText("");
+            logInStatus = false;
+        } else {
+            user_id.setText(strUser_id + "님 환영합니다!");
+            logInStatus = true;
+        }
 
         //클릭시 알콜측정 이벤트
         checkText.setOnClickListener(new View.OnClickListener()
@@ -123,6 +318,10 @@ public class DrinkingCheckActivity extends AppCompatActivity
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(DrinkingCheckActivity.this, WordCloudActivity.class);
+
+                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
                         startActivity(intent);
                         break;
                     }
@@ -131,11 +330,19 @@ public class DrinkingCheckActivity extends AppCompatActivity
 //                                 Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(DrinkingCheckActivity.this, DrinkingCheckActivity.class);
+
+                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
                         startActivity(intent);
                         break;
                     }
                     case R.id.HomeMenu:{
                         intent = new Intent(DrinkingCheckActivity.this, MainHealthActivity.class);
+
+                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
                         startActivity(intent);
                         break;
                     }
@@ -143,6 +350,10 @@ public class DrinkingCheckActivity extends AppCompatActivity
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(DrinkingCheckActivity.this, SleepCheckActivity.class);
+
+                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
                         startActivity(intent);
                         break;
                     }
@@ -298,6 +509,7 @@ public class DrinkingCheckActivity extends AppCompatActivity
             mSerialConn.finalize();
 
             //결과데이터 출력
+            dubResultA = Double.valueOf(resultA);
             checkText.setText(resultA);
 
             //캔슬버튼
@@ -317,7 +529,31 @@ public class DrinkingCheckActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v)
                 {
-                    Toast.makeText(getApplicationContext(), "DB에 데이터 저장", Toast.LENGTH_SHORT).show();
+                    retrofit = new Retrofit.Builder() //Retrofit 빌더생성
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
+
+                    DrinkingVO vo=new DrinkingVO();
+                    vo.setUser_id("spider");
+                    vo.setAlcohol_content(dubResultA);
+
+
+                    //TODO Drinking INSERT 작업
+                    Call<Void> call = rs.UserDrinkInsert(vo);
+                    call.enqueue(new Callback<Void>()
+                    {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            Toast.makeText(DrinkingCheckActivity.this, "DB에 데이터 저장되었습니다", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(DrinkingCheckActivity.this, "error:"+t.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }
