@@ -302,7 +302,7 @@ public class FoodRegisterActivity extends AppCompatActivity {
 
                         intent = new Intent(FoodRegisterActivity.this, WordCloudActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -314,7 +314,7 @@ public class FoodRegisterActivity extends AppCompatActivity {
 
                         intent = new Intent(FoodRegisterActivity.this, DrinkingCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -323,7 +323,7 @@ public class FoodRegisterActivity extends AppCompatActivity {
                     case R.id.HomeMenu: {
                         intent = new Intent(FoodRegisterActivity.this, MainHealthActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -334,7 +334,7 @@ public class FoodRegisterActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(FoodRegisterActivity.this, SleepCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);

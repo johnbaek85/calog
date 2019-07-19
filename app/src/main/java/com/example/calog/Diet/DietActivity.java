@@ -283,7 +283,7 @@ public class DietActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(DietActivity.this, DietDailyDetailActivity.class);
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
 
                 startActivity(intent);

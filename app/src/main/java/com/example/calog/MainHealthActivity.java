@@ -338,7 +338,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = dateFormat.format(longDate);
 
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", selectedDate);
 
                 startActivity(intent);
@@ -357,7 +357,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = dateFormat.format(longDate);
 
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", selectedDate);
 
                 startActivity(intent);
@@ -376,7 +376,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = dateFormat.format(longDate);
 
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", selectedDate);
 
                 startActivity(intent);
@@ -394,7 +394,7 @@ public class MainHealthActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = dateFormat.format(longDate);
 
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", selectedDate);
 
                 startActivity(intent);

@@ -1,5 +1,6 @@
 package com.example.calog.signUp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,11 +28,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.calog.Drinking.DrinkingCheckActivity;
 import com.example.calog.Fitness.SearchFitnessActivity;
 import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.example.calog.RemoteService;
+import com.example.calog.Sleeping.DecibelCheck.SleepCheckActivity;
 import com.example.calog.VO.UserVO;
+import com.example.calog.WordCloud.WordCloudActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
 
@@ -532,6 +536,79 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
 
             }
         });
+
+        //TODO 하단 메뉴설정
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
+
+                switch (item.getItemId())
+                {
+                    case R.id.rankingMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        intent = new Intent(UpdateUserInfoActivity.this, WordCloudActivity.class);
+
+                        intent.putExtra("user_id", strUser_id);
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.drinkingMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "알콜 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        intent = new Intent(UpdateUserInfoActivity.this, DrinkingCheckActivity.class);
+
+                        intent.putExtra("user_id", strUser_id);
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.HomeMenu:{
+                        intent = new Intent(UpdateUserInfoActivity.this, MainHealthActivity.class);
+
+                        intent.putExtra("user_id", strUser_id);
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.sleepMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+                        intent = new Intent(UpdateUserInfoActivity.this, SleepCheckActivity.class);
+
+                        intent.putExtra("user_id", strUser_id);
+                        intent.putExtra("select_date", txtDate.getText().toString());
+
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.shareMenu: {
+//                         Toast.makeText(MainHealthActivity.this, "공유 Activity로 이동",
+//                                 Toast.LENGTH_SHORT).show();
+
+                        View rootView = getWindow().getDecorView();
+                        screenShot = ScreenShot(rootView);
+                        uriFile = Uri.fromFile(screenShot);
+                        if(screenShot != null) {
+                            Crop.of(uriFile, uriFile).asSquare().start(UpdateUserInfoActivity.this, 100);
+                        }
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+
     }
 
     //TODO 하단 메뉴설정
