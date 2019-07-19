@@ -291,7 +291,6 @@ public class DietActivity extends AppCompatActivity {
         });
 
         SlidingDrawer dietDrawer = findViewById(R.id.dietDrawer);
-        dietDrawer.animateClose();
 
         Call<List<DietFourMealTotalVO>> call = rs.userDietDailyCalorie(intent.getStringExtra("user_id"), intent.getStringExtra("select_date"));
         call.enqueue(new Callback<List<DietFourMealTotalVO>>() {
@@ -336,7 +335,7 @@ public class DietActivity extends AppCompatActivity {
 
                         intent = new Intent(DietActivity.this, WordCloudActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -348,7 +347,7 @@ public class DietActivity extends AppCompatActivity {
 
                         intent = new Intent(DietActivity.this, DrinkingCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -357,7 +356,7 @@ public class DietActivity extends AppCompatActivity {
                     case R.id.HomeMenu:{
                        intent = new Intent(DietActivity.this, MainHealthActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                        startActivity(intent);
@@ -368,7 +367,7 @@ public class DietActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(DietActivity.this, SleepCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -397,28 +396,28 @@ public class DietActivity extends AppCompatActivity {
         switch (view.getId()){
             case R.id.btnBreakfast:
                 Toast.makeText(DietActivity.this, "아침", Toast.LENGTH_SHORT).show();
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 1);
                 startActivity(intent);
                 break;
             case R.id.btnLunch:
                 Toast.makeText(DietActivity.this, "점심", Toast.LENGTH_SHORT).show();
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 2);
                 startActivity(intent);
                 break;
             case R.id.btnDinner:
                 Toast.makeText(DietActivity.this, "저녁", Toast.LENGTH_SHORT).show();
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 3);
                 startActivity(intent);
                 break;
             case R.id.btnSnack:
                 Toast.makeText(DietActivity.this, "간식", Toast.LENGTH_SHORT).show();
-                intent.putExtra("user_id", user_id.getText().toString());
+                intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 4);
                 startActivity(intent);

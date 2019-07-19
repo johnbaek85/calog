@@ -49,7 +49,8 @@ class MyFoodFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 adapter.insertFood(user_id, diet_type_id);
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> MyFoodFragment user_id(Insert 버튼) : " + user_id);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> MyFoodFragment user_id(Insert 버튼) : " + user_id
+                        + " + 날짜 : " + intent.getStringExtra("select_date") + " + diet_type_id : " + diet_type_id);
             }
         });
 

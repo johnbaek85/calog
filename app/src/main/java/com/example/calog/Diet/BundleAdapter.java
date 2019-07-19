@@ -104,6 +104,8 @@ public class BundleAdapter extends RecyclerView.Adapter<BundleAdapter.ViewHolder
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(context, "저장되었습니다.",
+                                Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -113,8 +115,6 @@ public class BundleAdapter extends RecyclerView.Adapter<BundleAdapter.ViewHolder
                 });
             }
         }
-        Toast.makeText(context, "저장되었습니다.",
-                Toast.LENGTH_SHORT).show();
     }
 
     @Override
