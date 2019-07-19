@@ -43,11 +43,13 @@ class MyFoodFragment extends Fragment {
 
         user_id = intent.getStringExtra("user_id");
         diet_type_id = intent.getIntExtra("diet_type_id", 0);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> MyFoodFragment user_id : " + user_id);
 
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 adapter.insertFood(user_id, diet_type_id);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> MyFoodFragment user_id(Insert 버튼) : " + user_id);
             }
         });
 

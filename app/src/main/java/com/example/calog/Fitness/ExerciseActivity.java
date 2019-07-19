@@ -379,7 +379,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
 
                         intent = new Intent(ExerciseActivity.this, WordCloudActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -391,7 +391,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
 
                         intent = new Intent(ExerciseActivity.this, DrinkingCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -400,7 +400,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
                     case R.id.HomeMenu:{
                         intent = new Intent(ExerciseActivity.this, MainHealthActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -411,7 +411,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(ExerciseActivity.this, SleepCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);

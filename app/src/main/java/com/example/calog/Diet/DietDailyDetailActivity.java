@@ -271,12 +271,12 @@ public class DietDailyDetailActivity extends AppCompatActivity {
                 .build();
         rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
 
-        Call<List<UserDietViewVO>> call = rs.userDietDailyMenu(intent.getStringExtra("user_id"), intent.getStringExtra("select_date"));
+        Call<List<UserDietViewVO>> call = rs.userDietDailyMenu(strUser_id, intent.getStringExtra("select_date"));
         call.enqueue(new Callback<List<UserDietViewVO>>() {
             @Override
             public void onResponse(Call<List<UserDietViewVO>> call, Response<List<UserDietViewVO>> response) {
                 userDietDailyMenuArray = response.body();
-                System.out.println("<<<<<<<<<<<<<<<<<< Error :" + userDietDailyMenuArray.size());
+                System.out.println("<<<<<<<<<<<<<<<<<< userDietDailyMenuArray.size :" + userDietDailyMenuArray.size());
                 adapter = new DietDailyMenuAdapter(DietDailyDetailActivity.this, userDietDailyMenuArray);
                 userDietDailyMenuList.setAdapter(adapter);
             }
@@ -304,7 +304,7 @@ public class DietDailyDetailActivity extends AppCompatActivity {
 
                         intent = new Intent(DietDailyDetailActivity.this, WordCloudActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -316,7 +316,7 @@ public class DietDailyDetailActivity extends AppCompatActivity {
 
                         intent = new Intent(DietDailyDetailActivity.this, DrinkingCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -325,7 +325,7 @@ public class DietDailyDetailActivity extends AppCompatActivity {
                     case R.id.HomeMenu:{
                         intent = new Intent(DietDailyDetailActivity.this, MainHealthActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         finish();
@@ -337,7 +337,7 @@ public class DietDailyDetailActivity extends AppCompatActivity {
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(DietDailyDetailActivity.this, SleepCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);

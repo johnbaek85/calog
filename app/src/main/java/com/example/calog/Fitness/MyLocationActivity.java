@@ -271,7 +271,7 @@ public class MyLocationActivity extends FragmentActivity implements OnMapReadyCa
 
                         intent = new Intent(MyLocationActivity.this, WordCloudActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -283,7 +283,7 @@ public class MyLocationActivity extends FragmentActivity implements OnMapReadyCa
 
                         intent = new Intent(MyLocationActivity.this, DrinkingCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -292,7 +292,7 @@ public class MyLocationActivity extends FragmentActivity implements OnMapReadyCa
                     case R.id.HomeMenu:{
                         intent = new Intent(MyLocationActivity.this, MainHealthActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
@@ -303,7 +303,7 @@ public class MyLocationActivity extends FragmentActivity implements OnMapReadyCa
 //                                 Toast.LENGTH_SHORT).show();
                         intent = new Intent(MyLocationActivity.this, SleepCheckActivity.class);
 
-                        intent.putExtra("user_id", user_id.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
                         startActivity(intent);
