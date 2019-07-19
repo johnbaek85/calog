@@ -42,21 +42,19 @@ public class DietDailyMenuAdapter extends RecyclerView.Adapter<DietDailyMenuAdap
         holder.txtCalorie.setText(userDietdailyMenu.get(position).getSum_calorie() + "kcal");
 
         if(userDietdailyMenu.get(position).getDiet_type_id() == 1){
-            holder.itemMenu.setBackgroundColor(Color.rgb(255, 255, 204));
+            holder.itemMenu.setBackgroundColor(Color.rgb(255, 255, 255));
             holder.txtMenuName.setTextColor(Color.rgb(000, 000, 000));
             holder.txtCalorie.setTextColor(Color.rgb(000, 000, 000));
         }else if(userDietdailyMenu.get(position).getDiet_type_id() == 2){
-            holder.itemMenu.setBackgroundColor(Color.rgb(204, 255, 204));
-            holder.txtMenuName.setTextColor(Color.rgb(000, 000, 000));
-            holder.txtCalorie.setTextColor(Color.rgb(000, 000, 000));
+            holder.txtMenuName.setTextColor(Color.rgb(255, 255, 255));
+            holder.txtCalorie.setTextColor(Color.rgb(255, 255, 255));
         }else if(userDietdailyMenu.get(position).getDiet_type_id() == 3){
-            holder.itemMenu.setBackgroundColor(Color.rgb(204, 255, 255));
+            holder.itemMenu.setBackgroundColor(Color.rgb(255, 255, 255));
             holder.txtMenuName.setTextColor(Color.rgb(000, 000, 000));
             holder.txtCalorie.setTextColor(Color.rgb(000, 000, 000));
         }else if(userDietdailyMenu.get(position).getDiet_type_id() == 4){
-            holder.itemMenu.setBackgroundColor(Color.rgb(255, 204, 255));
-            holder.txtMenuName.setTextColor(Color.rgb(000, 000, 000));
-            holder.txtCalorie.setTextColor(Color.rgb(000, 000, 000));
+            holder.txtMenuName.setTextColor(Color.rgb(255, 255, 255));
+            holder.txtCalorie.setTextColor(Color.rgb(255, 255, 255));
         }
     }
 

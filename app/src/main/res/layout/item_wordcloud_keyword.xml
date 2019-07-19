@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="5dp"
         android:paddingHorizontal="3dp"
         android:paddingVertical="1dp">
 
@@ -23,11 +22,7 @@
             android:maxLines="1"
             android:padding="1dp"
             android:text="Title : "
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
 

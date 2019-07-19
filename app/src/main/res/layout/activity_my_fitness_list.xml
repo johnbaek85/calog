@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fitness.MyFitnessListActivity">
+    tools:context=".Fitness.MyFitnessListActivity"
+    android:background="#000000">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,7 +14,8 @@
         android:layout_height="35sp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,16 +25,29 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/icon_back" />
 
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/btnBack"
+                android:layout_centerVertical="true"
                 android:text="2019-07-01"
-                android:textColor="#706B6B" />
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="7dp"
+                android:text="user_id"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
 
         </RelativeLayout>
 
@@ -44,6 +59,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="오늘 실행한 운동목록"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:layout_below="@id/toolbar"/>
 
@@ -62,10 +78,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/browser_actions_title_color"
+        android:background="#111111"
+        app:itemIconTint="#6ADB2C"
         app:labelVisibilityMode="labeled"
-        app:itemTextColor="@color/browser_actions_title_color"
+        app:itemTextColor="#6ADB2C"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom"/>
 

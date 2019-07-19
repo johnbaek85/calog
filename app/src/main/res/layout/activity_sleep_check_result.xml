@@ -5,46 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Sleeping.DecibelCheck.SleepCheckActivity">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="35sp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/monthName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="35sp"
-                android:text="수면체크결과"
-                android:textColor="#706B6B"
-                android:textSize="15sp" />
-
-            <!--<ImageView-->
-                <!--android:id="@+id/btnBack"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/icon_back"-->
-                <!--android:layout_alignParentLeft="true"/>-->
-
-            <!--<ImageView-->
-                <!--android:id="@+id/btnHome"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/ic_home"-->
-                <!--android:layout_alignParentRight="true"/>-->
-        </RelativeLayout>
-    </androidx.appcompat.widget.Toolbar>
+    tools:context=".Sleeping.DecibelCheck.SleepCheckActivity"
+    android:background="#000000">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +32,8 @@
             android:layout_height="0sp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="총 수면 시간:" />
+            android:text="총 수면 시간:"
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/SleepSnoring"
@@ -79,7 +42,8 @@
             android:layout_below="@+id/TotalSleep"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="총 코골이 시간:" />
+            android:text="총 코골이 시간:"
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/SleepDecibel"
@@ -88,7 +52,8 @@
             android:layout_below="@+id/SleepSnoring"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="평균 소음" />
+            android:text="평균 소음"
+            android:textColor="#FFFFFF"/>
 
         <TextView
             android:id="@+id/SleepQuality"
@@ -97,7 +62,8 @@
             android:layout_below="@id/SleepDecibel"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="수면의 질" />
+            android:text="수면의 질"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Diet.DietDailyDetailActivity">
+    tools:context=".Diet.DietDailyDetailActivity"
+    android:background="#000000">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -12,7 +13,8 @@
         android:layout_height="35sp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,15 +24,29 @@
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_back"/>
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_back" />
 
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/btnBack"
-                android:textColor="#706B6B"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:text="2019-07-01"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="7dp"
+                android:text="user_id"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"/>
 
         </RelativeLayout>
 
@@ -49,7 +65,7 @@
             android:id="@+id/morning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFCC"
+            android:background="#FFFFFF"
             android:layout_marginRight="10dp">
 
             <TextView
@@ -64,7 +80,6 @@
             android:id="@+id/afternoon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#CCFFCC"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/morning">
 
@@ -72,6 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="점심"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"/>
 
         </RelativeLayout>
@@ -80,7 +96,7 @@
             android:id="@+id/evening"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#CCFFFF"
+            android:background="#FFFFFF"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/afternoon">
 
@@ -96,7 +112,6 @@
             android:id="@+id/side"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFCCFF"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/evening">
 
@@ -104,6 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="간식"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"/>
 
         </RelativeLayout>
@@ -128,10 +144,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:itemIconTint="@color/browser_actions_title_color"
+        android:background="#111111"
+        app:itemIconTint="#6ADB2C"
         app:labelVisibilityMode="labeled"
-        app:itemTextColor="@color/browser_actions_title_color"
+        app:itemTextColor="#6ADB2C"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_bottom"/>
 

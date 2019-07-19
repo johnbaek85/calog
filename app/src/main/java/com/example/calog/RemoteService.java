@@ -28,16 +28,19 @@ public interface RemoteService {
     @GET("user/list.jsp")
     Call<List<UserVO>> listUser();
 
-    @GET("join/read")
-    Call<UserVO> readUser(@Query("user_id") String user_id, @Query("password") String password);
+    @GET("user/login")
+    Call<UserVO> userLogin(@Query("user_id") String user_id, @Query("password") String password);
 
-    @POST("join/insert")
+    @GET("user/read")
+    Call<UserVO> readUser(@Query("user_id") String user_id);
+
+    @POST("user/insert")
     Call<Void> insertUser(@Body UserVO vo);
 
-    @POST("user/delete.jsp")
-    Call<Void> deleteUser(@Query("userid") String userid);
+    @POST("user/delete")
+    Call<Void> deleteUser(@Query("user_id") String user_id);
 
-    @POST("user/update.jsp")
+    @POST("user/update")
     Call<Void> updateUser(@Body UserVO vo);
 
     //User Diet Total calories
@@ -96,6 +99,10 @@ public interface RemoteService {
     //sleep
     @POST("UserSleepInsert")
     Call<Void> sleepResultInsert(@Body SleepingVO vo);
+
+    //drinking
+    @POST("UserDrinkInsert")
+    Call<Void> UserDrinkInsert(@Body DrinkingVO vo);
 
 
     ////////////////// TODO 그래프용 restAPI ////////////////////////////////

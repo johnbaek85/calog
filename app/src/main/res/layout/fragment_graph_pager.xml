@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Common.GraphPagerFragment">
+    tools:context=".Common.GraphPagerFragment"
+    android:background="#FFFFFF">
 
     <ProgressBar
         android:id="@+id/progress_circular"

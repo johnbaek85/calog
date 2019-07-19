@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -85,6 +86,16 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
         init();
         init_View();
 
+        //TODO status Bar 색상변경
+        View view = getWindow().getDecorView();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (view != null) {
+                //view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.parseColor("#000000"));
+            }
+        }
+
         user_id = findViewById(R.id.user_id);
         password = findViewById(R.id.password);
 
@@ -112,7 +123,7 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
 
-                Call<UserVO> call = rs.readUser(user_id.getText().toString(), password.getText().toString());
+                Call<UserVO> call = rs.userLogin(user_id.getText().toString(), password.getText().toString());
                 call.enqueue(new Callback<UserVO>() {
                     @Override
                     public void onResponse(Call<UserVO> call, Response<UserVO> response) {
@@ -123,14 +134,13 @@ public class MainJoinActivity extends AppCompatActivity implements View.OnClickL
                         SharedPreferences pref = getSharedPreferences("pjLogin", 0);
                         // edit 만들기
                         SharedPreferences.Editor edit = pref.edit();
-
                         edit.putString("user_id", user.getUser_id().toString());
-                        edit.putString("password", user.getPassword().toString());
                         edit.commit();
 
                         //Toast.makeText(MainJoinActivity.this ,user.getUser_id().toString(), Toast.LENGTH_SHORT).show();
 
                         intent = new Intent(MainJoinActivity.this, MainHealthActivity.class);
+                        //intent.putExtra("loginStatus", true);
                         startActivity(intent);
                     }
 
