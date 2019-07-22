@@ -73,7 +73,8 @@ public class WordCloudActivity extends AppCompatActivity {
     WordCloudAdapter adapter;
 
     // 크롤링 변수
-    private String keyWordPageUrl = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
+    //private String keyWordPageUrl = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
+    private String keyWordPageUrl = "https://datalab.naver.com/keyword/realtimeList.naver?period=1h";
     // 웹뷰 링크 변수
     WebView webView;
     String link;
@@ -371,7 +372,8 @@ public class WordCloudActivity extends AppCompatActivity {
         set.setBuiltInZoomControls(true);
         // 웹뷰 첫 페이지에 보여줄 페이지
         if (link == null) {
-            link = "https://terms.naver.com/list.nhn?cid=51001&categoryId=51001";
+            ////////////////////////////////////////////////////////////////////////////////////////////////// 아래 부분에 초기 주소 입력
+            link = "https://m.naver.com";
             webView.loadUrl(link);
         } else {
             webView.loadUrl(link);
@@ -385,7 +387,7 @@ public class WordCloudActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         File cropFile = screenShot;
 
-        if(requestCode ==100){
+        if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 cropFile = new File(Crop.getOutput(data).getPath());
             }
@@ -403,7 +405,7 @@ public class WordCloudActivity extends AppCompatActivity {
         }
     }
 
-    public File ScreenShot(View view){
+    public File ScreenShot(View view) {
         view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
         Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
         String filename = "screenshot.png";
@@ -412,11 +414,11 @@ public class WordCloudActivity extends AppCompatActivity {
         System.out.println("..........." + filename);
         //Pictures폴더 screenshot.png 파일
         FileOutputStream os = null;
-        try{
+        try {
             os = new FileOutputStream(file);
             screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
             os.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
             return null;
         }
@@ -467,22 +469,31 @@ public class WordCloudActivity extends AppCompatActivity {
             array = new ArrayList<>();
 
             try {
-                Document doc = Jsoup.connect(keyWordPageUrl).get();
-                //  System.out.println(keyWordPageUrl); // 주소값 체크
-                Elements elements = doc.select("ul.content_list li");
+                Document doc = Jsoup.connect(keyWordPageUrl).get(); // keywordPageURL 페이지로 이동
+                System.out.println(keyWordPageUrl); // 주소값 체크
+                // 원하는 데이터가 있는 엘리먼트 선택 (표나 차트 등) , 다른 엘리먼트와 겹치는 부분이 없도록.
+                Elements elements = doc.select("div.rank_inner div.rank_scroll ul li");
+
                 int i = 1;
-                for (Element e : elements.select(".title")) {
+                // 엘리먼트 내의 가져올 엘리먼트와 엘리먼트의 클래스 이름
+                for (Element e : elements.select("span.title")) {
                     CrawlingVO vo = new CrawlingVO();
                     // VO에 저장, 타이틀은 "]"의 인덱스 번호 +1 까지만
-                    String title = e.select("strong.title").text();
-                    int idx = title.indexOf("]");
+                    String title = e.text();
 
-                    // [] 가 없는 경우에 전부 널값이 들어간다... 수정 필요 //////////////////////////////
-                    title = (i + ". ") + title.substring(0, idx + 1);
+                    vo.setLink("https://search.naver.com/search.naver?where=nexearch&query=" + title + "&ie=utf8");
+                    System.out.println("title >>>>>>>>>>>>>>>>>>>>>> " + title); //
+                    /*int idx = title.indexOf("]");
+                    title = (i + ". ") + title.substring(0, idx + 1);*/
+
                     vo.setTitle(title);
-                    vo.setLink(e.select("a[href]").attr("href"));
+                    // vo.setLink(e.select("a[href]").attr("href"));
                     array.add(vo);
 
+                    // 콘솔에 엘리멘트들의 값을 모두 찍기 (elements)
+                    // Log.d("", e.text());
+                    // 안드로이드 화면에 엘리멘트들의 값을  찍기 (element)
+                    // htmlContentInStringFormat += i + ". " + vo.getTitle() + "\n";
                     // 콘솔에 엘리멘트들의 값을 모두 찍기 (elements)
                     // Log.d("", e.text());
                     // 안드로이드 화면에 엘리멘트들의 값을  찍기 (element)
@@ -491,11 +502,30 @@ public class WordCloudActivity extends AppCompatActivity {
                         break;
                     }
                     i++;
-
-                    // Vo에 담긴 테이터 체크     System.out.println("vo data check:................" + vo.toString());
+                    System.out.println("vo data check:................" + vo.toString());   // Vo에 담긴 테이터 체크
                 }
+                System.out.println("size of Vo Array check: " + array.size());
 
-                // System.out.println("size of Vo Array check: " + array.size());
+/*   // 백업 운동 카테고리에서 크롤링 하기
+                Elements elements = doc.select("ul.content_list li");
+                int i = 1;
+                for (Element e : elements.select(".title")) {
+                    CrawlingVO vo = new CrawlingVO();
+                    // VO에 저장, 타이틀은 "]"의 인덱스 번호 +1 까지만
+                    String title = e.select("strong.title").text();
+                    int idx = title.indexOf("]");
+                    // [] 가 없는 경우에 전부 널값이 들어간다... 수정 필요 //////////////////////////////
+                    title = (i + ". ") + title.substring(0, idx + 1);
+                    vo.setTitle(title);
+                    vo.setLink(e.select("a[href]").attr("href"));
+                    array.add(vo);
+                    if (i == 10) {
+                        break;
+                    }
+                    i++;
+                }
+                */
+
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.d("error", e.toString());

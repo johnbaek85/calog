@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class WordCloudAdapter extends RecyclerView.Adapter<WordCloudAdapter.ItemViewHolder> {
     Context context;
     ArrayList<CrawlingVO> array;
-    String siteUrl = "https://terms.naver.com";
+    //String siteUrl = "https://search.naver.com";
 
     public WordCloudAdapter(Context context, ArrayList<CrawlingVO> array) {
         this.context = context;
@@ -43,10 +43,10 @@ public class WordCloudAdapter extends RecyclerView.Adapter<WordCloudAdapter.Item
             @Override
             public void onClick(View v) {
 
-                String link = siteUrl + array.get(position).getLink();
+                String link =  array.get(position).getLink();
                 Intent intent = new Intent(context, WordCloudActivity.class);
                 // 링크 주소 확인
-                //   System.out.println("adapter Link : " + link);
+                 // System.out.println("adapter Link<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< : " + link);
                 intent.putExtra("Link", link);
 
                 context.startActivity(intent);
