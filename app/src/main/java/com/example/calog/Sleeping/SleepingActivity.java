@@ -315,8 +315,8 @@ public class SleepingActivity extends AppCompatActivity {
                 //오류 가능
                 Intent gointent = new Intent(SleepingActivity.this, SleepCheckActivity.class);
 
-                intent.putExtra("user_id", user_id.getText().toString());
-                intent.putExtra("select_date", txtDate.getText().toString());
+                gointent.putExtra("user_id", strUser_id);
+                gointent.putExtra("select_date", txtDate.getText().toString());
 
                 startActivity(gointent);
             }

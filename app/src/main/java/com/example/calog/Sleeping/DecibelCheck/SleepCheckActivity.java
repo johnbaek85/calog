@@ -379,9 +379,13 @@ public class SleepCheckActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         //값 보내기
 
+                        intent = getIntent();
+
                         int SleepSeconds = timeput;
                         SleepingVO vo = new SleepingVO();
-                        vo.setUser_id("spider");
+                        vo.setUser_id(strUser_id);
+                        vo.setSleeping_date(txtDate.getText().toString());
+                        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>수면체크 : " + txtDate.getText().toString());
                         vo.setSleeping_seconds(SleepSeconds);
                         vo.setSnoring_seconds(2000);
 

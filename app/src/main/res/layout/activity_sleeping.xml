@@ -82,7 +82,7 @@
             android:layout_below="@+id/timepicker"
             android:layout_centerInParent="true"
             android:layout_marginTop="15dp"
-            android:text="버튼" />
+            android:text="수면시작" />
 
 
     </RelativeLayout>
