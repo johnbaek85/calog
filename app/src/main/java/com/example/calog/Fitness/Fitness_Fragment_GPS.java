@@ -73,7 +73,6 @@ public class Fitness_Fragment_GPS extends Fragment
         return view;
     }
 
-    //gps 권한요청
     private void getMyLocation() {
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -89,4 +88,6 @@ public class Fitness_Fragment_GPS extends Fragment
             }
         }
     }
+
+
 }
