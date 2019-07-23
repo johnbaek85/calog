@@ -690,6 +690,9 @@ public class MainHealthActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.HomeMenu);
     }*/
 
+    //gps 권한요청
+
+
 
 }
 

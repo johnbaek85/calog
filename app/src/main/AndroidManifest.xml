@@ -22,9 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity"/>
+       <!-- <activity android:name=".MainActivity"/>-->
         <activity android:name=".signUp.UpdateUserInfoActivity" />
-        <activity android:name=".Fitness.MyLocationActivity" />
+       <!-- <activity android:name=".Fitness.MyLocationActivity" />-->
         <activity android:name=".Fitness.MyFitnessListActivity" />
         <activity android:name=".Fitness.ExerciseActivity"/>
         <activity android:name=".Fitness.SearchFitnessActivity" />
@@ -67,9 +67,9 @@
             sign the APK for publishing.
             You can define the keys for the debug and release targets in src/debug/ and src/release/.
             -->
-            <meta-data
+            <!--<meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="@string/google_maps_key" />
+                android:value="@string/google_maps_key" />-->
         </activity>
 
         <receiver android:name=".Sleeping.Alarm_Reciver" />

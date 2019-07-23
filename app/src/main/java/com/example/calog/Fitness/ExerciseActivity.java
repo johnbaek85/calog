@@ -89,7 +89,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.calog.RemoteService.BASE_URL;
 
-public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class ExerciseActivity extends AppCompatActivity{
     ImageView btnBack, btnMAinShortcut;
     Intent intent;
     Chronometer timeElapse;
@@ -343,8 +343,8 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
                     .findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);*/
 
-            distanceArray = new ArrayList<Location>();
-            createLocationRequest();
+          /*  distanceArray = new ArrayList<Location>();
+            createLocationRequest();*/
 
         }
         //뒤로가기
@@ -445,9 +445,11 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
                 return true;
             }
         });
+
+
     }
 
-    @Override
+    /*@Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -521,7 +523,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
 
-    }
+    }*/
 
 
     //초마다 칼로리 계산 및 데이터 업데이트 thread
