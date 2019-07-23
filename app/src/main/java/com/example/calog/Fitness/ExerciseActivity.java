@@ -772,6 +772,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
 
         FitnessVO vo = new FitnessVO();
         vo.setUser_id(str_user_id);
+        vo.setFitness_date(intent.getStringExtra("select_date"));
         vo.setFitness_menu_id(fitness_menu_id);
         vo.setFitness_seconds(fitness_seconds);
         vo.setUsed_calorie(used_calorie);

@@ -50,6 +50,7 @@ import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -267,7 +268,7 @@ public class DietActivity extends AppCompatActivity {
         }
 
         //TODO Graph backthread
-        GraphBackThread graphBackThread=new GraphBackThread();
+        GraphBackThread graphBackThread = new GraphBackThread();
         graphBackThread.execute();
 
         txtDate = findViewById(R.id.txtDate);
@@ -295,40 +296,36 @@ public class DietActivity extends AppCompatActivity {
         Call<List<DietFourMealTotalVO>> call = rs.userDietDailyCalorie(intent.getStringExtra("user_id"), intent.getStringExtra("select_date"));
         call.enqueue(new Callback<List<DietFourMealTotalVO>>() {
             @Override
-            public void onResponse(Call<List<DietFourMealTotalVO>> call, Response<List<DietFourMealTotalVO>> response)
-            {
+            public void onResponse(Call<List<DietFourMealTotalVO>> call, Response<List<DietFourMealTotalVO>> response) {
                 dailyCalorie = new ArrayList<DietFourMealTotalVO>();
                 dailyCalorie = response.body();
 
-                try{
+                try {
 
                     txtMorningMeal.setText("아침 :   " + dailyCalorie.get(0).getSum_calorie() + "kcal");
                     txtAfternoonMeal.setText("점심 :   " + dailyCalorie.get(1).getSum_calorie() + "kcal");
-                    txtEveningMeal.setText("점심 :   " + dailyCalorie.get(2).getSum_calorie() + "kcal");
-                    txtSideMeal.setText("저녁 :   " + dailyCalorie.get(3).getSum_calorie() + "kcal");
+                    txtEveningMeal.setText("저녁 :   " + dailyCalorie.get(2).getSum_calorie() + "kcal");
+                    txtSideMeal.setText("간식 :   " + dailyCalorie.get(3).getSum_calorie() + "kcal");
 
-                }catch (IndexOutOfBoundsException e){
-                    System.out.println("<<<<<<<<<<<<<<<<<< Error : "+ e.toString());
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("<<<<<<<<<<<<<<<<<< Error : " + e.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<List<DietFourMealTotalVO>> call, Throwable t) {
-                System.out.println("<<<<<<<<<<<<<<<<<< Error : "+ t.toString());
+                System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
             }
         });
 
         //TODO 하단 메뉴설정
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
-        {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                switch (item.getItemId())
-                {
+                switch (item.getItemId()) {
                     case R.id.rankingMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "랭킹 Activity로 이동",
 //                                 Toast.LENGTH_SHORT).show();
@@ -353,14 +350,14 @@ public class DietActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     }
-                    case R.id.HomeMenu:{
-                       intent = new Intent(DietActivity.this, MainHealthActivity.class);
+                    case R.id.HomeMenu: {
+                        intent = new Intent(DietActivity.this, MainHealthActivity.class);
 
                         intent.putExtra("user_id", strUser_id);
                         intent.putExtra("select_date", txtDate.getText().toString());
 
-                       startActivity(intent);
-                       break;
+                        startActivity(intent);
+                        break;
                     }
                     case R.id.sleepMenu: {
 //                         Toast.makeText(MainHealthActivity.this, "수면 Activity로 이동",
@@ -380,7 +377,7 @@ public class DietActivity extends AppCompatActivity {
                         View rootView = getWindow().getDecorView();
                         screenShot = ScreenShot(rootView);
                         uriFile = Uri.fromFile(screenShot);
-                        if(screenShot != null) {
+                        if (screenShot != null) {
                             Crop.of(uriFile, uriFile).asSquare().start(DietActivity.this, 100);
                         }
                         break;
@@ -393,7 +390,7 @@ public class DietActivity extends AppCompatActivity {
 
     public void mClick(View view) {
         intent = new Intent(DietActivity.this, FoodRegisterActivity.class);
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnBreakfast:
                 Toast.makeText(DietActivity.this, "아침", Toast.LENGTH_SHORT).show();
                 intent.putExtra("user_id", strUser_id);
@@ -429,14 +426,13 @@ public class DietActivity extends AppCompatActivity {
     }
 
     //그래프 백스레드
-    private class GraphBackThread extends AsyncTask<Integer,Integer, ArrayList<GraphFragment>>
-    {
-        ArrayList<GraphVO> daySumList=new ArrayList<>();
-        ArrayList<GraphVO> weekSumList=new ArrayList<>();
-        ArrayList<GraphVO> monthSumList=new ArrayList<>();
-        ArrayList<GraphVO> yearSumList=new ArrayList<>();
+    private class GraphBackThread extends AsyncTask<Integer, Integer, ArrayList<GraphFragment>> {
+        ArrayList<GraphVO> daySumList = new ArrayList<>();
+        ArrayList<GraphVO> weekSumList = new ArrayList<>();
+        ArrayList<GraphVO> monthSumList = new ArrayList<>();
+        ArrayList<GraphVO> yearSumList = new ArrayList<>();
 
-        List<UserTotalCaloriesViewVO> userTotalCaloriesViewVOList=new ArrayList<>();
+        List<UserTotalCaloriesViewVO> userTotalCaloriesViewVOList = new ArrayList<>();
 
         @Override
         protected void onPreExecute() {
@@ -445,38 +441,39 @@ public class DietActivity extends AppCompatActivity {
             ////////////////////// TODO 날짜의 월요일 가져오기 /////////////////////////
             java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
-            System.out.println("Calendar.DAY_OF_WEEK:"+Calendar.DAY_OF_WEEK);
-            calendar.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
-            String monday=formatter.format(calendar.getTime());
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Select date : " + intent.getStringExtra("select_date"));
+            intent = getIntent();
+            calendar.setTime(Date.valueOf(intent.getStringExtra("select_date")));
+            System.out.println("Calendar.DAY_OF_WEEK:" + Calendar.DAY_OF_WEEK);
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            String monday = formatter.format(calendar.getTime());
             /////////////////////////////////////////////////////////////////
 
-            Log.i("monday:","================"+monday);
+            Log.i("monday:", "================" + monday);
 
 //            //오늘 날짜 구하기
 //            SimpleDateFormat format1 = new SimpleDateFormat("MM-dd");
 //            final String currentDate = format1.format(System.currentTimeMillis());
 
             //TODO 최근 일주일의 데이터 가져오기 - 그래프에서 주에 해당
-            Call<List<UserTotalCaloriesViewVO>> call = rs.GraphDietData("spider",monday,"week");
+            Call<List<UserTotalCaloriesViewVO>> call = rs.GraphDietData("spider", monday, "week");
             call.enqueue(new Callback<List<UserTotalCaloriesViewVO>>() {
 
                 @Override
                 public void onResponse(Call<List<UserTotalCaloriesViewVO>> call, Response<List<UserTotalCaloriesViewVO>> response) {
                     userTotalCaloriesViewVOList = response.body();
 
-                    for (int i = 0; i < userTotalCaloriesViewVOList.size(); i++)
-                    {
+                    for (int i = 0; i < userTotalCaloriesViewVOList.size(); i++) {
                         UserTotalCaloriesViewVO vo = userTotalCaloriesViewVOList.get(i);
 
-                        System.out.println("UserTotalCaloriesViewVO vo"+vo.getDiet_date());
+                        System.out.println("UserTotalCaloriesViewVO vo" + vo.getDiet_date());
                         daySumList.add(new GraphVO((float) vo.getSum_calorie(), vo.getDiet_date())); //날짜중 년도를 짤라냄
                     }
 
                     //TODO 혹시나 모를 데이터 초기화 (다른액티비에서 데이터가없으면 저장된 데이터를 보여주기떄문)
-                    GraphFragment.sum_calorieListWeek=new ArrayList<>();
+                    GraphFragment.sum_calorieListWeek = new ArrayList<>();
 
-                    if (daySumList.size() != 0)
-                    {
+                    if (daySumList.size() != 0) {
                         GraphFragment.sum_calorieListWeek = daySumList;
                     }
                 }
@@ -488,14 +485,14 @@ public class DietActivity extends AppCompatActivity {
             });
 
             ////////////////// TODO 해당 date 의 달의 첫일 가져오기
-            calendar.set(Calendar.DATE,1);
-            String monthFirstDay=formatter.format(calendar.getTime());
-            Log.i("monthFirstDay:",monthFirstDay+"");
+            calendar.set(Calendar.DATE, 1);
+            String monthFirstDay = formatter.format(calendar.getTime());
+            Log.i("monthFirstDay:", monthFirstDay + "");
             ///////
 
 
             //TODO 최근 한달간의 데이터 가져오기 - 그래프에서 월에 해당
-            Call<List<UserTotalCaloriesViewVO>> callMonth = rs.GraphDietData("spider",monthFirstDay,"month");
+            Call<List<UserTotalCaloriesViewVO>> callMonth = rs.GraphDietData("spider", monthFirstDay, "month");
             callMonth.enqueue(new Callback<List<UserTotalCaloriesViewVO>>() {
 
                 @Override
@@ -510,7 +507,7 @@ public class DietActivity extends AppCompatActivity {
                         weekSumList.add(new GraphVO((float) vo.getSum_calorie(), vo.getDiet_date()));
                     }
 
-                    GraphFragment.sum_calorieListMonth=new ArrayList<>();
+                    GraphFragment.sum_calorieListMonth = new ArrayList<>();
 
                     if (weekSumList.size() != 0) {
                         GraphFragment.sum_calorieListMonth = weekSumList;
@@ -524,10 +521,10 @@ public class DietActivity extends AppCompatActivity {
             });
 
             //캘린더의 정보 가져오기
-            String year_date=formatter.format(calendar.getTime());
+            String year_date = formatter.format(calendar.getTime());
 
             //TODO 최근 1년간의 데이터 가져오기 - 그래프에서 년에 해당함
-            Call<List<UserTotalCaloriesViewVO>> callYear = rs.GraphDietData("spider",year_date,"year");
+            Call<List<UserTotalCaloriesViewVO>> callYear = rs.GraphDietData("spider", year_date, "year");
             callYear.enqueue(new Callback<List<UserTotalCaloriesViewVO>>() {
                 @Override
                 public void onResponse(Call<List<UserTotalCaloriesViewVO>> call, Response<List<UserTotalCaloriesViewVO>> response) {
@@ -538,7 +535,7 @@ public class DietActivity extends AppCompatActivity {
 
                         String date = vo.getDiet_date().substring(5); //년도 잘라내기
                         date = date.substring(0, 2); //달만 가져오기
-                        System.out.println("======================년도정보:"+vo);
+                        System.out.println("======================년도정보:" + vo);
 
                         monthSumList.add(new GraphVO((float) vo.getSum_calorie(), date));
                     }
@@ -555,20 +552,18 @@ public class DietActivity extends AppCompatActivity {
                     }
 
                     //월단위 데이터 뽑아내기 TODO 주의! 월을 넣어주지 말 것 월넣으면 equals에서 달만 읽기때문
-                    for (int i = 0; i < monthSumList.size(); i++)
-                    {
+                    for (int i = 0; i < monthSumList.size(); i++) {
                         if (!currentMonth.equals(monthSumList.get(i).getData_date()) || monthSumList.size() - 1 == i) //TODO 리스트의 마지막이거나 달이 바뀔경우에 실행
                         {
 
-                            if(monthSumList.size()-1==i)
-                            {
+                            if (monthSumList.size() - 1 == i) {
                                 sum += monthSumList.get(i).getData_float();
                                 div++;
                             }
 
                             float avg = sum / div;
 
-                            System.out.println("=============="+sum+"/"+div+":"+avg);
+                            System.out.println("==============" + sum + "/" + div + ":" + avg);
                             //System.out.println("currentDate"+currentDate);
 
                             monthSumListRes.add(new GraphVO(avg, currentMonth));
@@ -577,7 +572,7 @@ public class DietActivity extends AppCompatActivity {
                             div = 1;
 
                             currentMonth = monthSumList.get(i).getData_date(); //달을 바꿔줌
-                            System.out.println("currentMonth:"+currentMonth);
+                            System.out.println("currentMonth:" + currentMonth);
                             continue; //아래코드는 실행되면 안되니 continue하여 처음부터 실행
                         }
 
@@ -585,7 +580,7 @@ public class DietActivity extends AppCompatActivity {
                         div++;
                     }
 
-                    GraphFragment.sum_calorieListYear=new ArrayList<>();
+                    GraphFragment.sum_calorieListYear = new ArrayList<>();
 
                     if (monthSumListRes.size() != 0) {
                         GraphFragment.sum_calorieListYear = monthSumListRes;
@@ -602,14 +597,11 @@ public class DietActivity extends AppCompatActivity {
 
         //Thread
         @Override
-        protected ArrayList<GraphFragment> doInBackground(Integer... integers)
-        {
+        protected ArrayList<GraphFragment> doInBackground(Integer... integers) {
 
-            while(true)
-            {
+            while (true) {
                 //TODO 마지막 데이터가 들어오기 전까지 무한루프를 빠져나가지못함.
-                if(monthSumList.size()!=0)
-                {
+                if (monthSumList.size() != 0) {
                     break;
                 }
             }
@@ -619,15 +611,14 @@ public class DietActivity extends AppCompatActivity {
 
         //doinback이 끝났을때
         @Override
-        protected void onPostExecute(ArrayList<GraphFragment> graphFragments)
-        {
+        protected void onPostExecute(ArrayList<GraphFragment> graphFragments) {
             super.onPostExecute(graphFragments);
             //TODO 그래프 BarChart Fragment 장착
-            FragmentManager fm=getSupportFragmentManager();
-            FragmentTransaction tr=fm.beginTransaction();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction tr = fm.beginTransaction();
 
             GraphPagerFragment graphFragment = new GraphPagerFragment();
-            tr.replace(R.id.barChartFrag,graphFragment);
+            tr.replace(R.id.barChartFrag, graphFragment);
 
         }
     }
@@ -638,7 +629,7 @@ public class DietActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         File cropFile = screenShot;
 
-        if(requestCode ==100){
+        if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
                 cropFile = new File(Crop.getOutput(data).getPath());
             }
@@ -656,7 +647,7 @@ public class DietActivity extends AppCompatActivity {
         }
     }
 
-    public File ScreenShot(View view){
+    public File ScreenShot(View view) {
         view.setDrawingCacheEnabled(true); //화면에 뿌릴때 캐시를 사용하게 한다
         Bitmap screenBitmap = view.getDrawingCache(); //캐시를 비트맵으로 변환
         String filename = "screenshot.png";
@@ -665,11 +656,11 @@ public class DietActivity extends AppCompatActivity {
         System.out.println("..........." + filename);
         //Pictures폴더 screenshot.png 파일
         FileOutputStream os = null;
-        try{
+        try {
             os = new FileOutputStream(file);
             screenBitmap.compress(Bitmap.CompressFormat.PNG, 90, os); //비트맵을 PNG파일로 변환
             os.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.toString());
             return null;
         }
