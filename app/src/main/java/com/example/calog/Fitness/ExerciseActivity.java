@@ -78,6 +78,7 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.logging.LogRecord;
 
 import retrofit2.Call;
@@ -118,6 +119,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
     String ss;
     BackThread thread;
     String str_user_id;
+    double foot = 0;
 
     TextView txtCalorie, txtDate, txtStepCount, txtDistance;
 
@@ -560,107 +562,99 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
         final Handler handler;
         switch (view.getId()) {
             case R.id.btnStart:
+                if(fitness_type_id==1) {
 
-                //TODO 시작을 눌렀을때
-                fragment_gps.mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading); //taking mode-현재 자신의 위치로 이동하며 실시간 gps좌표에 따라 이동함
+                    //TODO 시작을 눌렀을때
+                    fragment_gps.mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading); //taking mode-현재 자신의 위치로 이동하며 실시간 gps좌표에 따라 이동함
 
-                //TODO
-                // 컴파일이 될때 자바 클래
-                // thread.sleep 은 안드로이드에서 UI를 변경할때 먹히지 않는다. UI를 틈을주고 변경하려면 Handler라는 것을 사용해야한다
-                handler = new Handler();
-                handler.postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        //마커 찍기
-                        MapPOIItem marker = new MapPOIItem();
-                        marker.setItemName("Default Marker");
-                        marker.setTag(0);
-                        marker.setMapPoint(fragment_gps.mapView.getMapCenterPoint()); //위치의 마커 찍기
-                        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-                        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+                    //TODO
+                    // 컴파일이 될때 자바 클래
+                    // thread.sleep 은 안드로이드에서 UI를 변경할때 먹히지 않는다. UI를 틈을주고 변경하려면 Handler라는 것을 사용해야한다
+                    handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //마커 찍기
+                            MapPOIItem marker = new MapPOIItem();
+                            marker.setItemName("Default Marker");
+                            marker.setTag(0);
+                            marker.setMapPoint(fragment_gps.mapView.getMapCenterPoint()); //위치의 마커 찍기
+                            marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+                            marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+                            MapPoint mp = fragment_gps.mapView.getMapCenterPoint();
 
-                        fragment_gps.mapView.addPOIItem(marker);
+                            fragment_gps.mapView.addPOIItem(marker);
+                            ///////////////////////////////////////////////////////////////
+                            fragment_gps.polyline.setTag(1000);
+                            fragment_gps.polyline.setLineColor(Color.argb(128, 255, 51, 0)); // Polyline 컬러 지정.
 
-                        ///////////////////////////////////////////////////////////////
-                        fragment_gps.polyline.setTag(1000);
-                        fragment_gps.polyline.setLineColor(Color.argb(128, 255, 51, 0)); // Polyline 컬러 지정.
+                            // Polyline 좌표 지정.
+                            fragment_gps.polyline.addPoint(marker.getMapPoint());
+                            fragment_gps.polyline.addPoint(marker.getMapPoint());
+                            fragment_gps.polyline.addPoint(marker.getMapPoint());
+                            fragment_gps.polyline.addPoint(marker.getMapPoint());
 
-                        // Polyline 좌표 지정.
-                        fragment_gps.polyline.addPoint(marker.getMapPoint());
-                        fragment_gps.polyline.addPoint(marker.getMapPoint());
-                        fragment_gps.polyline.addPoint(marker.getMapPoint());
-                        fragment_gps.polyline.addPoint(marker.getMapPoint());
-
-                        // Polyline 지도에 올리기.
-                        fragment_gps.mapView.addPolyline(fragment_gps.polyline);
-
+                            // Polyline 지도에 올리기.
+                            fragment_gps.mapView.addPolyline(fragment_gps.polyline);
 
 
+                            // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
+                            MapPointBounds mapPointBounds = new MapPointBounds(fragment_gps.polyline.getMapPoints());
+                            int padding = 100; // px
+                            //fragment_gps.mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
 
+                        }
 
+                    }, 2000); //안전하게 데이터를 가져오려면 3초가 충분
 
-                        // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
-                        MapPointBounds mapPointBounds = new MapPointBounds(fragment_gps.polyline.getMapPoints());
-                        int padding = 100; // px
-                        //fragment_gps.mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
-
-                    }
-
-                }, 2000 ); //안전하게 데이터를 가져오려면 3초가 충분
-
-
+                }
 
                 timeElapse.setBase(SystemClock.elapsedRealtime());
                 btnStartandStop();
                 timeElapse.start();
                 thread.start();
-                stepCounter(3);
+                stepCounter(5);
                 break;
 
             case R.id.btnStop:
 
-
-                //TODO
-                // 컴파일이 될때 자바 클래
-                // thread.sleep 은 안드로이드에서 UI를 변경할때 먹히지 않는다. UI를 틈을주고 변경하려면 Handler라는 것을 사용해야한다
-                handler = new Handler();
-                handler.postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        //마커 찍기
-                        MapPOIItem marker = new MapPOIItem();
-                        marker.setItemName("Default Marker");
-                        marker.setTag(0);
-                        marker.setMapPoint(fragment_gps.mapView.getMapCenterPoint()); //위치의 마커 찍기
-                        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
-                        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-
-                        fragment_gps.mapView.addPOIItem(marker);
-
-                        ///////////////////////////////////////////////////////////////
-                        // Polyline 좌표 지정.
-                        fragment_gps.polyline.addPoint(marker.getMapPoint());
-                        fragment_gps.polyline.addPoint(marker.getMapPoint());
-                        fragment_gps.polyline.addPoint(marker.getMapPoint());
-                        fragment_gps.polyline.addPoint(marker.getMapPoint());
-
-                        // Polyline 지도에 올리기.
-                        fragment_gps.mapView.addPolyline(fragment_gps.polyline);
+                if(fitness_type_id==1) {
+                    //TODO
+                    // 컴파일이 될때 자바 클래
+                    // thread.sleep 은 안드로이드에서 UI를 변경할때 먹히지 않는다. UI를 틈을주고 변경하려면 Handler라는 것을 사용해야한다
+                    handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //마커 찍기
+                            MapPOIItem marker = new MapPOIItem();
+                            marker.setItemName("Default Marker");
+                            marker.setTag(0);
+                            marker.setMapPoint(fragment_gps.mapView.getMapCenterPoint()); //위치의 마커 찍기
+                            marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+                            marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
 
 
-                        // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
-                        MapPointBounds mapPointBounds = new MapPointBounds(fragment_gps.polyline.getMapPoints());
-                        int padding = 100; // px
-                        //fragment_gps.mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+                            ///////////////////////////////////////////////////////////////
+                            // Polyline 좌표 지정.
+                            fragment_gps.polyline.addPoint(marker.getMapPoint());
+                            fragment_gps.polyline.addPoint(marker.getMapPoint());
+                            fragment_gps.polyline.addPoint(marker.getMapPoint());
+                            fragment_gps.polyline.addPoint(marker.getMapPoint());
 
-                    }
+                            // Polyline 지도에 올리기.
+                            fragment_gps.mapView.addPolyline(fragment_gps.polyline);
 
-                }, 2000 ); //안전하게 데이터를 가져오려면 3초가 충분
 
+                            // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
+                            MapPointBounds mapPointBounds = new MapPointBounds(fragment_gps.polyline.getMapPoints());
+                            int padding = 100; // px
+                            //fragment_gps.mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+
+                        }
+
+                    }, 2000); //안전하게 데이터를 가져오려면 3초가 충분
+                }
                 timeElapse.stop();
                 stopTime = SystemClock.elapsedRealtime() - timeElapse.getBase();
                 stepCounter(100);
@@ -674,11 +668,10 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
                 btnStartandStop();
                 timeElapse.setBase(SystemClock.elapsedRealtime() - stopTime);
                 timeElapse.start();
-                stepCounter(4);
+                stepCounter(5);
                 break;
 
             case R.id.btnFinish:
-                distance = 100;
 
                 final LinearLayout resultLayout = (LinearLayout) View.inflate(ExerciseActivity.this, R.layout.result_exercise, null);
                 final AlertDialog.Builder resultBox = new AlertDialog.Builder(ExerciseActivity.this);
@@ -689,7 +682,9 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
                 String strCalorie = String.format("%.1f", used_calorie);
                 txtTotalUsedCalorie.setText(strCalorie + "kcal");
 
+
                 if (fitness_type_id == 1) {
+
                     LinearLayout stepLayout = resultLayout.findViewById(R.id.stepLayout);
                     stepLayout.setVisibility(View.VISIBLE);
                     LinearLayout distanceLayout = resultLayout.findViewById(R.id.distanceLayout);
@@ -710,7 +705,9 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
                     public void onClick(DialogInterface dialog, int which) {
 
                         insertData(fitness_type_id);
-                        intent = new Intent(ExerciseActivity.this, MainHealthActivity.class);
+                        intent = new Intent(ExerciseActivity.this, FitnessActivity.class);
+                        intent.putExtra("select_date", txtDate.getText().toString());
+                        intent.putExtra("user_id", strUser_id);
                         startActivity(intent);
 
                     }
@@ -839,18 +836,43 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            currentY = y;
+            currentY = z;
 //단순히 y방향 가속도의 상대적인 크기가 일정 한계를 넘으면 걸음수를 증가한다.
             if (Math.abs(currentY - previousY) > threshold && fitness_type_id == 1) {
                 number_step++;
                 txtStepCount.setText(number_step + "걸음");
+
+                switch (fitness_menu_id){
+
+                    case 1:
+                        foot = number_step* 0.4;
+                        break;
+                    case 2:
+                        foot = number_step * 0.6;
+                        break;
+                    case 3:
+                        foot = number_step* 0.4;
+                        break;
+                    case 4:
+                        foot = number_step*0.8;
+                        break;
+                    case 5:
+                        foot = number_step*1.2;
+                        break;
+                        default:
+                            foot=number_step*1.6;
+                            break;
+
+                }
+                txtDistance.setText(String.format("%.1f",foot)+"m");
+                distance = (int)foot;
 /*                used_calorie = fitness_seconds*fitness_unit_calorie;
                 String strCal = String.format("%.1f", used_calorie);
                 //strCal=String.format("%.2f", String.valueOf(doubleCal));
                 txtCalorie.setText("소모 칼로리 : "+strCal+" kcal");
 */
             }
-            previousY = y;
+            previousY = z;
 
 /*
             if(array.size()>1) {
