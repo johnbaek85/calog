@@ -67,6 +67,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.soundcloud.android.crop.Crop;
 
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPointBounds;
+import net.daum.mf.map.api.MapView;
+
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -140,6 +144,10 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
     Toolbar toolbar;
     SharedPreferences pref;
     boolean logInStatus = false;
+
+
+    //카카오맵
+    Fitness_Fragment_GPS fragment_gps;
 
     //=============TODO 로그인 관련
     //옵션 메뉴 user 로그인 여부
@@ -546,9 +554,56 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction tr;
 
-
+        final Handler handler;
         switch (view.getId()) {
             case R.id.btnStart:
+
+                //TODO 시작을 눌렀을때
+                fragment_gps.mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading); //taking mode-현재 자신의 위치로 이동하며 실시간 gps좌표에 따라 이동함
+
+                //TODO
+                // 컴파일이 될때 자바 클래
+                // thread.sleep 은 안드로이드에서 UI를 변경할때 먹히지 않는다. UI를 틈을주고 변경하려면 Handler라는 것을 사용해야한다
+                handler = new Handler();
+                handler.postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        //마커 찍기
+                        MapPOIItem marker = new MapPOIItem();
+                        marker.setItemName("Default Marker");
+                        marker.setTag(0);
+                        marker.setMapPoint(fragment_gps.mapView.getMapCenterPoint()); //위치의 마커 찍기
+                        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+                        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+
+                        fragment_gps.mapView.addPOIItem(marker);
+
+                        ///////////////////////////////////////////////////////////////
+                        fragment_gps.polyline.setTag(1000);
+                        fragment_gps.polyline.setLineColor(Color.argb(128, 255, 51, 0)); // Polyline 컬러 지정.
+
+                        // Polyline 좌표 지정.
+                        fragment_gps.polyline.addPoint(marker.getMapPoint());
+                        fragment_gps.polyline.addPoint(marker.getMapPoint());
+                        fragment_gps.polyline.addPoint(marker.getMapPoint());
+                        fragment_gps.polyline.addPoint(marker.getMapPoint());
+
+                        // Polyline 지도에 올리기.
+                        fragment_gps.mapView.addPolyline(fragment_gps.polyline);
+
+                        // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
+                        MapPointBounds mapPointBounds = new MapPointBounds(fragment_gps.polyline.getMapPoints());
+                        int padding = 100; // px
+                        //fragment_gps.mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+
+                    }
+
+                }, 2000 ); //안전하게 데이터를 가져오려면 3초가 충분
+
+
+
                 timeElapse.setBase(SystemClock.elapsedRealtime());
                 btnStartandStop();
                 timeElapse.start();
@@ -557,6 +612,46 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
                 break;
 
             case R.id.btnStop:
+
+
+                //TODO
+                // 컴파일이 될때 자바 클래
+                // thread.sleep 은 안드로이드에서 UI를 변경할때 먹히지 않는다. UI를 틈을주고 변경하려면 Handler라는 것을 사용해야한다
+                handler = new Handler();
+                handler.postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        //마커 찍기
+                        MapPOIItem marker = new MapPOIItem();
+                        marker.setItemName("Default Marker");
+                        marker.setTag(0);
+                        marker.setMapPoint(fragment_gps.mapView.getMapCenterPoint()); //위치의 마커 찍기
+                        marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+                        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+
+                        fragment_gps.mapView.addPOIItem(marker);
+
+                        ///////////////////////////////////////////////////////////////
+                        // Polyline 좌표 지정.
+                        fragment_gps.polyline.addPoint(marker.getMapPoint());
+                        fragment_gps.polyline.addPoint(marker.getMapPoint());
+                        fragment_gps.polyline.addPoint(marker.getMapPoint());
+                        fragment_gps.polyline.addPoint(marker.getMapPoint());
+
+                        // Polyline 지도에 올리기.
+                        fragment_gps.mapView.addPolyline(fragment_gps.polyline);
+
+                        // 지도뷰의 중심좌표와 줌레벨을 Polyline이 모두 나오도록 조정.
+                        MapPointBounds mapPointBounds = new MapPointBounds(fragment_gps.polyline.getMapPoints());
+                        int padding = 100; // px
+                        //fragment_gps.mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding));
+
+                    }
+
+                }, 2000 ); //안전하게 데이터를 가져오려면 3초가 충분
+
                 timeElapse.stop();
                 stopTime = SystemClock.elapsedRealtime() - timeElapse.getBase();
                 stepCounter(100);
@@ -633,7 +728,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
         FragmentTransaction tr = fm.beginTransaction();
         switch (fitness_type_id) {
             case 1: //유산소 운동이면 gps프레그먼트
-                Fitness_Fragment_GPS fragment_gps = new Fitness_Fragment_GPS(fitness_menu_id);
+                fragment_gps = new Fitness_Fragment_GPS(fitness_menu_id);
                 tr.add(R.id.exerciseFrame, fragment_gps, "gps");
                 tr.commit();
                 break;

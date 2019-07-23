@@ -11,6 +11,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/decibel" />
+            <option value="$PROJECT_DIR$/naveridlogin_android_sdk_4.2.5" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
