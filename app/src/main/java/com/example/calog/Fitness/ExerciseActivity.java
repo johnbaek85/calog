@@ -150,7 +150,6 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
 
     //카카오맵
     Fitness_Fragment_GPS fragment_gps;
-    LocationUpdate lc;
 
     //=============TODO 로그인 관련
     //옵션 메뉴 user 로그인 여부
@@ -552,32 +551,6 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
         }
     };
 
-    class LocationUpdate implements MapView.CurrentLocationEventListener{
-
-        @Override
-        public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
-            String location = String.valueOf(mapPoint.getMapPointGeoCoord());
-            Toast.makeText(ExerciseActivity.this, location, Toast.LENGTH_SHORT).show();
-
-
-        }
-
-        @Override
-        public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
-
-        }
-
-        @Override
-        public void onCurrentLocationUpdateFailed(MapView mapView) {
-
-        }
-
-        @Override
-        public void onCurrentLocationUpdateCancelled(MapView mapView) {
-
-        }
-    }
-
 
     //운동 중 시작, 중지 버튼 선택시
     public void mClick(View view) {
@@ -623,8 +596,7 @@ public class ExerciseActivity extends AppCompatActivity implements OnMapReadyCal
                         // Polyline 지도에 올리기.
                         fragment_gps.mapView.addPolyline(fragment_gps.polyline);
 
-                        lc = new LocationUpdate();
-                        lc.onCurrentLocationUpdate(fragment_gps.mapView, marker.getMapPoint(), 1);
+
 
 
 
