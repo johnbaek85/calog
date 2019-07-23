@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-       <!-- <activity android:name=".MainActivity"/>-->
+       <activity android:name=".MainHealthActivity"/>
         <activity android:name=".signUp.UpdateUserInfoActivity" />
        <!-- <activity android:name=".Fitness.MyLocationActivity" />-->
         <activity android:name=".Fitness.MyFitnessListActivity" />
@@ -45,7 +45,7 @@
             android:name="com.soundcloud.android.crop.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".MainHealthActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

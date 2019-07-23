@@ -16,6 +16,7 @@ public class DietMenuVO implements Parcelable {
         diet_menu_name = in.readString();
         calorie = in.readInt();
         isChecked = in.readByte() != 0;
+        select_date = in.readString();
     }
 
     public static final Creator<DietMenuVO> CREATOR = new Creator<DietMenuVO>() {
@@ -92,5 +93,6 @@ public class DietMenuVO implements Parcelable {
         parcel.writeString(diet_menu_name);
         parcel.writeInt(calorie);
         parcel.writeByte((byte) (isChecked ? 1 : 0));
+        parcel.writeString(select_date);
     }
 }
