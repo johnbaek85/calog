@@ -4,7 +4,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- MainActivity.java -->
-    <string name="title_activity_exercise_activity">Map</string>
     <string name="activity_infobutton">Ok</string>
     <string name="activity_recStartErr">녹음을 시작할 수 없습니다.</string>
     <string name="activity_recBusyErr">레코더가 사용 중이거나 기록 할 수 있는 권한이 없습니다.</string>
@@ -14,6 +13,7 @@
     <string name="activity_avglabel">평균 소음</string>
     <string name="activity_maxlabel">최대 소음</string>
     <string name="activity_curlabel">현재 소음</string>
+    <string name="title_activity_exercise_cardio">Map</string>
     <!-- dialog_info.xml -->
     <!--<string name="info_0db">0dB : Most people just hear a low noise.</string>-->
     <!--<string name="info_30db">30dB～40dB it\'s the ideal calm.</string>-->

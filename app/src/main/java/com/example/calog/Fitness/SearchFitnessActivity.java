@@ -55,6 +55,7 @@ import static com.example.calog.RemoteService.BASE_URL;
 
 
 public class SearchFitnessActivity extends AppCompatActivity {
+    Button testbtn;
     TextView txtDate, fitnessType;
     ImageView btnBack, btnMAinShortcut;
     RecyclerView list;
@@ -222,6 +223,15 @@ public class SearchFitnessActivity extends AppCompatActivity {
                 getWindow().setStatusBarColor(Color.parseColor("#000000"));
             }
         }
+
+        testbtn = findViewById(R.id.testbtn);
+        testbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* intent = new Intent(SearchFitnessActivity.this, ExerciseCardioActivity.class);
+                startActivity(intent);*/
+            }
+        });
 
         txtDate=findViewById(R.id.txtDate);
         intent = getIntent();
