@@ -1,2 +1,2 @@
-include ':app', ':decibel'
+include ':app', ':decibel', ':libDaumMapAndroid'
 include ':app', ':naveridlogin_android_sdk_4.2.5'
