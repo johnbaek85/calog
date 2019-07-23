@@ -13,7 +13,6 @@
     <string name="activity_avglabel">평균 소음</string>
     <string name="activity_maxlabel">최대 소음</string>
     <string name="activity_curlabel">현재 소음</string>
-    <string name="title_activity_exercise_cardio">Map</string>
     <!-- dialog_info.xml -->
     <!--<string name="info_0db">0dB : Most people just hear a low noise.</string>-->
     <!--<string name="info_30db">30dB～40dB it\'s the ideal calm.</string>-->
