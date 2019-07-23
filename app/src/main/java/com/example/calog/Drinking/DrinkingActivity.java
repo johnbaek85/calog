@@ -50,6 +50,7 @@ import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -447,6 +448,8 @@ public class DrinkingActivity extends AppCompatActivity
             java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
             System.out.println("Calendar.DAY_OF_WEEK:"+Calendar.DAY_OF_WEEK);
+            intent = getIntent();
+            calendar.setTime(Date.valueOf(intent.getStringExtra("select_date")));
             calendar.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
             String monday=formatter.format(calendar.getTime());
             /////////////////////////////////////////////////////////////////

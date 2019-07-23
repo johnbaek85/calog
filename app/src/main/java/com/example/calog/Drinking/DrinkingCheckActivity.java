@@ -534,9 +534,10 @@ public class DrinkingCheckActivity extends AppCompatActivity
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
                     rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
-
+                    intent = getIntent();
                     DrinkingVO vo=new DrinkingVO();
-                    vo.setUser_id("spider");
+                    vo.setUser_id(strUser_id);
+                    vo.setDrinking_date(intent.getStringExtra("select_date"));
                     vo.setAlcohol_content(dubResultA);
 
 

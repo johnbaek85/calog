@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".signUp.UpdateUserInfoActivity"></activity>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".signUp.UpdateUserInfoActivity" />
         <activity android:name=".Fitness.MyLocationActivity" />
         <activity android:name=".Fitness.MyFitnessListActivity" />
         <activity

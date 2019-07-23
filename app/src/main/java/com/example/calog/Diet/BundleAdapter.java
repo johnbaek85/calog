@@ -1,6 +1,7 @@
 package com.example.calog.Diet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.calog.R;
 import com.example.calog.RemoteService;
 import com.example.calog.VO.DietMenuVO;
+import com.example.calog.VO.DietVO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -94,12 +96,14 @@ public class BundleAdapter extends RecyclerView.Adapter<BundleAdapter.ViewHolder
         });
     }
 
-    public void insertFood(String user_id, int diet_type_id){
+    public void insertFood(String user_id, int diet_type_id, String select_date){
 
         for(int i=0; i<dietMenus.size(); i++){
 
             if(dietMenus.get(i).isChecked()){
                 DietMenuVO vo = dietMenus.get(i);
+                vo.setSelect_date(select_date);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>InsertFood Select date : " + select_date);
                 Call<Void> call = rs.insertMenu(user_id, diet_type_id, vo);
                 call.enqueue(new Callback<Void>() {
                     @Override
