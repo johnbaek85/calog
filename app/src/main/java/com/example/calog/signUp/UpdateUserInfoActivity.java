@@ -129,6 +129,8 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(UpdateUserInfoActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.withdraw:

@@ -130,6 +130,8 @@ public class SearchFitnessActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(SearchFitnessActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:

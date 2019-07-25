@@ -79,6 +79,8 @@ public class DietActivity extends AppCompatActivity {
 
     UserVO user;
 
+    Calendar calendar;
+
     File screenShot;
     Uri uriFile;
     BottomNavigationView bottomNavigationView;
@@ -89,6 +91,8 @@ public class DietActivity extends AppCompatActivity {
     Toolbar toolbar;
     SharedPreferences pref;
     boolean logInStatus = false;
+
+    String selected_date;
 
     //=============TODO 로그인 관련
     //옵션 메뉴 user 로그인 여부
@@ -138,6 +142,8 @@ public class DietActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(DietActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
@@ -232,6 +238,7 @@ public class DietActivity extends AppCompatActivity {
         }
 
         intent = getIntent();
+        selected_date = intent.getStringExtra("select_date");
 
         retrofit = new Retrofit.Builder() //Retrofit 빌더생성
                 .baseUrl(BASE_URL)
@@ -294,7 +301,7 @@ public class DietActivity extends AppCompatActivity {
         SlidingDrawer dietDrawer = findViewById(R.id.dietDrawer);
         dietDrawer.animateClose();
 
-        Call<List<DietFourMealTotalVO>> call = rs.userDietDailyCalorie(intent.getStringExtra("user_id"), intent.getStringExtra("select_date"));
+        Call<List<DietFourMealTotalVO>> call = rs.userDietDailyCalorie(strUser_id, selected_date);
         call.enqueue(new Callback<List<DietFourMealTotalVO>>() {
             @Override
             public void onResponse(Call<List<DietFourMealTotalVO>> call, Response<List<DietFourMealTotalVO>> response) {
@@ -397,6 +404,7 @@ public class DietActivity extends AppCompatActivity {
                 intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 1);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;
             case R.id.btnLunch:
@@ -404,6 +412,7 @@ public class DietActivity extends AppCompatActivity {
                 intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 2);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;
             case R.id.btnDinner:
@@ -411,6 +420,7 @@ public class DietActivity extends AppCompatActivity {
                 intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 3);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;
             case R.id.btnSnack:
@@ -418,6 +428,7 @@ public class DietActivity extends AppCompatActivity {
                 intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", txtDate.getText().toString());
                 intent.putExtra("diet_type_id", 4);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 break;
             case R.id.btnBack:
@@ -441,10 +452,11 @@ public class DietActivity extends AppCompatActivity {
 
             ////////////////////// TODO 날짜의 월요일 가져오기 /////////////////////////
             java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
-            Calendar calendar = Calendar.getInstance();
+            calendar = Calendar.getInstance();
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Select date : " + intent.getStringExtra("select_date"));
             intent = getIntent();
-            calendar.setTime(Date.valueOf(intent.getStringExtra("select_date")));
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>onPreExecute");
+            calendar.setTime(Date.valueOf(selected_date));
             System.out.println("Calendar.DAY_OF_WEEK:" + Calendar.DAY_OF_WEEK);
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             String monday = formatter.format(calendar.getTime());
@@ -457,7 +469,7 @@ public class DietActivity extends AppCompatActivity {
 //            final String currentDate = format1.format(System.currentTimeMillis());
 
             //TODO 최근 일주일의 데이터 가져오기 - 그래프에서 주에 해당
-            Call<List<UserTotalCaloriesViewVO>> call = rs.GraphDietData("spider", monday, "week");
+            Call<List<UserTotalCaloriesViewVO>> call = rs.GraphDietData(strUser_id, monday, "week");
             call.enqueue(new Callback<List<UserTotalCaloriesViewVO>>() {
 
                 @Override
@@ -493,7 +505,7 @@ public class DietActivity extends AppCompatActivity {
 
 
             //TODO 최근 한달간의 데이터 가져오기 - 그래프에서 월에 해당
-            Call<List<UserTotalCaloriesViewVO>> callMonth = rs.GraphDietData("spider", monthFirstDay, "month");
+            Call<List<UserTotalCaloriesViewVO>> callMonth = rs.GraphDietData(strUser_id, monthFirstDay, "month");
             callMonth.enqueue(new Callback<List<UserTotalCaloriesViewVO>>() {
 
                 @Override
@@ -525,7 +537,7 @@ public class DietActivity extends AppCompatActivity {
             String year_date = formatter.format(calendar.getTime());
 
             //TODO 최근 1년간의 데이터 가져오기 - 그래프에서 년에 해당함
-            Call<List<UserTotalCaloriesViewVO>> callYear = rs.GraphDietData("spider", year_date, "year");
+            Call<List<UserTotalCaloriesViewVO>> callYear = rs.GraphDietData(strUser_id, year_date, "year");
             callYear.enqueue(new Callback<List<UserTotalCaloriesViewVO>>() {
                 @Override
                 public void onResponse(Call<List<UserTotalCaloriesViewVO>> call, Response<List<UserTotalCaloriesViewVO>> response) {
@@ -667,5 +679,41 @@ public class DietActivity extends AppCompatActivity {
         }
         view.setDrawingCacheEnabled(false);
         return file;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent)
+    {
+        super.onNewIntent(intent);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>onNewIntent");
+
+        //intent = getIntent();
+
+        Call<List<DietFourMealTotalVO>> call = rs.userDietDailyCalorie(strUser_id, selected_date);
+        call.enqueue(new Callback<List<DietFourMealTotalVO>>() {
+            @Override
+            public void onResponse(Call<List<DietFourMealTotalVO>> call, Response<List<DietFourMealTotalVO>> response) {
+                dailyCalorie = new ArrayList<DietFourMealTotalVO>();
+                dailyCalorie = response.body();
+
+                System.out.println("======================="+dailyCalorie);
+
+                try {
+
+                    txtMorningMeal.setText("아침 :   " + dailyCalorie.get(0).getSum_calorie() + "kcal");
+                    txtAfternoonMeal.setText("점심 :   " + dailyCalorie.get(1).getSum_calorie() + "kcal");
+                    txtEveningMeal.setText("저녁 :   " + dailyCalorie.get(2).getSum_calorie() + "kcal");
+                    txtSideMeal.setText("간식 :   " + dailyCalorie.get(3).getSum_calorie() + "kcal");
+
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("<<<<<<<<<<<<<<<<<< Error : " + e.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DietFourMealTotalVO>> call, Throwable t) {
+                System.out.println("<<<<<<<<<<<<<<<<<< Error : " + t.toString());
+            }
+        });
     }
 }

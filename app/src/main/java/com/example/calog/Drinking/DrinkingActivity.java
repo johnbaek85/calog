@@ -136,6 +136,8 @@ public class DrinkingActivity extends AppCompatActivity
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(DrinkingActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
@@ -287,7 +289,7 @@ public class DrinkingActivity extends AppCompatActivity
 
                 intent.putExtra("user_id", user_id.getText().toString());
                 intent.putExtra("select_date", txtDate.getText().toString());
-
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
         });
@@ -461,7 +463,7 @@ public class DrinkingActivity extends AppCompatActivity
 //            final String currentDate = format1.format(System.currentTimeMillis());
 
             //TODO 최근 일주일의 데이터 가져오기 - 그래프에서 주에 해당
-            Call<List<DrinkingVO>> call = rs.GraphDrinkingData("spider",monday,"week");
+            Call<List<DrinkingVO>> call = rs.GraphDrinkingData(strUser_id,monday,"week");
             call.enqueue(new Callback<List<DrinkingVO>>() {
 
                 @Override
@@ -498,7 +500,7 @@ public class DrinkingActivity extends AppCompatActivity
 
 
             //TODO 최근 한달간의 데이터 가져오기 - 그래프에서 월에 해당
-            Call<List<DrinkingVO>>  callMonth = rs.GraphDrinkingData("spider",monthFirstDay,"month");
+            Call<List<DrinkingVO>>  callMonth = rs.GraphDrinkingData(strUser_id,monthFirstDay,"month");
             callMonth.enqueue(new Callback<List<DrinkingVO>>() {
 
                 @Override
@@ -530,7 +532,7 @@ public class DrinkingActivity extends AppCompatActivity
             String year_date=formatter.format(calendar.getTime());
 
             //TODO 최근 1년간의 데이터 가져오기 - 그래프에서 년에 해당함
-            Call<List<DrinkingVO>> callYear = rs.GraphDrinkingData("spider",year_date,"year");
+            Call<List<DrinkingVO>> callYear = rs.GraphDrinkingData(strUser_id,year_date,"year");
             callYear.enqueue(new Callback<List<DrinkingVO>>() {
                 @Override
                 public void onResponse(Call<List<DrinkingVO>> call, Response<List<DrinkingVO>> response) {
@@ -634,7 +636,6 @@ public class DrinkingActivity extends AppCompatActivity
 
             GraphPagerFragment graphFragment = new GraphPagerFragment();
             tr.replace(R.id.barChartFrag,graphFragment);
-
         }
     }
 
@@ -683,5 +684,11 @@ public class DrinkingActivity extends AppCompatActivity
         return file;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent)
+    {
+        super.onNewIntent(intent);
 
+        System.out.println("============================================OnNewIntent");
+    }
 }

@@ -220,13 +220,16 @@ public class SleepCheckActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(SleepCheckActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
                 Call<UserVO> call = rs.readUser(strUser_id);
                 call.enqueue(new Callback<UserVO>() {
                     @Override
-                    public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                    public void onResponse(Call<UserVO> call, Response<UserVO> response)
+                    {
                         user = response.body();
 
                         intent = new Intent(SleepCheckActivity.this, UpdateUserInfoActivity.class);

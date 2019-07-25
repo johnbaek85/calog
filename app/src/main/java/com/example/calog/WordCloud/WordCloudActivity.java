@@ -158,6 +158,8 @@ public class WordCloudActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(WordCloudActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:

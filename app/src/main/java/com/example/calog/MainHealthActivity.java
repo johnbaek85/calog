@@ -149,6 +149,8 @@ public class MainHealthActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(MainHealthActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
@@ -341,6 +343,11 @@ public class MainHealthActivity extends AppCompatActivity {
                 intent.putExtra("user_id", strUser_id);
                 intent.putExtra("select_date", selectedDate);
 
+
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+
                 startActivity(intent);
             }
         });
@@ -441,19 +448,14 @@ public class MainHealthActivity extends AppCompatActivity {
                 currentSelectedTime = datesql.getTime();
 
                 Call<MainHealthVO> call =
-                        rs.userMainHealth("spider", String.valueOf(datesql));
+                        rs.userMainHealth(strUser_id, String.valueOf(datesql));
                 call.enqueue(new Callback<MainHealthVO>() {
                     @Override
                     public void onResponse(Call<MainHealthVO> call, Response<MainHealthVO> response) {
                         System.out.println("섭취칼로리 ..............................." + currentSelectedTime);
                         userVO = response.body();
 
-                        if (userVO == null) {
-                            txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
-                            txtUsedCalorie.setText("소모 칼로리 : " + 0 + "kcal");
-                            txtSleepHours.setText("수면시간 : " + 0 + "시간");
-                            txtAlcoholContent.setText("알코올 수치 : " + 0 + "%");
-                        } else {
+                        if (userVO != null) {
                             int hour = userVO.getSleeping_seconds() / 3600;
                             int minute = userVO.getSleeping_seconds() % 3600 / 60;
                             int second = userVO.getSleeping_seconds() % 3600 % 60;
@@ -511,6 +513,11 @@ public class MainHealthActivity extends AppCompatActivity {
                                 imgDrink.setBackgroundResource(R.drawable.ic_neutral);
                                 txtAlert.setText("적당히 마셨습니다. 그만 마시는 것을 권합니다.");
                             }
+                        } else {
+                            txtEatCalorie.setText("섭취칼로리 : " + 0 + "kcal");
+                            txtUsedCalorie.setText("소모 칼로리 : " + 0 + "kcal");
+                            txtSleepHours.setText("수면시간 : " + 0 + "시간");
+                            txtAlcoholContent.setText("알코올 수치 : " + 0 + "%");
                         }
                     }
 

@@ -143,6 +143,8 @@ public class SleepingActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(SleepingActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
@@ -489,7 +491,7 @@ public class SleepingActivity extends AppCompatActivity {
 //            final String currentDate = format1.format(System.currentTimeMillis());
 
             //TODO 최근 일주일의 데이터 가져오기 - 그래프에서 주에 해당
-            Call<List<SleepingVO>> call = rs.GraphSleepingData("spider", monday, "week");
+            Call<List<SleepingVO>> call = rs.GraphSleepingData(strUser_id, monday, "week");
             call.enqueue(new Callback<List<SleepingVO>>() {
 
                 @Override
@@ -526,7 +528,7 @@ public class SleepingActivity extends AppCompatActivity {
             ///////
 
             //TODO 최근 한달간의 데이터 가져오기 - 그래프에서 월에 해당
-            Call<List<SleepingVO>> callMonth = rs.GraphSleepingData("spider",monthFirstDay,"month");
+            Call<List<SleepingVO>> callMonth = rs.GraphSleepingData(strUser_id,monthFirstDay,"month");
             callMonth.enqueue(new Callback<List<SleepingVO>>()
             {
 
@@ -565,7 +567,7 @@ public class SleepingActivity extends AppCompatActivity {
 
 
             //TODO 최근 1년간의 데이터 가져오기 - 그래프에서 년에 해당
-            Call<List<SleepingVO>> callYear = rs.GraphSleepingData("spider",monthFirstDay,"month");
+            Call<List<SleepingVO>> callYear = rs.GraphSleepingData(strUser_id,monthFirstDay,"month");
             callYear.enqueue(new Callback<List<SleepingVO>>()
             {
                 @Override

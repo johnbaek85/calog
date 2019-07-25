@@ -128,6 +128,8 @@ public class CalendarActivity extends AppCompatActivity
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(CalendarActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
