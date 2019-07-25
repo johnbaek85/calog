@@ -292,6 +292,7 @@ public class DietActivity extends AppCompatActivity {
         });
 
         SlidingDrawer dietDrawer = findViewById(R.id.dietDrawer);
+        dietDrawer.animateClose();
 
         Call<List<DietFourMealTotalVO>> call = rs.userDietDailyCalorie(intent.getStringExtra("user_id"), intent.getStringExtra("select_date"));
         call.enqueue(new Callback<List<DietFourMealTotalVO>>() {
