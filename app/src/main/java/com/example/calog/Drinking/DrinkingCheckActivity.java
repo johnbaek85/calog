@@ -153,6 +153,8 @@ public class DrinkingCheckActivity extends AppCompatActivity
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(DrinkingCheckActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
@@ -519,6 +521,7 @@ public class DrinkingCheckActivity extends AppCompatActivity
                 public void onClick(View v)
                 {
                     Toast.makeText(getApplicationContext(), "결과 통계 화면으로 이동", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             });
 
@@ -534,23 +537,27 @@ public class DrinkingCheckActivity extends AppCompatActivity
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
                     rs = retrofit.create(RemoteService.class); //API 인터페이스 생성
-
+                    intent = getIntent();
                     DrinkingVO vo=new DrinkingVO();
-                    vo.setUser_id("spider");
+                    vo.setUser_id(strUser_id);
+                    vo.setDrinking_date(intent.getStringExtra("select_date"));
                     vo.setAlcohol_content(dubResultA);
-
 
                     //TODO Drinking INSERT 작업
                     Call<Void> call = rs.UserDrinkInsert(vo);
                     call.enqueue(new Callback<Void>()
                     {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            Toast.makeText(DrinkingCheckActivity.this, "DB에 데이터 저장되었습니다", Toast.LENGTH_SHORT).show();
+                        public void onResponse(Call<Void> call, Response<Void> response)
+                        {
+                            Toast.makeText(DrinkingCheckActivity.this, "저장되었습니다", Toast.LENGTH_SHORT).show();
+                            intent=new Intent(DrinkingCheckActivity.this,MainHealthActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                        public void onFailure(Call<Void> call, Throwable t)
+                        {
                             Toast.makeText(DrinkingCheckActivity.this, "error:"+t.toString(), Toast.LENGTH_SHORT).show();
                         }
                     });

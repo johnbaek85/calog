@@ -112,7 +112,7 @@
             android:background="#000000"
             android:padding="3dp"
             android:gravity="center"
-            android:text="주간 검색어 순위 10"
+            android:text="네이버 실시간 검색어"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:textStyle="bold"/>

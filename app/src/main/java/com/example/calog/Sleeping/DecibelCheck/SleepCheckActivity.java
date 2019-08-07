@@ -220,13 +220,16 @@ public class SleepCheckActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(SleepCheckActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
                 Call<UserVO> call = rs.readUser(strUser_id);
                 call.enqueue(new Callback<UserVO>() {
                     @Override
-                    public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                    public void onResponse(Call<UserVO> call, Response<UserVO> response)
+                    {
                         user = response.body();
 
                         intent = new Intent(SleepCheckActivity.this, UpdateUserInfoActivity.class);
@@ -379,9 +382,13 @@ public class SleepCheckActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         //값 보내기
 
+                        intent = getIntent();
+
                         int SleepSeconds = timeput;
                         SleepingVO vo = new SleepingVO();
-                        vo.setUser_id("spider");
+                        vo.setUser_id(strUser_id);
+                        vo.setSleeping_date(txtDate.getText().toString());
+                        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>수면체크 : " + txtDate.getText().toString());
                         vo.setSleeping_seconds(SleepSeconds);
                         vo.setSnoring_seconds(2000);
 

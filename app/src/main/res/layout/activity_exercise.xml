@@ -59,7 +59,7 @@
         android:layout_height="0px"
         android:layout_weight="1.5">
 
-        <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+      <!--  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:map="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/map"
@@ -77,7 +77,8 @@
         android:layout_weight="0.5"
         android:gravity="center"
         android:textSize="60sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"/>
 
     <!--
     <FrameLayout
@@ -98,6 +99,7 @@
         android:text="0"
         android:textAlignment="center"
         android:textSize="30sp"
+        android:textColor="#FFFFFF"
         android:visibility="invisible" />
 
     <TextView
@@ -106,7 +108,8 @@
         android:layout_height="wrap_content"
         android:text="0kcal"
         android:textAlignment="center"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"/>
 
     <TextView
         android:id="@+id/distance"
@@ -115,6 +118,7 @@
         android:text="0km"
         android:textAlignment="center"
         android:textSize="30sp"
+        android:textColor="#FFFFFF"
         android:visibility="invisible" />
 
 

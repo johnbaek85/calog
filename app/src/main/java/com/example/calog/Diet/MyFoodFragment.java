@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.calog.MainHealthActivity;
 import com.example.calog.R;
 import com.example.calog.RemoteService;
 import com.example.calog.VO.DietMenuVO;
@@ -48,8 +49,16 @@ class MyFoodFragment extends Fragment {
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapter.insertFood(user_id, diet_type_id);
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> MyFoodFragment user_id(Insert 버튼) : " + user_id);
+                adapter.insertFood(user_id, diet_type_id, intent.getStringExtra("select_date"));
+
+                intent = new Intent(getContext(), DietActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                getActivity().finish();
+                startActivity(intent);
+
+
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> MyFoodFragment user_id(Insert 버튼) : " + user_id
+                        + " + 날짜 : " + intent.getStringExtra("select_date") + " + diet_type_id : " + diet_type_id);
             }
         });
 

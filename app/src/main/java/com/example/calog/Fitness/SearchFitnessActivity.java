@@ -130,6 +130,8 @@ public class SearchFitnessActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(SearchFitnessActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
@@ -222,6 +224,7 @@ public class SearchFitnessActivity extends AppCompatActivity {
                 getWindow().setStatusBarColor(Color.parseColor("#000000"));
             }
         }
+
 
         txtDate=findViewById(R.id.txtDate);
         intent = getIntent();

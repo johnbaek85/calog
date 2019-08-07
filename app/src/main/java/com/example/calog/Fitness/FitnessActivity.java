@@ -45,6 +45,7 @@ import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -133,6 +134,8 @@ public class FitnessActivity extends AppCompatActivity {
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(FitnessActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:
@@ -544,6 +547,8 @@ public class FitnessActivity extends AppCompatActivity {
             java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
             System.out.println("Calendar.DAY_OF_WEEK:" + Calendar.DAY_OF_WEEK);
+            intent = getIntent();
+            calendar.setTime(Date.valueOf(intent.getStringExtra("select_date")));
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             String monday = formatter.format(calendar.getTime());
             /////////////////////////////////////////////////////////////////
@@ -555,7 +560,7 @@ public class FitnessActivity extends AppCompatActivity {
 //            final String currentDate = format1.format(System.currentTimeMillis());
 
             //TODO 최근 일주일의 데이터 가져오기 - 그래프에서 주에 해당
-            Call<List<FitnessVO>> call = rs.GraphFitnessData("spider", monday, "week");
+            Call<List<FitnessVO>> call = rs.GraphFitnessData(strUser_id, monday, "week");
             call.enqueue(new Callback<List<FitnessVO>>()
             {
 
@@ -605,7 +610,7 @@ public class FitnessActivity extends AppCompatActivity {
             ///////
 
             //TODO 최근 한달간의 데이터 가져오기 - 그래프에서 월에 해당
-            Call<List<FitnessVO>> callMonth = rs.GraphFitnessData("spider", monthFirstDay, "month");
+            Call<List<FitnessVO>> callMonth = rs.GraphFitnessData(strUser_id, monthFirstDay, "month");
             callMonth.enqueue(new Callback<List<FitnessVO>>()
             {
 
@@ -650,7 +655,7 @@ public class FitnessActivity extends AppCompatActivity {
             });
 
             //TODO 최근 1년간의 데이터 가져오기 - 그래프에서 년에 해당
-            Call<List<FitnessVO>> callYear = rs.GraphFitnessData("spider", monday, "year");
+            Call<List<FitnessVO>> callYear = rs.GraphFitnessData(strUser_id, monday, "year");
             callYear.enqueue(new Callback<List<FitnessVO>>()
             {
 

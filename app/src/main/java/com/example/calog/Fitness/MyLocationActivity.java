@@ -125,6 +125,8 @@ public class MyLocationActivity extends FragmentActivity implements OnMapReadyCa
                 editor.commit();
                 user_id.setText("");
                 logInStatus = false;
+                intent = new Intent(MyLocationActivity.this, MainJoinActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.adjust:

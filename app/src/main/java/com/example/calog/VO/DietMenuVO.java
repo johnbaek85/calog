@@ -9,12 +9,14 @@ public class DietMenuVO implements Parcelable {
     private String diet_menu_name;
     private int calorie;
     private boolean isChecked;
+    private String select_date;
 
     protected DietMenuVO(Parcel in) {
         diet_menu_id = in.readInt();
         diet_menu_name = in.readString();
         calorie = in.readInt();
         isChecked = in.readByte() != 0;
+        select_date = in.readString();
     }
 
     public static final Creator<DietMenuVO> CREATOR = new Creator<DietMenuVO>() {
@@ -61,6 +63,14 @@ public class DietMenuVO implements Parcelable {
         isChecked = checked;
     }
 
+    public String getSelect_date() {
+        return select_date;
+    }
+
+    public void setSelect_date(String select_date) {
+        this.select_date = select_date;
+    }
+
     @Override
     public String toString() {
         return "DietMenuVO{" +
@@ -68,6 +78,7 @@ public class DietMenuVO implements Parcelable {
                 ", diet_menu_name='" + diet_menu_name + '\'' +
                 ", calorie=" + calorie +
                 ", isChecked=" + isChecked +
+                ", select_date='" + select_date + '\'' +
                 '}';
     }
 
@@ -82,5 +93,6 @@ public class DietMenuVO implements Parcelable {
         parcel.writeString(diet_menu_name);
         parcel.writeInt(calorie);
         parcel.writeByte((byte) (isChecked ? 1 : 0));
+        parcel.writeString(select_date);
     }
 }
